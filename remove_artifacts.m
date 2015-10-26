@@ -1,7 +1,7 @@
 % Remove artifacts from the data using the marked data segments to train
 % the MWF covariance matrices
 
-function [eeg_filtered] = remove_artifacts(eeg_data,Fs)
+function [eeg_filtered_MWF,SER,ARR] = remove_artifacts(eeg_data,Fs)
 
 % Load eeg_data, Fs, duration
 % load(['EEG_data_readout' filesep 'eye_blink_lorenz.mat'])
@@ -29,7 +29,8 @@ end
 
 % Close GUI after markings are saved and clean up backup files
 close all force
-cleanup
+rmdir('EyeBallGUI_BackUp','s')
+delete('EyeBallGUIini.mat')
 
 % Extract marked eye blinks from markings .mat file
 load('TRAINING_DATABad.mat');
@@ -38,14 +39,23 @@ training_blinks = sum(mask,1);
 training_blinks(training_blinks>0) = 1;
 
 % Perform MWF filtering
-[eeg_filtered,SER,ARR] = filter_MWF(training_data,training_blinks,eeg_data);
+[eeg_filtered_MWF,SER_MWF,ARR_MWF] = filter_MWF(training_data,training_blinks,eeg_data);
+[eeg_filtered_PE,SER_PE,ARR_PE] = filter_MWF_PE(training_data,training_blinks,eeg_data);
+[eeg_filtered_GEVD,SER_GEVD,ARR_GEVD] = filter_MWF_GEVD(training_data,training_blinks,eeg_data);
+
+% Collect performance parameters
+SER = [SER_MWF,SER_PE,SER_GEVD];
+ARR = [ARR_MWF,ARR_PE,ARR_GEVD];
 
 % EEG plot of the original data and the filtered data on top in red
-eegplot(eeg_data,'data2',eeg_filtered,'srate',Fs,'winlength',10,'dispchans',3,...
+eegplot(eeg_data,'data2',eeg_filtered_MWF,'srate',Fs,'winlength',10,'dispchans',3,...
     'spacing',200,'title','Original EEG data (blue) + Filtered EEG data (red)')
 
+% EEG plot of the original data and the filtered data on top in red
+eegplot(eeg_filtered_MWF,'data2',eeg_filtered_PE,'srate',Fs,'winlength',10,'dispchans',3,...
+    'spacing',200,'title','MWF (blue) + MWF_PE (red)')
+
 % Clean up directory
-delete('TRAINING_DATA.mat');
-delete('TRAINING_DATABad.mat');
+cleanup
 
 end

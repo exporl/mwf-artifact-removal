@@ -3,6 +3,8 @@
 
 function [eeg_filtered_MWF,SER,ARR] = remove_artifacts(eeg_data,Fs)
 
+cleanup
+
 % Load eeg_data, Fs, duration
 % load(['EEG_data_readout' filesep 'eye_blink_lorenz.mat'])
 
@@ -40,20 +42,20 @@ training_blinks(training_blinks>0) = 1;
 
 % Perform MWF filtering
 [eeg_filtered_MWF,SER_MWF,ARR_MWF] = filter_MWF(training_data,training_blinks,eeg_data);
-[eeg_filtered_PE,SER_PE,ARR_PE] = filter_MWF_PE(training_data,training_blinks,eeg_data);
+%[eeg_filtered_PE,SER_PE,ARR_PE] = filter_MWF_PE(training_data,training_blinks,eeg_data);
 [eeg_filtered_GEVD,SER_GEVD,ARR_GEVD] = filter_MWF_GEVD(training_data,training_blinks,eeg_data);
 
 % Collect performance parameters
-SER = [SER_MWF,SER_PE,SER_GEVD];
-ARR = [ARR_MWF,ARR_PE,ARR_GEVD];
+SER = [SER_MWF,SER_GEVD];
+ARR = [ARR_MWF,ARR_GEVD];
 
 % EEG plot of the original data and the filtered data on top in red
 eegplot(eeg_data,'data2',eeg_filtered_MWF,'srate',Fs,'winlength',10,'dispchans',3,...
     'spacing',200,'title','Original EEG data (blue) + Filtered EEG data (red)')
 
 % EEG plot of the original data and the filtered data on top in red
-eegplot(eeg_filtered_MWF,'data2',eeg_filtered_PE,'srate',Fs,'winlength',10,'dispchans',3,...
-    'spacing',200,'title','MWF (blue) + MWF_PE (red)')
+eegplot(eeg_filtered_MWF,'data2',eeg_filtered_GEVD,'srate',Fs,'winlength',10,'dispchans',3,...
+    'spacing',200,'title','MWF (blue) + MWF_GEVD (red)')
 
 % Clean up directory
 cleanup

@@ -9,6 +9,12 @@
 %                 
 % OUTPUT:   eeg_filtered:     Filtered version of INPUT in same format
 %           SER, ARR:         Performance parameters
+%
+% NOTE: for threshold chosen to be zero, this function is identical to just
+% retaining the positive eigenvalues in the EVD of w. In MWF_PE, all lambda
+% < 0 are thrown away. In this function, generalized eigenvalues smaller
+% than 1 are thrown away (threshold is 0 since eye(M) is subtracted. 
+% 1-1/lambda < 0 <=> lambda < 1.
 
 function [eeg_filtered,SER,ARR] = filter_MWF_GEVD(training_data,training_blinks,eeg_data)
 
@@ -28,10 +34,14 @@ Ryy_inv = Ryy \ speye(size(Ryy));     % This is numerically more stable than inv
 Rvv = cov(y(:,blink_segments==0).');  % Rvv only uses clean data
 
 % Calculate the MWF 
-w = (eye(M) - Ryy_inv * Rvv);
+% w = (eye(M) - Ryy_inv * Rvv);
 
 % GEVD
-
+threshold = 0; %select largest eigenvalue to maintain threshold
+[X,delta] = eig(Ryy,Rvv);
+triangle = delta - eye(M);
+triangle(triangle<threshold) = 0;
+w = X*inv(delta)*triangle*inv(X); 
 
 % subtract the eye blinks from training data
 d = (w.') * y;      

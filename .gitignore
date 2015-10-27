@@ -2,4 +2,4 @@
 EEG_data_readout/
 
 # exclude any occasional .mat files in the directory
-.mat
+*.mat

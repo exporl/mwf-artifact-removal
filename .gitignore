@@ -1,5 +1,7 @@
 # exclude folder with testing .mat files
 EEG_data_readout/
+training_blinks/
+training_muscle/
 
 # exclude any occasional .mat files in the directory
 *.mat

@@ -1,14 +1,21 @@
 
 % Centralized MWF-based eye blink artifact removal
-name = 'lorenz';
-data = 'blinks';.
 
-load(['training_blinks' filesep 'training_blinks_' name '.mat'])
+load('training_blinks_lorenz.mat')
 Fs = 200;
 
 % Naming conciseness: y = mixed data, v = clean data, d = artifacts for
 % training data
 y = training_data;
+
+% tau = 2;
+y_delay = y(:,[ tau+1:end  1:tau ]);  % cyclic shift over tau to right 
+y_delay(:, 1:tau) = 0;                        % remove first tau rows of y (delayed, not cyclic!)
+
+y_forward = y(:,[ end-tau+1:end  1:end-tau ]);  % cyclic shift over tau to left 
+y_forward(:, end-tau+1:end) = 0;         
+
+y = [y ; y_forward ; y_delay];
 
 % Set parameters
 M = size(y,1);  % number of channels
@@ -47,17 +54,30 @@ w = (eye(M) - Ryy_inv * Rvv);
 d = (w.') * y;      
 v = y - d;
 
+% construct EEG data
+eeg_delay = eeg_data(:,[ tau+1:end  1:tau ]);  % cyclic shift over tau to right 
+eeg_delay(:, 1:tau) = 0;                        % remove first tau rows of y (delayed, not cyclic!)
+
+eeg_forward = eeg_data(:,[ end-tau+1:end  1:end-tau ]);  % cyclic shift over tau to left 
+eeg_forward(:, end-tau+1:end) = 0;         
+
+eeg_data = [eeg_data ; eeg_forward ; eeg_delay];
+
 % subtract the eye blinks from all data
 eeg_artifacts = (w.') * eeg_data;
 eeg_filtered = eeg_data - eeg_artifacts;
 
 % Performance parameters for training data
-[SER,ARR] = filter_performance(y,d,training_blinks);
+[SER,ARR] = filter_performance(y(1:M,:),d(1:M,:),training_blinks);
 [SER,ARR]
 
-eegplot(eeg_data,'data2',eeg_filtered,'srate',Fs,'winlength',10,'dispchans',3,...
-   'spacing',200,'title','Original EEG data (blue) + Filtered EEG data (red)')
+% eegplot(eeg_data,'data2',eeg_filtered,'srate',Fs,'winlength',10,'dispchans',3,...
+%   'spacing',200,'title','Original EEG data (blue) + Filtered EEG data (red)')
+% 
+% eegplot(eeg_artifacts,'srate',Fs,'winlength',10,'dispchans',3,...
+%   'spacing',200,'title','Artifacts')
 
-eegplot(eeg_artifacts,'srate',Fs,'winlength',10,'dispchans',3,...
-   'spacing',200,'title','Artifacts')
+% plot usage of filter coefficients
+figure
+plot(w(1,:))
 

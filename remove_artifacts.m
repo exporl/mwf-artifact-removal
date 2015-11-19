@@ -40,6 +40,9 @@ mask = isnan(EEGmask);  % 1's where artifacts are marked
 training_blinks = sum(mask,1);
 training_blinks(training_blinks>0) = 1;
 
+% when saving testing data for script
+% save('training_blinks_alex.mat','eeg_data','training_data','training_blinks')
+
 % Perform MWF filtering
 [eeg_filtered_MWF,SER_MWF,ARR_MWF] = filter_MWF(training_data,training_blinks,eeg_data);
 %[eeg_filtered_PE,SER_PE,ARR_PE] = filter_MWF_PE(training_data,training_blinks,eeg_data);

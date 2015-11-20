@@ -13,7 +13,7 @@ Fs = 200;
 % Specify the location of the file on the PC (make sure it's on the matlab path!)
 folder = 'C:\Users\gebruiker\Documents\KULeuven Vakantiewerk Thesispaper 1\EEG Data - Artifacts\';
 
-name = 'olivia'; %alex, anneleen, hanneke, jan-peter, jeroen, jonas, lorenz, otto, steven
+name = 'steven'; %alex, anneleen, hanneke, jan-peter, jeroen, jonas, lorenz, otto, steven
 % bdf_loc = [folder name '\blink.bdf'];
 bdf_loc = [folder name '\clench.bdf'];
 

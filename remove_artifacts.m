@@ -37,16 +37,17 @@ delete('EyeBallGUIini.mat')
 % Extract marked eye blinks from markings .mat file
 load('TRAINING_DATABad.mat');
 mask = isnan(EEGmask);  % 1's where artifacts are marked
-training_blinks = sum(mask,1);
-training_blinks(training_blinks>0) = 1;
+training_mask = sum(mask,1);
+training_mask(training_mask>0) = 1;
 
 % when saving testing data for script
-% save('training_blinks_alex.mat','eeg_data','training_data','training_blinks')
+% save('training_blinks\training_blinks_alex.mat','eeg_data','training_data','training_mask')
+% save('training_muscle\training_muscle_alex.mat','eeg_data','training_data','training_mask')
 
 % Perform MWF filtering
-[eeg_filtered_MWF,SER_MWF,ARR_MWF] = filter_MWF(training_data,training_blinks,eeg_data);
+[eeg_filtered_MWF,SER_MWF,ARR_MWF] = filter_MWF(training_data,training_mask,eeg_data);
 %[eeg_filtered_PE,SER_PE,ARR_PE] = filter_MWF_PE(training_data,training_blinks,eeg_data);
-[eeg_filtered_GEVD,SER_GEVD,ARR_GEVD] = filter_MWF_GEVD(training_data,training_blinks,eeg_data);
+[eeg_filtered_GEVD,SER_GEVD,ARR_GEVD] = filter_MWF_GEVD(training_data,training_mask,eeg_data);
 
 % Collect performance parameters
 SER = [SER_MWF,SER_GEVD];

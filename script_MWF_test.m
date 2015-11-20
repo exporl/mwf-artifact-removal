@@ -1,9 +1,10 @@
 
 % Centralized MWF-based eye blink artifact removal
-name = 'lorenz';
-data = 'blinks';.
+name = 'alex';
+artifact_type = 'muscle'; %blinks, muscle
 
-load(['training_blinks' filesep 'training_blinks_' name '.mat'])
+load(['training_' artifact_type filesep 'training_' artifact_type '_' name '.mat'])
+
 Fs = 200;
 
 % Naming conciseness: y = mixed data, v = clean data, d = artifacts for
@@ -14,7 +15,7 @@ y = training_data;
 M = size(y,1);  % number of channels
 
 % Set blink_segments (1-channel signal)
-blink_segments = training_blinks;
+blink_segments = training_mask;
 
 % Calculate the covariance matrices Ryy and Rvv
 Ryy = cov(y.');                       % Ryy uses all data
@@ -30,11 +31,12 @@ w = (eye(M) - Ryy_inv * Rvv);
 % w = V*D/V;
 
 % GEVD-based MWF
-% threshold = 0.25; %select largest eigenvalue to maintain threshold
-% [X,delta] = eig(Ryy,Rvv);
-% triangle = delta - eye(M);
-% triangle(triangle<threshold) = 0;
-% w = X*inv(delta)*triangle*inv(X); 
+threshold = 0; %select largest eigenvalue to maintain threshold
+[X,delta] = eig(Ryy,Rvv);
+triangle = delta - eye(M);
+plot(diag(triangle))
+triangle(triangle<threshold) = 0;
+w = X*inv(delta)*triangle*inv(X);
 
 % Rank R approximation
 % R = 34;
@@ -52,7 +54,7 @@ eeg_artifacts = (w.') * eeg_data;
 eeg_filtered = eeg_data - eeg_artifacts;
 
 % Performance parameters for training data
-[SER,ARR] = filter_performance(y,d,training_blinks);
+[SER,ARR] = filter_performance(y,d,training_mask);
 [SER,ARR]
 
 eegplot(eeg_data,'data2',eeg_filtered,'srate',Fs,'winlength',10,'dispchans',3,...

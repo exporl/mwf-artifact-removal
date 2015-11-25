@@ -1,6 +1,6 @@
 
 % Centralized MWF-based eye blink artifact removal
-name = 'alex';
+% name = 'jan-peter';
 artifact_type = 'blinks'; %blinks, muscle
 
 load(['training_' artifact_type filesep 'training_' artifact_type '_' name '.mat'])
@@ -14,7 +14,7 @@ y = training_data;
 % create y_stack for stacking all delayed version
 y_stack = y;
 eeg_stack = eeg_data;
-%taumax = 3;
+% taumax = 3;
 
 for tau = 1:taumax
     
@@ -89,6 +89,6 @@ eeg_filtered = eeg_stack - eeg_artifacts;
 %   'spacing',200,'title','Artifacts')
 
 % plot usage of filter coefficients
-figure
-plot(w(1,:))
+% figure
+% plot(w(1,:))
 

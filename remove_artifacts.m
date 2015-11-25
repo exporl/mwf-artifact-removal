@@ -41,7 +41,7 @@ training_mask = sum(mask,1);
 training_mask(training_mask>0) = 1;
 
 % when saving testing data for script
-% save('training_blinks\training_blinks_alex.mat','eeg_data','training_data','training_mask')
+% save('training_blinks\training_blinks_steven.mat','eeg_data','training_data','training_mask')
 % save('training_muscle\training_muscle_alex.mat','eeg_data','training_data','training_mask')
 
 % Perform MWF filtering

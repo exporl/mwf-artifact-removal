@@ -46,20 +46,21 @@ training_mask(training_mask>0) = 1;
 
 % Perform MWF filtering
 [eeg_filtered_MWF,SER_MWF,ARR_MWF] = filter_MWF(training_data,training_mask,eeg_data);
-%[eeg_filtered_PE,SER_PE,ARR_PE] = filter_MWF_PE(training_data,training_blinks,eeg_data);
+[eeg_filtered_MWF_lags,SER_MWF_lags,ARR_MWF_lags] = filter_MWF_lags(training_data,training_mask,eeg_data);
 [eeg_filtered_GEVD,SER_GEVD,ARR_GEVD] = filter_MWF_GEVD(training_data,training_mask,eeg_data);
+[eeg_filtered_GEVD_lags,SER_GEVD_lags,ARR_GEVD_lags] = filter_MWF_GEVD_lags(training_data,training_mask,eeg_data);
 
 % Collect performance parameters
-SER = [SER_MWF,SER_GEVD];
-ARR = [ARR_MWF,ARR_GEVD];
+SER = [SER_MWF , SER_MWF_lags , SER_GEVD , SER_GEVD_lags]; %MWF, MWF+lags, MWF+GEVD, MWF+GEVD+lags
+ARR = [ARR_MWF , ARR_MWF_lags , ARR_GEVD , ARR_GEVD_lags];
 
 % EEG plot of the original data and the filtered data on top in red
-eegplot(eeg_data,'data2',eeg_filtered_MWF,'srate',Fs,'winlength',10,'dispchans',3,...
-    'spacing',200,'title','Original EEG data (blue) + Filtered EEG data (red)')
+eegplot(eeg_data,'data2',eeg_filtered_GEVD_lags,'srate',Fs,'winlength',10,'dispchans',3,...
+    'spacing',200,'title','Original EEG data (blue) + Filtered EEG data (GEVD+lags) (red)')
 
 % EEG plot of the original data and the filtered data on top in red
-eegplot(eeg_filtered_MWF,'data2',eeg_filtered_GEVD,'srate',Fs,'winlength',10,'dispchans',3,...
-    'spacing',200,'title','MWF (blue) + MWF_GEVD (red)')
+eegplot(eeg_filtered_MWF,'data2',eeg_filtered_GEVD_lags,'srate',Fs,'winlength',10,'dispchans',3,...
+    'spacing',200,'title','MWF (blue) + MWF_GEVD_lags (red)')
 
 % Clean up directory
 cleanup

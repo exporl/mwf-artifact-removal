@@ -2,6 +2,7 @@
 EEG_data_readout/
 training_blinks/
 training_muscle/
+full_masks/
 
 # exclude any occasional .mat files in the directory
 *.mat

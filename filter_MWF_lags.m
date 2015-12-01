@@ -1,12 +1,22 @@
-
+% 
 % Centralized MWF-based eye blink artifact removal
-% name = 'alex';
-artifact_type = 'blinks'; %blinks, muscle
+%
+% All EEG data must be in channels x datapoints format
+%
+% INPUT:    training_data:    Training EEG data on which manual blink marking is performed
+%           training_blinks:  Resulting blink marker signal 
+%           eeg_data:         EEG data matrix conataining full data measurement
+%                 
+% OUTPUT:   eeg_filtered:     Filtered version of INPUT in same format
+%           SER, ARR:         Performance parameters
+%
+% NOTE: for threshold chosen to be zero, this function is identical to just
+% retaining the positive eigenvalues in the EVD of w. In MWF_PE, all lambda
+% < 0 are thrown away. In this function, generalized eigenvalues smaller
+% than 1 are thrown away (threshold is 0 since eye(M) is subtracted. 
+% 1-1/lambda < 0 <=> lambda < 1.
 
-load(['training_' artifact_type filesep 'training_' artifact_type '_' name '.mat'])
-load(['full_masks' filesep 'full_mask_' artifact_type '_' name '.mat']) % load full-mask for entire duration
-
-Fs = 200;
+function [eeg_filtered,SER,ARR] = filter_MWF_GEVD(training_data,training_blinks,eeg_data)
 
 % Naming conciseness: y = mixed data, v = clean data, d = artifacts for
 % training data
@@ -15,7 +25,7 @@ y = training_data;
 % create y_stack for stacking all delayed version
 y_stack = y;
 eeg_stack = eeg_data;
-%taumax = 0;
+taumax = 3;
 
 for tau = 1:taumax
     
@@ -42,7 +52,7 @@ M = size(y,1);  % number of channels
 M_stack = size(y_stack,1);  % number of channels
 
 % Set blink_segments (1-channel signal)
-blink_segments = training_mask;
+blink_segments = training_blinks;
 
 % Calculate the covariance matrices Ryy and Rvv
 Ryy = cov(y_stack.');                       % Ryy uses all data
@@ -50,26 +60,14 @@ Ryy_inv = Ryy \ speye(size(Ryy));     % This is numerically more stable than inv
 Rvv = cov(y_stack(:,blink_segments==0).');  % Rvv only uses clean data
 
 % Calculate the MWF 
-% w = (eye(M_stack) - Ryy_inv * Rvv);
+w = (eye(M_stack) - Ryy_inv * Rvv);
 
-% EVD and setting negative eigenvalues to zero
-% [V,D] = eig(w);
-% D(D<0) = 0;
-% w = V*D/V;
-
-% GEVD-based MWF
-threshold = 0; %select largest eigenvalue to maintain threshold
-[X,delta] = eig(Ryy,Rvv);
-triangle = delta - eye(M_stack);
-triangle(triangle<threshold) = 0;
-w = X*inv(delta)*triangle*inv(X); 
-
-% Rank R approximation
-% R = 34;
-% triangle(1:end-R,1:end-R) = 0;
-% %triangle(end-R+2:end,end-R+2:end) = 0; % inlcude if you ONLY want the R'th component
-% w = X*inv(delta)*triangle*inv(X); % Rank R approximate
-
+% GEVD
+% threshold = 0; %select largest eigenvalue to maintain threshold
+% [X,delta] = eig(Ryy,Rvv);
+% triangle = delta - eye(M_stack);
+% triangle(triangle<threshold) = 0;
+% w = X*inv(delta)*triangle*inv(X); 
 
 % subtract the eye blinks from training data
 d = (w.') * y_stack;      
@@ -80,21 +78,7 @@ eeg_artifacts = (w.') * eeg_stack;
 eeg_filtered = eeg_stack - eeg_artifacts;
 
 % Performance parameters for training data
-[SER,ARR] = filter_performance(y_stack(1:M,1:20*300),d(1:M,1:20*300),full_mask(1:20*300));
-[SER,ARR]
+[SER,ARR] = filter_performance(y_stack(1:M,:),d(1:M,:),training_blinks);
 
-% eegplot(eeg_data(1:M,:),'data2',eeg_filtered(1:M,:),'srate',Fs,'winlength',10,'dispchans',3,...
-%   'spacing',200,'title',['Original EEG data (blue) + Filtered EEG data (red), taumax = ' num2str(taumax)])
-% 
-% eegplot(eeg_artifacts(1:M,:),'srate',Fs,'winlength',10,'dispchans',3,...
-%   'spacing',200,'title','Artifacts')
-
-% plot usage of filter coefficients
-% figure
-% plot(w(1,:))
-
-% Full data SER and ARR (investigate overfitting on training data)
-[SER_full,ARR_full] = filter_performance(eeg_data(1:M,:),eeg_artifacts(1:M,:),full_mask);
-[SER_back,ARR_back] = filter_performance(eeg_data(1:M,30*200:end),eeg_artifacts(1:M,30*200:end),full_mask(30*200:end));
 
 

@@ -96,5 +96,5 @@ eeg_filtered = eeg_stack - eeg_artifacts;
 % Full data SER and ARR (investigate overfitting on training data)
 [SER_full,ARR_full] = filter_performance(eeg_data(1:M,:),eeg_artifacts(1:M,:),full_mask);
 [SER_back,ARR_back] = filter_performance(eeg_data(1:M,30*200:end),eeg_artifacts(1:M,30*200:end),full_mask(30*200:end));
-
+% (full = all data, back = non-training data)
 

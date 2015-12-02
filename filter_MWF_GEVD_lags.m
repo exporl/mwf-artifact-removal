@@ -16,7 +16,7 @@
 % than 1 are thrown away (threshold is 0 since eye(M) is subtracted. 
 % 1-1/lambda < 0 <=> lambda < 1.
 
-function [eeg_filtered,SER,ARR] = filter_MWF_GEVD(training_data,training_blinks,eeg_data)
+function [eeg_filtered,SER,ARR] = filter_MWF_GEVD_lags(training_data,training_blinks,eeg_data)
 
 % Naming conciseness: y = mixed data, v = clean data, d = artifacts for
 % training data

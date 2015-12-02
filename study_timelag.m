@@ -22,7 +22,7 @@ switch subject
         name = 'steven';
 end
 
-for taumax = 0:15
+for taumax = 0:10
 tic
 script_MWF_test_lags
 tauSER(taumax+1) = SER; tauARR(taumax+1) = ARR;

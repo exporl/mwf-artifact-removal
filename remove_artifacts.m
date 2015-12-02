@@ -42,7 +42,7 @@ training_mask(training_mask>0) = 1;
 
 % when saving testing data for script
 % save('training_blinks\training_blinks_steven.mat','eeg_data','training_data','training_mask')
-% save('training_muscle\training_muscle_alex.mat','eeg_data','training_data','training_mask')
+% save('training_muscle\training_muscle_steven.mat','eeg_data','training_data','training_mask')
 
 % Perform MWF filtering
 [eeg_filtered_MWF,SER_MWF,ARR_MWF] = filter_MWF(training_data,training_mask,eeg_data);

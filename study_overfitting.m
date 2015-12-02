@@ -1,3 +1,6 @@
+% study effects of time lag on SER and ARR and possible overfitting on
+% training data effect
+
 clear
 
 for subject = 1:9
@@ -24,7 +27,7 @@ switch subject
 end
 
 for taumax = 0:15
-script_MWF_test_lags
+script_MWF_study_overfitting
 tauSER(taumax+1) = SER; tauARR(taumax+1) = ARR;
 tauSER_full(taumax+1) = SER_full; tauARR_full(taumax+1) = ARR_full;
 tauSER_back(taumax+1) = SER_back; tauARR_back(taumax+1) = ARR_back;

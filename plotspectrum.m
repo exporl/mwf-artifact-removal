@@ -1,4 +1,8 @@
-% File for plotting the spectrum of a signal
+% Utility function: plot signal alongside it's frequency spectrum
+%
+% Input:    signal - 1D timesignal
+%           Fs - samplerate of signal
+% Output:   none (plot of funcion is generated)
 
 function plotspectrum(signal,Fs)
 % Calculation of the spectrum of a channel
@@ -25,3 +29,4 @@ plot(f,2*abs(signal_dft(1:NFFT/2+1)))
 title('Single-Sided Amplitude Spectrum of Signal')
 xlabel('Frequency (Hz)')
 ylabel('Amplitude')
+end

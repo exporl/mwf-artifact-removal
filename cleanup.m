@@ -1,5 +1,7 @@
-% Clean up backup en initialization files created by EyeBallGUI in the
-% current working directory
+% Remove generated backup and initialization files created by EyeBallGUI 
+% in the current working directory.
+
+function cleanup
 
 if exist('EyeBallGUI_BackUp')
     rmdir('EyeBallGUI_BackUp','s')

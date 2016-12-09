@@ -25,6 +25,8 @@ switch id
         name = 'otto';
     case 10
         name = 'steven';
+    otherwise
+        error('Error: invalid name specifier');
 end
 
 end

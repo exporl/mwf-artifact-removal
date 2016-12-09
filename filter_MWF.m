@@ -1,45 +1,40 @@
-% 
-% Centralized MWF-based eye blink artifact removal
-%
-% All EEG data must be in channels x datapoints format
-%
-% INPUT:    training_data:    Training EEG data on which manual blink marking is performed
-%           training_blinks:  Resulting blink marker signal 
-%           eeg_data:         EEG data matrix conataining full data measurement
-%                 
-% OUTPUT:   eeg_filtered:     Filtered version of INPUT in same format
-%           SER, ARR:         Performance parameters
 
-function [eeg_filtered,SER,ARR] = filter_MWF(training_data,training_blinks,eeg_data)
+% TODO comments info
 
-% Naming conciseness: y = mixed data, v = clean data, d = artifacts for
-% training data
-y = training_data;
+function [v, d] = filter_MWF(y, mask)
 
 % Set parameters
 M = size(y,1);  % number of channels
 
-% Set blink_segments (1-channel signal)
-blink_segments = training_blinks;
-
 % Calculate the covariance matrices Ryy and Rvv
-Ryy = cov(y.');                       % Ryy uses all data
-Ryy_inv = Ryy \ speye(size(Ryy));     % This is numerically more stable than inv(Ryy) !
-Rvv = cov(y(:,blink_segments==0).');  % Rvv only uses clean data
+Ryy = cov(y.');
+Rvv = cov(y(:,mask == 0).');  % Rvv only uses clean data
 
-% Calculate the MWF 
-w = (eye(M) - Ryy_inv * Rvv);
+% Calculate the filter to estimate artifacts
+
+% normal MWF
+w = eye(M) - Ryy \ Rvv;
+
+% PE MWF == GEVD with threshold 0
+[v,d] = eig(w);
+[v,d] = sort_evd(v,d);
+d(d<0) = 0;
+w_pe = v*d/v;
+
+% GEVD-based MWF
+threshold = 0; %select largest eigenvalue to maintain threshold
+[X, GEVL] = eig(Ryy,Rvv);
+delta = GEVL - eye(M);
+delta(delta<threshold) = 0;
+w_gevd = X / GEVL * delta / X; 
+
+% Check assumption that X.' * Rvv * X is (close to) identity matrix
+if max(abs(diag(X.' * Rvv * X - eye(M))) > 10e-10) 
+    error('Scaling error: assumption of scaling of generalized eigenvectors is not valid')
+end
 
 % subtract the eye blinks from training data
-d = (w.') * y;      
+d = (w.') * y;
 v = y - d;
 
-% subtract the eye blinks from all data
-eeg_artifacts = (w.') * eeg_data;
-eeg_filtered = eeg_data - eeg_artifacts;
-
-% Performance parameters for training data
-[SER,ARR] = filter_performance(y,d,training_blinks);
-
-
-
+end

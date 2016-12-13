@@ -17,11 +17,15 @@ if (nargin <3)
     redo = 0;
 end
 
+if (isa(name,'double'))
+    name = get_name(name);
+end
+
 maskpath = ['EEG_artifact_masks\' name '_' artifact '_mask.mat'];
 
 if (~exist(maskpath, 'file') || redo)
     
-    [FileEEGdata, FileEEGsrate, ~] = getdata(name, artifact); %#ok
+    [FileEEGdata, FileEEGsrate, ~] = get_data(name, artifact); %#ok
     
     % Create .mat file to be loaded by EyeBallGUI
     save('TRAINING_DATA.mat','FileEEGdata','FileEEGsrate')

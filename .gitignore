@@ -1,8 +1,9 @@
-# exclude folder with testing .mat files
+# exclude folders including only .mat files
 EEG_data_readout/
-training_blinks/
-training_muscle/
-full_masks/
+EEG_artifact_masks/
 
-# exclude any occasional .mat files in the directory
+# exclude data files
 *.mat
+
+# temporary files
+*.asv

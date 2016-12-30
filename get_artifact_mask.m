@@ -53,7 +53,7 @@ if (~exist(maskpath, 'file') || redo)
     mask = sum(mask,1);
     mask(mask>0) = 1;
     
-    cleanup
+    cleanup_EyeBallGUI;
     
     % save results
     save(maskpath, 'mask')

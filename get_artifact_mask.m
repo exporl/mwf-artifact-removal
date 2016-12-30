@@ -11,7 +11,7 @@
 % saving them is so they can easily be reused in the MWF analysis scripts
 % without having to remark the artifacts for every EEG dataset.
 
-function [mask] = get_artifact_mask(name , artifact , redo)
+function [mask] = get_artifact_mask(name, artifact, redo)
 
 if (nargin <3)
     redo = 0;

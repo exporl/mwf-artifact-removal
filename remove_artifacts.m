@@ -1,6 +1,6 @@
 % Remove specified artifact type 'artifact' from EEG measurement of subject
 % 'name'. Returns data y, artifact estimate d, clean data v, SER and ARR.
-function [ y, d, v, SER ,ARR ] = remove_artifacts( name, artifact)
+function [y, d, v, SER, ARR] = remove_artifacts(name, artifact)
 
 [y, ~, ~]   = get_data( name, artifact);
 mask        = get_artifact_mask(name, artifact);

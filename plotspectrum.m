@@ -4,7 +4,7 @@
 %           Fs - samplerate of signal
 % Output:   none (plot of funcion is generated)
 
-function plotspectrum(signal,Fs)
+function plotspectrum(signal, Fs)
 % Calculation of the spectrum of a channel
 
 L = length(signal);         % Signal length in sampls

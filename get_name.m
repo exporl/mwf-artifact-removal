@@ -1,4 +1,4 @@
-function [ name ] = get_name( id )
+function [name] = get_name(id)
 % Return one of the 10 subject names, depending on index id.
 %
 % The names are ordered alphabetically:

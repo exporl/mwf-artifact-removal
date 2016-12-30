@@ -1,4 +1,4 @@
-function [ eeg_data, Fs, duration ] = get_data( name, artifact )
+function [eeg_data, Fs, duration] = get_data(name, artifact)
 % Return a dataset for subject 'name' in artifact condition 'artifact'.
 %
 % If the data has been read and saved before using EEG_data_readout, the

@@ -1,4 +1,4 @@
-function [ eigvect_out, eigval_out ] = sort_evd(eigvect_in, eigval_in)
+function [eigvect_out, eigval_out] = sort_evd(eigvect_in, eigval_in)
 % Sort a set of eigenvectors and eigenvalues in descending order
 %
 % The eigenvectors and eigenvalues are permutated in the same way to ensure

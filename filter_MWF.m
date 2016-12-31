@@ -2,21 +2,21 @@
 % Multi-channel Wiener Filter (MWF) based on Generalized Eigenvalue
 % Decompostion (GEVD) for EEG artifact removal.
 
-function [v, d] = filter_MWF(y, mask, delay)
+function [v, d] = filter_MWF(y, mask, p)
 
 if (nargin < 3);
-    delay = 0;
+    p = filter_params; % default
 end
 
 % Introduce time lags
 M = size(y,1);
-M_s = (2*delay+1)*M;
+M_s = (2*p.delay+1)*M;
 y_s = zeros(M_s,size(y,2));
 
-for tau = -delay:delay;
+for tau = -p.delay:p.delay;
     y_shift = circshift(y, tau, 2);
     y_shift(:, [1:tau, end+tau+1:end]) = 0;
-    y_s((tau+delay)*M+1 : M*(tau+delay+1) , :) = y_shift;
+    y_s((tau+p.delay)*M+1 : M*(tau+p.delay+1) , :) = y_shift;
 end
 
 % Calculate the covariance matrices Ryy and Rvv
@@ -32,9 +32,14 @@ Rvv = cov(y_s(:,mask == 0).');  % Rvv only uses clean data
 delta = GEVL - eye(M_s);
 
 % set filter rank
-% rank_w = M_s;                      % equivalent to normal MWF
-% rank_w = M_s - sum(diag(delta)<0); % equivalent to normal MWF, keep only positive EVs
-rank_w = M_s;
+switch p.rank
+    case 'full'
+        rank_w = M_s; % equivalent to normal MWF 
+    case 'poseig'
+        rank_w = M_s - sum(diag(delta)<0); % equivalent to normal MWF, but keep only positive EVs
+    otherwise
+        error('unknown rank specifier in filter parameter struct')
+end
 
 % Create filter of rank rank_w
 delta(rank_w * (M_s + 1) + 1 : M_s + 1 : M_s * M_s) = 0; % set rank+1:end to 0
@@ -49,7 +54,7 @@ end
 d_s = (w.') * y_s;
 v_s = y_s - d_s;
 
-d = d_s((delay)*M+1:M*(delay+1),:);
-v = v_s((delay)*M+1:M*(delay+1),:);
+d = d_s((p.delay)*M+1:M*(p.delay+1),:);
+v = v_s((p.delay)*M+1:M*(p.delay+1),:);
 
 end

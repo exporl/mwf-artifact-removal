@@ -4,7 +4,7 @@ function [y, d, v, SER, ARR] = remove_artifacts(name, artifact, params)
 
 [y, ~, ~]   = get_data(name, artifact);
 mask        = get_artifact_mask(name, artifact);
-[v, d]      = filter_MWF(y, mask, params);
+[v, d, ~]      = filter_MWF(y, mask, params);
 [SER, ARR]  = filter_performance(y, d, mask);
 
 end

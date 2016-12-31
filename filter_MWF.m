@@ -2,7 +2,7 @@
 % Multi-channel Wiener Filter (MWF) based on Generalized Eigenvalue
 % Decompostion (GEVD) for EEG artifact removal.
 
-function [v, d] = filter_MWF(y, mask, p)
+function [v, d, w] = filter_MWF(y, mask, p)
 
 if (nargin < 3);
     p = filter_params; % default
@@ -43,7 +43,7 @@ end
 
 % Create filter of rank rank_w
 delta(rank_w * (M_s + 1) + 1 : M_s + 1 : M_s * M_s) = 0; % set rank+1:end to 0
-w = X / GEVL * delta / X; 
+w = X / GEVL * delta / X;
 
 % Check assumption that X.' * Rvv * X is (close to) identity matrix
 if max(abs(diag(X.' * Rvv * X - eye(M_s))) > 10e-10) 

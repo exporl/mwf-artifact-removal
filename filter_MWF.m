@@ -50,11 +50,11 @@ if max(abs(diag(X.' * Rvv * X - eye(M_s))) > 10e-10)
     error('Scaling error: assumption of scaling of generalized eigenvectors is not valid')
 end
 
-% subtract the eye blinks from training data
-d_s = (w.') * y_s;
-v_s = y_s - d_s;
+% compute artifact estimate for original channels of y
+orig_chans = (p.delay) * M+1 : (p.delay+1) * M;
+d = w(:,orig_chans).' * y_s;
 
-d = d_s((p.delay)*M+1:M*(p.delay+1),:);
-v = v_s((p.delay)*M+1:M*(p.delay+1),:);
+% subtract artifact estimate from data
+v = y - d;
 
 end

@@ -14,7 +14,7 @@ M_s = (2*p.delay+1)*M;
 y_s = zeros(M_s,size(y,2));
 
 for tau = -p.delay:p.delay;
-    y_shift = circshift(y, tau, 2);
+    y_shift = circshift(y, [0, tau]);
     y_shift(:, [1:tau, end+tau+1:end]) = 0;
     y_s((tau+p.delay)*M+1 : M*(tau+p.delay+1) , :) = y_shift;
 end

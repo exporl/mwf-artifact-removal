@@ -8,8 +8,9 @@ function p = filter_params(varargin)
 
 % Set processing parameter defaults
 p = struct(...
-    'delay', 0, ...     % any integer > 0
-    'rank', 'full');    % 'full', 'poseig'
+    'delay', 0, ...     % any integer >= 0
+    'rank', 'full', ... % 'full', 'poseig'
+    'train_len', 0);    % any value >= 0 [0 = no training, use full data]
 
 p_names = fieldnames(p);
 
@@ -30,4 +31,20 @@ for pair = reshape(varargin,2,[]) % one pair is {parameterName; parameterValue}
     end
 end
 
+% Test for valid parameters settings
+if ~(mod(p.delay,1) == 0 && p.delay >= 0 && isnumeric(p.delay))
+    parameter_invalid_error(p, 'delay')
+    
+elseif ~(any(strcmp(p.rank, {'full','poseig'})) && ischar(p.rank))
+    parameter_invalid_error(p, 'rank')
+    
+elseif ~(p.train_len >= 0 && isnumeric(p.train_len)) 
+    parameter_invalid_error(p, 'train_len')
+    
+end
+
+end
+
+function parameter_invalid_error(p, field)
+    error('''%s'' is not a valid value for field ''%s''', num2str(p.(field)), field)
 end

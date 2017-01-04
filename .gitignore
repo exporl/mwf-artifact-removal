@@ -7,3 +7,4 @@ EEG_artifact_masks/
 
 # temporary files
 *.asv
+*.m~

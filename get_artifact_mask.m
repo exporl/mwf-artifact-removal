@@ -21,7 +21,7 @@ if (isa(name,'double'))
     name = get_name(name);
 end
 
-maskpath = ['EEG_artifact_masks\' name '_' artifact '_mask.mat'];
+maskpath = ['EEG_artifact_masks' filesep name '_' artifact '_mask.mat'];
 
 if (~exist(maskpath, 'file') || redo)
     

@@ -8,6 +8,7 @@ function p = filter_params(varargin)
 
 % Set processing parameter defaults
 p = struct(...
+    'srate', 200, ...   % sampling rate
     'delay', 0, ...     % any integer >= 0
     'rank', 'full', ... % 'full', 'poseig'
     'train_len', 0);    % any value >= 0 [0 = no training, use full data]
@@ -34,7 +35,9 @@ end
 % Test for valid parameters settings
 for i = 1:numel(p_names)
     switch p_names{i}
-        case 'delay';
+        case 'srate'
+            validateattributes(p.(p_names{i}), {'numeric'}, {'integer','nonnegative'}, mfilename, p_names{i})
+        case 'delay'
             validateattributes(p.(p_names{i}), {'numeric'}, {'integer','nonnegative'}, mfilename, p_names{i})
         case 'rank'
             validateattributes(p.(p_names{i}), {'char'}, {'nonempty'}, mfilename, p_names{i})

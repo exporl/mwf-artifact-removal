@@ -4,24 +4,28 @@
 
 function [v, d, w] = filter_MWF(y, mask, p)
 
+M = size(y,1);
+
 if (nargin < 3);
     p = filter_params; % default
 end
 
-% Introduce time lags
-M = size(y,1);
-M_s = (2*p.delay+1)*M;
-y_s = zeros(M_s,size(y,2));
-
-for tau = -p.delay:p.delay;
-    y_shift = circshift(y, [0, tau]);
-    y_shift(:, [1:tau, end+tau+1:end]) = 0;
-    y_s((tau+p.delay)*M+1 : M*(tau+p.delay+1) , :) = y_shift;
+% Split data for training/validation if train_len is set
+train_samples = floor(p.train_len * p.srate);
+if p.train_len > 0
+    y_t = y(:,1:train_samples);
+    mask = mask(:,1:train_samples);
+else
+    y_t = y;
 end
 
+% Introduce time lags
+[y_ts, M_s] = stack_delay_data(y_t, p.delay);
+[y_s, ~] = stack_delay_data(y, p.delay);
+
 % Calculate the covariance matrices Ryy and Rvv
-Ryy = cov(y_s.');
-Rvv = cov(y_s(:,mask == 0).');  % Rvv only uses clean data
+Ryy = cov(y_ts.');
+Rvv = cov(y_ts(:,mask == 0).');  % Rvv only uses clean data
 
 % normal MWF
 % w = eye(M) - Ryy \ Rvv;
@@ -57,4 +61,20 @@ d = w(:,orig_chans).' * y_s;
 % subtract artifact estimate from data
 v = y - d;
 
+end
+
+
+function [y_s, M_s] = stack_delay_data(y, delay)
+% Construct stacked multichannel signal y_s consisting of multiple
+% time-delayed versions of input y.
+
+M = size(y,1);
+M_s = (2 * delay + 1) * M;
+y_s = zeros(M_s, size(y,2));
+
+for tau = -delay:delay;
+    y_shift = circshift(y, [0, tau]);
+    y_shift(:, [1:tau, end+tau+1:end]) = 0;
+    y_s((tau+delay)*M+1 : M*(tau+delay+1) , :) = y_shift;
+end
 end

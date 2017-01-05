@@ -1,44 +1,33 @@
 
-for subject = 1:9
+clear
 
-switch subject
-    case 1
-        name = 'alex';
-    case 2
-        name = 'anneleen';
-    case 3
-        name = 'hanneke';
-    case 4
-        name = 'jan-peter';
-    case 5
-        name = 'jeroen';
-    case 6
-        name = 'jonas';
-    case 7
-        name = 'lorenz';
-    case 8
-        name = 'otto';
-    case 9
-        name = 'steven';
-end
+Nlags = 5;
+Nsubj = 10;
+SER = zeros(Nsubj, Nlags+1);
+ARR = zeros(Nsubj, Nlags+1);
 
-for taumax = 0:10
-tic
-script_MWF_test_lags
-tauSER(taumax+1) = SER; tauARR(taumax+1) = ARR;
-time(taumax+1) = toc;
-end
+for delay = 0:Nlags
 
-figure(1)
-hold on
-plot(0:taumax,tauSER)
+params = filter_params('delay', delay);
+[S, A] = remove_artifacts_allsubjects('eyeblink', params);
 
-figure(2)
-hold on
-plot(0:taumax,tauARR,'red')
-
-figure(3)
-hold on
-plot(0:taumax,time)
+SER(:,delay+1) = S;
+ARR(:,delay+1) = A;
 
 end
+
+figure
+boxplot(SER, 0:Nlags)
+xlabel('maximum time delay used [samples]')
+ylabel('SER [dB]')
+title('SER in function of delays used')
+hold on
+plot(1:Nlags+1,SER.','.--','MarkerSize',10)
+
+figure
+boxplot(ARR, 0:Nlags)
+xlabel('maximum time delay used [samples]')
+ylabel('ARR [dB]')
+title('ARR in function of delays used')
+hold on
+plot(1:Nlags+1,ARR.','.--','MarkerSize',10)

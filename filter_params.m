@@ -32,19 +32,17 @@ for pair = reshape(varargin,2,[]) % one pair is {parameterName; parameterValue}
 end
 
 % Test for valid parameters settings
-if ~(mod(p.delay,1) == 0 && p.delay >= 0 && isnumeric(p.delay))
-    parameter_invalid_error(p, 'delay')
-    
-elseif ~(any(strcmp(p.rank, {'full','poseig'})) && ischar(p.rank))
-    parameter_invalid_error(p, 'rank')
-    
-elseif ~(p.train_len >= 0 && isnumeric(p.train_len)) 
-    parameter_invalid_error(p, 'train_len')
-    
+for i = 1:numel(p_names)
+    switch p_names{i}
+        case 'delay';
+            validateattributes(p.(p_names{i}), {'numeric'}, {'integer','nonnegative'}, mfilename, p_names{i})
+        case 'rank'
+            validateattributes(p.(p_names{i}), {'char'}, {'nonempty'}, mfilename, p_names{i})
+            validatestring(p.(p_names{i}), {'full','poseig'}, mfilename, p_names{i});
+        case 'train_len'
+            validateattributes(p.(p_names{i}), {'numeric'}, {'nonnegative','real'}, mfilename, p_names{i})
+    end
 end
 
 end
 
-function parameter_invalid_error(p, field)
-    error('''%s'' is not a valid value for field ''%s''', num2str(p.(field)), field)
-end

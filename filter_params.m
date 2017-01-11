@@ -11,6 +11,7 @@ p = struct(...
     'srate', 200, ...   % sampling rate
     'delay', 0, ...     % any integer >= 0
     'rank', 'full', ... % 'full', 'poseig'
+    'mu', 1, ...        % any value [1 = default, >1 = noise weighted MWF]
     'train_len', 0);    % any value >= 0 [0 = no training, use full data]
 
 p_names = fieldnames(p);
@@ -42,6 +43,8 @@ for i = 1:numel(p_names)
         case 'rank'
             validateattributes(p.(p_names{i}), {'char'}, {'nonempty'}, mfilename, p_names{i})
             validatestring(p.(p_names{i}), {'full','poseig'}, mfilename, p_names{i});
+        case 'mu'
+            validateattributes(p.(p_names{i}), {'numeric'}, {'real'}, mfilename, p_names{i})
         case 'train_len'
             validateattributes(p.(p_names{i}), {'numeric'}, {'nonnegative','real'}, mfilename, p_names{i})
     end

@@ -79,7 +79,7 @@ if (~exist(maskpath, 'file') || redo)
         h = findobj(0, 'tag', 'eegplot_marks');
         [FIGexist, TMPREJexist] = updateEegplotStatus(h);
         if TMPREJexist % clear global variable for safety
-            evalin('caller',['clear ', 'TMPREJ'])
+            evalin('base',['clear ', 'TMPREJ'])
         end
         
         % Wait for variable to be created in base workspace by EEGLAB after marking
@@ -99,7 +99,7 @@ if (~exist(maskpath, 'file') || redo)
             end
         end
         markings = evalin('base','TMPREJ');
-        evalin('caller',['clear ', 'TMPREJ']) %clear global
+        evalin('base',['clear ', 'TMPREJ']) %clear global
         
         %build mask from markings
         mask = zeros(1,size(FileEEGdata,2));

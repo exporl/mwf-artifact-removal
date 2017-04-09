@@ -23,11 +23,12 @@ if (~ischar(name) || ~ischar(artifact))
     error('Error: invalid name or artifact specifier')
 end
 
-path = ['EEG_data_readout' filesep name '_' artifact '.mat'];
+settings = mwfgui_localsettings;
+path = fullfile(settings.savedatapath,[name '_' artifact '.mat']);
 if (~exist(path, 'file'))
     warning(['No saved data for subject ' name ' for artifact type ' ...
         artifact ' was found in current path. New data will be generated in '...
-        pwd filesep path '.'])
+        path '.'])
     
     EEG_data_readout(name, artifact)
 end

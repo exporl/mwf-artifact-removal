@@ -10,15 +10,17 @@
 %
 
 function EEG_data_readout(name, artifact)
+settings = mwfgui_localsettings;
 
-% Specify the desired working frequency Fs
+% Specify the desired working frequency Fs and reference channel
 Fs = 200;
+refchan = 48;
 
 % Specify the location of the file on the PC (make sure it's on the matlab path!)
-folder = 'C:\Users\gebruiker\Documents\KULeuven Doctoraat\Thesispaper 2 - GUI\EEG Data - Artifacts';
+folder = settings.rawdatapath;
 
 % bdf_loc = [folder name '\blink.bdf'];
-bdf_loc = [folder filesep name filesep artifactBDFname(artifact) '.bdf'];
+bdf_loc = fullfile(folder,name,[artifactBDFname(artifact) '.bdf']);
 
 % Read out the bdf file
 eeg_struct  = biopil_raw_data('FileName',bdf_loc, 'MultipleEpochs', 'ignore','Channels','all');
@@ -37,8 +39,12 @@ eeg_struct.RawData.EegData = resample(double(eeg_struct.RawData.EegData),Fs,Fs_o
 % Put the data in the right format (channels x samples)
 eeg_data = (eeg_struct.RawData.EegData(:,1:64)).';
 
+% Rereference to Cz (channel 48)
+eeg_data = bsxfun(@minus, eeg_data, eeg_data(refchan,:));
+eeg_data(refchan,:) = [];
+
 % Save the structure and resampled frequency to a mat-file
-save(['EEG_data_readout' filesep name '_' artifact '.mat'],'eeg_data','Fs','duration');
+save(fullfile(settings.savedatapath,[name '_' artifact '.mat']),'eeg_data','Fs','duration');
 
 
 function [artifact_file] = artifactBDFname(artifact)

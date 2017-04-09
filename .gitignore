@@ -2,6 +2,11 @@
 EEG_data_readout/
 EEG_artifact_masks/
 
+# exclude figures
+*.pdf
+*.eps
+*.fig
+
 # exclude data files
 *.mat
 

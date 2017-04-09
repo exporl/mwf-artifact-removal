@@ -3,7 +3,7 @@ EEG_data_readout/
 EEG_artifact_masks/
 
 # local matlab settings
-mwfgui_localsettings.m
+*_localsettings.m
 
 # exclude figures
 *.pdf

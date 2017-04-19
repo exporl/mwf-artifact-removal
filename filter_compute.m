@@ -6,7 +6,7 @@
 %
 % The filter size depends on the number of delays in the parameter struct p
 
-function w = filter_compute(y, mask, p)
+function [w, GEVL] = filter_compute(y, mask, p)
 
 if (nargin < 3);
     p = filter_params; % default
@@ -37,6 +37,10 @@ switch p.rank
         rank_w = M_s; % equivalent to normal MWF 
     case 'poseig'
         rank_w = M_s - sum(diag(delta)<0); % equivalent to normal MWF, but keep only positive EVs
+    case '10pct'
+        rank_w = ceil(0.1*M_s); % equivalent to normal MWF, but keep only positive EVs
+    case 'lowest250'
+        rank_w = 250; % equivalent to normal MWF, but keep only positive EVs
     otherwise
         error('unknown rank specifier in filter parameter struct')
 end

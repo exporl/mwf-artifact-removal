@@ -43,7 +43,7 @@ if (isa(name,'double'))
 end
 
 settings = mwfgui_localsettings;
-maskpath = fullfile(setting.savemaskpath,[name '_' artifact '_mask.mat']);
+maskpath = fullfile(settings.savemaskpath,[name '_' artifact '_mask.mat']);
 
 if (~exist(maskpath, 'file') || redo)
     [FileEEGdata, FileEEGsrate, ~] = get_data(name, artifact);

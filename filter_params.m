@@ -42,7 +42,7 @@ for i = 1:numel(p_names)
             validateattributes(p.(p_names{i}), {'numeric'}, {'integer','nonnegative'}, mfilename, p_names{i})
         case 'rank'
             validateattributes(p.(p_names{i}), {'char'}, {'nonempty'}, mfilename, p_names{i})
-            validatestring(p.(p_names{i}), {'full','poseig'}, mfilename, p_names{i});
+            validatestring(p.(p_names{i}), {'full','poseig','10pct','lowest250'}, mfilename, p_names{i});
         case 'mu'
             validateattributes(p.(p_names{i}), {'numeric'}, {'real'}, mfilename, p_names{i})
         case 'train_len'

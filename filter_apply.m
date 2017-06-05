@@ -10,7 +10,7 @@ function [v, d] = filter_apply(y, w)
 M = size(y,1);
 M_s = size(w,1);
 
-tau = (M_s - M) / (2 * M);
+tau = (M_s - M) / M;
 if mod(tau,1) ~= 0
     error('the given filter is not compatible with the input EEG signal')
 end
@@ -19,7 +19,7 @@ end
 [y_s, ~] = stack_delay_data(y, tau);
 
 % compute artifact estimate for original channels of y
-orig_chans = tau * M+1 : (tau+1) * M;
+orig_chans = 1:M;
 d = w(:, orig_chans).' * y_s;
 
 % subtract artifact estimate from data

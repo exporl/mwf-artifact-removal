@@ -4,14 +4,19 @@
 % Available artifact types for given dataset are:
 % 'eyeblink', 'muscle' ,'speech', 'movement', 'mix'
 
-function [SER, ARR] = remove_artifacts_allsubjects(artifact_type, params)
+function [SER, ARR, t, pctkept] = remove_artifacts_allsubjects(artifact_type, params)
 
 N_data = 10;
 SER = zeros(N_data, 1);
 ARR = zeros(N_data, 1);
+t = zeros(N_data, 1);
+pctkept = zeros(N_data, 1);
 
 for i = 1 : N_data;
-    [~ ,~ ,~ , ~, SER(i), ARR(i)] = remove_artifacts(i, artifact_type, params);
+    tic
+    [~ ,~ ,~ , w, SER(i), ARR(i)] = remove_artifacts(i, artifact_type, params);
+    t(i) = toc;
+    pctkept(i) = rank(w)/size(w,1);
 end
 
 end

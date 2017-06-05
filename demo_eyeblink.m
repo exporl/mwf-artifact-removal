@@ -3,22 +3,22 @@
 
 % subject name can be specified by either the string (e.g. 'alex') or by a
 % number from 1 to 10.
-name = 1; % retrieves data from 'alex'
+name = 3; % retrieves data from 'alex'
 
 % artifact name is specified by a string indicating artifact type (e.g.
 % 'eyeblink', 'muscle')
-artifact = 'eyeblink';
+artifact = 'muscle';
+redo = 0; % put to 1 if you want to use the eyeballgui to make the mask
 
 % retrieve EEG data with 'eyeblink' artifacts from subject 1 ('alex')
 % EEG data y is in channels x samples format
 [y, Fs, duration] = get_data(name, artifact);
 
 % retrieve EEG artifact mask for subject 1 ('alex')
-redo = 0; % put to 1 if you want to use the eyeballgui to make the mask
 mask = get_artifact_mask(name, artifact, redo);
 
 % set some processing parameters in struct p
-p = filter_params('delay', 3, 'rank', 'full');
+p = filter_params('delay', 100, 'rank', 'poseig');
 
 % compute GEVD-MWF for data y
 [w]         = filter_compute(y, mask, p);

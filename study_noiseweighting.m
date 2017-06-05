@@ -9,7 +9,7 @@ ARR = zeros(Nsubj, Nmu);
 for mu = 1:Nmu
 
 params = filter_params('mu', mu);
-[S, A] = remove_artifacts_allsubjects('eyeblink', params);
+[S, A] = remove_artifacts_allsubjects('muscle', params);
 
 SER(:,mu) = S;
 ARR(:,mu) = A;

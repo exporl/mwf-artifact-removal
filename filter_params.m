@@ -10,7 +10,8 @@ function p = filter_params(varargin)
 p = struct(...
     'srate', 200, ...   % sampling rate
     'delay', 0, ...     % any integer >= 0
-    'rank', 'full', ... % 'full', 'poseig'
+    'rank', 'full', ... % 'full', 'poseig', 'pct', 'first'
+    'rankopt', 1, ...   % additional specifier if 'rank' is 'pct' or 'first'
     'mu', 1, ...        % any value [1 = default, >1 = noise weighted MWF]
     'train_len', 0);    % any value >= 0 [0 = no training, use full data]
 
@@ -42,7 +43,13 @@ for i = 1:numel(p_names)
             validateattributes(p.(p_names{i}), {'numeric'}, {'integer','nonnegative'}, mfilename, p_names{i})
         case 'rank'
             validateattributes(p.(p_names{i}), {'char'}, {'nonempty'}, mfilename, p_names{i})
-            validatestring(p.(p_names{i}), {'full','poseig','10pct','lowest250'}, mfilename, p_names{i});
+            validatestring(p.(p_names{i}), {'full','poseig','pct','first'}, mfilename, p_names{i});
+        case 'rankopt'
+            if strcmp(p.rank,'pct')
+                validateattributes(p.(p_names{i}), {'numeric'}, {'positive','<=',100}, mfilename, p_names{i})
+            elseif strcmp(p.rank,'first')
+                validateattributes(p.(p_names{i}), {'numeric'}, {'positive','integer'}, mfilename, p_names{i})
+            end
         case 'mu'
             validateattributes(p.(p_names{i}), {'numeric'}, {'real'}, mfilename, p_names{i})
         case 'train_len'

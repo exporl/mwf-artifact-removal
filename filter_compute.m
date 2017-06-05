@@ -23,7 +23,7 @@ end
 [y, M_s] = stack_delay_data(y, p.delay);
 
 % Calculate the covariance matrices Ryy and Rvv
-Ryy = cov(y.');
+Ryy = cov(y(:,mask == 1).');
 Rvv = cov(y(:,mask == 0).');  % Rvv only uses clean data
 
 % GEVD-based MWF
@@ -34,13 +34,17 @@ delta = GEVL - eye(M_s);
 % set filter rank
 switch p.rank
     case 'full'
-        rank_w = M_s; % equivalent to normal MWF 
+        rank_w = M_s; % equivalent to normal MWF
+        fprintf(' Keeping all eigenvalues... Rank = %d\n', rank_w)
     case 'poseig'
         rank_w = M_s - sum(diag(delta)<0); % equivalent to normal MWF, but keep only positive EVs
-    case '10pct'
-        rank_w = ceil(0.1*M_s); % equivalent to normal MWF, but keep only positive EVs
-    case 'lowest250'
-        rank_w = 250; % equivalent to normal MWF, but keep only positive EVs
+        fprintf(' Rejecting %d negative eigenvalues (total: %d)... Rank = %d\n',sum(diag(delta)<0),M_s,rank_w)
+    case 'pct' % retain first x% of eigenvalues
+        rank_w = ceil(p.rankopt*M_s/100);
+        fprintf(' Keeping largest %d%% of %d eigenvalues... Rank = %d\n',p.rankopt,M_s,rank_w)
+    case 'first' % retain first x eigenvalues
+        rank_w = p.rankopt;
+        fprintf(' Keeping largest %d of %d eigenvalues... Rank = %d\n',p.rankopt,M_s,rank_w)
     otherwise
         error('unknown rank specifier in filter parameter struct')
 end

@@ -4,6 +4,7 @@ function settings = mwfgui_localsettings
 settings = struct;
 settings.rawdatapath = 'C:\...'; % folder with raw data
 settings.savedatapath = 'C:\...'; % save read-out, preprocessed data
+settings.syntheticpath = 'C:\...'; % save created synthetic EEG data and mask
 settings.savemaskpath = 'C:\...'; % save artifact masks
 settings.figurepath = 'C:\...'; % save figures
 end

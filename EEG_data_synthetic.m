@@ -5,14 +5,22 @@
 % artifact templates are then added across the channels with a realistic
 % spatial distribution. The synthetic data and the mask are saved.
 % 
-% INPUT: name (or index) of EEG data subject.
+% INPUT:    - name (or index) of EEG data subject.
+%           - SNRn (optional): desired normalized SNR of artifacts relative
+%           to clean EEG. Default SNR is 0 (i.e. "normal" artifact scaling)
 %
-% OUTPUT: EEG data as channels x samples, saved in the EEG_data_synthetic
-% folder in the format <name>_synthetic.mat. 
+% OUTPUT:   - EEG data as channels x samples, saved in the EEG_data_synthetic
+%           folder in the format <name>_synthetic.mat
+%           - If output is requested, the same data is returned in struct T
 %
 % Also saves the working sample rate Fs and measurement duration.
 
-function EEG_data_synthetic(name)
+function T = EEG_data_synthetic(name, SNRn)
+
+if nargin < 2 
+    SNRn = 0; 
+end
+
 settings = mwfgui_localsettings;
 
 if (isa(name,'double'))
@@ -40,6 +48,7 @@ S = 5; % an eyeblink is inserted on average every S seconds
 minscale = 0.8; % minimum eyeblink scaling
 maxscale = 1.5; % maximum eyeblink scaling
 
+rng(0);
 pos = 0.5*S*Fs;
 while pos < size(v,2) - L_blink - 0.5*S*Fs
     pos = round(pos - 0.5*S*Fs + S*Fs*rand); % randomly shift the blink between [-0.5*S , 0.5*S]
@@ -49,13 +58,32 @@ while pos < size(v,2) - L_blink - 0.5*S*Fs
     pos = pos + S*Fs;
 end
 
+% scaling factor gamma is multiplied with blinks to achieve desired SNR
+% ex. desired SNR = 6dB -> gamma = 2 (blink magnitude 2 times larger)
+gamma = 10^((SNRn)/20);
+
 % mix artifacts over channels
 eeg_data = v;
-eeg_data = eeg_data + spatialdist*blinkchannel;
+eeg_data = eeg_data + spatialdist*blinkchannel*gamma;
 
-% Save synthetic data and mask to a mat-file
-save(fullfile(settings.syntheticpath,[name '_synthetic.mat']), ...
-    'eeg_data','mask','blinkchannel','spatialdist','Fs','duration','mask');
+% Save synthetic data and mask to a mat-file (only for SNR = 0)
+if (SNRn == 0)
+    save(fullfile(settings.syntheticpath,[name '_synthetic.mat']), ...
+        'eeg_data','mask','blinkchannel','spatialdist','Fs','duration','mask');
+end
+
+% define output if requested
+if nargout > 0;
+    T = struct;
+    T.eeg_data = eeg_data;
+    T.mask = mask;
+    T.blinkchannel = blinkchannel;
+    T.spatialdist = spatialdist;
+    T.Fs = Fs;
+    T.duration = duration;
+    T.mask = mask;
+    T.artifact = spatialdist*blinkchannel*gamma;
+end
 
 end
 

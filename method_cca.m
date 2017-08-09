@@ -1,6 +1,6 @@
-function [v, d, t] = method_cca(y, Fs, cache)
+function [v, d, t] = method_cca(y, Fs, Nlags, cache)
 tic
-[CCAcomps, ~, V] = cca(y, 1);
+[CCAcomps, ~, V] = cca(y, Nlags);
 t = toc;
 
 % check if cached components exist, otherwise ask them from user
@@ -21,10 +21,10 @@ v = y-d;
 t = t+toc;
 end
 
-function [CCAcomps, W, V] = cca(y, tau)
+function [CCAcomps, W, V] = cca(y, Nlags)
 % Create a time-delayed version of x with time delay tau
-yt = y(:,[ end-tau+1:end  1:end-tau ]);  % cyclic shift over tau to right 
-yt(:, 1:tau) = 0;                        % remove first tau rows of y (delayed, not cyclic!)
+yt = stack_delay_data(y, Nlags+1);
+yt(1:size(y,1),:) = [];
 
 % Calculate the CCA components of sets X and Y
 [W, ~, ~] = canoncorr(y',yt');

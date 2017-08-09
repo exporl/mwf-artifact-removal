@@ -1,7 +1,7 @@
 
 clear
 
-artifact = 'muscle';
+artifact = 'eyeblink';
 methods = {'mwf', 'infomax', 'fastica', 'cca'};
 Nsubj = 10;
 Nmeth = numel(methods);
@@ -48,9 +48,20 @@ cache.name = get_name(subj);
 [y, Fs] = get_data(subj, artifact);
 mask = get_artifact_mask(subj, artifact);
 
-[v,d,time(subj,4)] = method_cca(y, Fs, cache);
+[v,d,time(subj,4)] = method_cca(y, Fs, 1, cache);
 [SER(subj,4), ARR(subj,4)] = filter_performance(y, d, mask);
 end
+
+% MCCA
+% cache.method = 'mcca';
+% for subj = 1:Nsubj
+% cache.name = get_name(subj);
+% [y, Fs] = get_data(subj, artifact);
+% mask = get_artifact_mask(subj, artifact);
+% 
+% [v,d,time(subj,4)] = method_cca(y, Fs, 5, cache);
+% [SER(subj,4), ARR(subj,4)] = filter_performance(y, d, mask);
+% end
 
 figure; boxplot(SER, methods)
 figure; boxplot(ARR, methods)

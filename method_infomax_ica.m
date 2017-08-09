@@ -1,4 +1,4 @@
-function [v, d, t] = method_infomax_ica(y, Fs, name, artifact)
+function [v, d, t] = method_infomax_ica(y, Fs, cache)
 tic
 [weigth, sphere] = runica(y, 'steps', 256);
 
@@ -7,12 +7,12 @@ W = weigth * sphere;
 ICAcomps = W * y;
 t = toc;
 
-% visualise components, ask for input
-if nargin > 2
-    Idx = cached_ICA_components(name, artifact);
-else
-    eegplot(ICAcomps,'srate',Fs,'winlength',20,'dispchans',10);
-    Idx = input('\n Enter artefact components: ');
+% check if cached components exist, otherwise ask them from user
+Idx = method_cached_components(cache);
+if isempty(Idx);
+    eegplot(ICAcomps,'srate',Fs,'winlength',20,'dispchans',10,'spacing',20);
+    Idx = input('\n Enter artifact components: ');
+    method_cached_components(cache, Idx); % save entered components to cache
     close(gcf);
 end
 
@@ -25,26 +25,3 @@ d = V_art*ARTcomps;
 v = y-d;
 t = t+toc;
 end
-
-function Idx = cached_ICA_components(name, artifact)
-switch artifact
-    case 'eyeblink'
-        subjcomps = {
-            1:3, ...
-            1, ...
-            1:3, ...
-            1:2, ...
-            1, ...
-            1:2, ...
-            1:2, ...
-            1:3, ...
-            1:3, ...
-            [1, 3]
-        };
-    case 'muscle'
-end
-Idx = subjcomps{name};
-
-end
-
-

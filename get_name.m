@@ -12,7 +12,7 @@ switch id
     case 3
         name = 'hanneke';
     case 4
-        name = 'jan-peter';
+        name = 'janpeter';
     case 5
         name = 'jeroen';
     case 6

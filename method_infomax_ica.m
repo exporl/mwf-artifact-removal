@@ -1,4 +1,5 @@
 function [v, d, t] = method_infomax_ica(y, Fs, cache)
+rng(0);
 tic
 [weigth, sphere] = runica(y, 'steps', 256);
 

@@ -1,7 +1,7 @@
 
 clear
 
-artifact = 'eyeblink';
+artifact = 'muscle';
 methods = {'mwf', 'infomax', 'fastica', 'cca'};
 Nsubj = 10;
 Nmeth = numel(methods);
@@ -66,6 +66,23 @@ end
 figure; boxplot(SER, methods)
 figure; boxplot(ARR, methods)
 figure; boxplot(time, methods)
+
+switch artifact
+    case 'eyeblink'
+        mSERb = mean(SER([1:7,9:10],:));
+        mARRb = mean(ARR([1:7,9:10],:));
+        mtimeb = mean(time([1:7,9:10],:));
+        sSERb = std(SER([1:7,9:10],:));
+        sARRb = std(ARR([1:7,9:10],:));
+        stimeb = std(time([1:7,9:10],:));
+    case 'muscle'
+        mSERm = mean(SER);
+        mARRm = mean(ARR);
+        mtimem = mean(time);
+        sSERm = std(SER);
+        sARRm = std(ARR);
+        stimem = std(time);
+end
 
 
 

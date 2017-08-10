@@ -13,6 +13,9 @@ t = zeros(N_data, 1);
 pctkept = zeros(N_data, 1);
 
 for i = 1 : N_data;
+    if (strcmp(artifact_type,'eyeblink') && (i == 8))
+        continue
+    end
     tic
     [~ ,~ ,~ , w, SER(i), ARR(i)] = remove_artifacts(i, artifact_type, params);
     t(i) = toc;

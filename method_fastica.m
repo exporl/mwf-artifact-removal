@@ -1,6 +1,6 @@
 function [v, d, t] = method_fastica(y, Fs, cache)
-tic
 rng(0);
+tic
 [ICAcomps, V, ~] = fastica(y, 'maxNumIterations', 250);
 t = toc;
 

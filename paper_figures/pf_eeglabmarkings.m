@@ -2,8 +2,20 @@
 
 settings = mwfgui_localsettings;
 
-name = 1;
-artifact = 'muscle';
-redo = 1; % put to 1 if you want to use the eyeballgui to make the mask
+name = 10;
+artifact = 'eyeblink';
+redo = 1;
 [y, Fs, duration] = get_data(name, artifact);
 mask = get_artifact_mask(name, artifact, redo);
+
+% MAKE MARKINGS IN PLOT THAT POPS OPEN
+%   - EEG voltage scale to 50
+%   - number channels to 20, display from 29 to 49
+%   - time range to 10 seconds, display from 28 to 38
+%
+% PRESS CTRL + C TO FREEZE GUI
+
+print(fullfile(settings.figurepath,'gui.eps'), '-depsc2');
+
+% RESIZE EPS IN INKSCAPE: FIT DOCUMENT SIZE TO CONTENTS
+% SAVE TO PDF

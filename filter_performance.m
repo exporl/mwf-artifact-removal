@@ -36,7 +36,7 @@ SER_w = SER_pc .* p; % SER per channel (weighted)
 SER = sum(SER_w); % Total SER (weighted average)
 
 % ARR
-ARR_pc = 10*log10(var(y_corrupt) ./ var(d_real_corrupt - d_corrupt)); % ARR per channel
+ARR_pc = 10*log10(var(d_real_corrupt) ./ var(d_real_corrupt - d_corrupt)); % ARR per channel
 ARR_w = ARR_pc .* p; % ARR per channel (weighted)
 ARR = sum(ARR_w); % Total ARR (weighted average)
 

@@ -28,13 +28,13 @@ end
 ARRdiff = ARRhy - ARRre;
 
 fig = figure; hold on
-hser = shadedErrorbar(SNRs,SER(:,:),{@mean,@std},'-b',1);
-harrhy = shadedErrorbar(SNRs,ARRhy(:,:),{@mean,@std},'-r',1);
-harrre = shadedErrorbar(SNRs,ARRre(:,:),{@mean,@std},'-g',1);
 harrdiff = shadedErrorbar(SNRs,ARRdiff(:,:),{@mean,@std},'-k',1);
+harrhy = shadedErrorbar(SNRs,ARRhy(:,:),{@mean,@std},'-g',1);
+harrre = shadedErrorbar(SNRs,ARRre(:,:),{@mean,@std},'-r',1);
+hser = shadedErrorbar(SNRs,SER(:,:),{@mean,@std},'-b',1);
 
-legend([hser.mainLine, harrhy.mainLine, harrre.mainLine, harrdiff.mainLine], ...
-    {'SER','ARR_{hybrid}', 'ARR_{real}', 'ARR_{diff}'},'Location','northwest')    
+legend([hser.mainLine, harrre.mainLine, harrhy.mainLine, harrdiff.mainLine], ...
+    {'SER','ARR_{real}', 'ARR_{hybrid}', 'ARR_{diff}'},'Location','northwest')    
 xlabel('Artifact SNR [dB]')
 ylabel('SER and ARR [dB]')
 xlim([SNRs(1) SNRs(end)])

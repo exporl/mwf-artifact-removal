@@ -7,12 +7,13 @@ clear
 settings = mwfgui_localsettings;
 
 Nsubj = 10;
-SNRs = -24:3:12;
+SNRs = -12:3:24;
 Nsnrs = numel(SNRs);
 
 SER = zeros(Nsubj, Nsnrs);
-ARRhy = zeros(Nsubj, Nsnrs); % synthetic ARR (i.e. with real d)
+ARRhy = zeros(Nsubj, Nsnrs); % hybrid ARR (i.e. with real d)
 ARRre = zeros(Nsubj, Nsnrs); % real ARR (i.e. with y as approximation)
+realSNRs = zeros(Nsubj, 1);
 
 params = filter_params('delay', 5, 'rank', 'poseig');
 
@@ -24,6 +25,7 @@ for i = 1:Nsubj
     [SER(i,j), ARRhy(i,j)]  = filter_performance(T.eeg_data, d, T.mask, T.artifact);
     [~, ARRre(i,j)]  = filter_performance(T.eeg_data, d, T.mask);
     end
+    realSNRs(i) = T.realisticSNR;
 end
 ARRdiff = ARRhy - ARRre;
 
@@ -33,11 +35,19 @@ harrhy = shadedErrorbar(SNRs,ARRhy(:,:),{@mean,@std},'-g',1);
 harrre = shadedErrorbar(SNRs,ARRre(:,:),{@mean,@std},'-r',1);
 hser = shadedErrorbar(SNRs,SER(:,:),{@mean,@std},'-b',1);
 
+mp = mean(realSNRs);
+sp = std(realSNRs);
+plot([mp,mp],[-50,50],'k-')
+plot([mp-sp,mp-sp],[-50,50],'k:')
+plot([mp+sp,mp+sp],[-50,50],'k:')
+
 legend([hser.mainLine, harrre.mainLine, harrhy.mainLine, harrdiff.mainLine], ...
     {'SER','ARR_{real}', 'ARR_{hybrid}', 'ARR_{diff}'},'Location','northwest')    
 xlabel('Artifact SNR [dB]')
 ylabel('SER and ARR [dB]')
 xlim([SNRs(1) SNRs(end)])
+ylim([-10 35])
+set(gca,'XTick',SNRs);
 pf_printpdf(fig, fullfile(settings.figurepath,'hybrid_SER_ARR'))
 close(fig)
 

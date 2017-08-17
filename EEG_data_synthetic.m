@@ -6,7 +6,7 @@
 % spatial distribution. The synthetic data and the mask are saved.
 % 
 % INPUT:    - name (or index) of EEG data subject.
-%           - SNRn (optional): desired normalized SNR of artifacts relative
+%           - SNR (optional): desired SNR of artifacts relative
 %           to clean EEG. Default SNR is 0 (i.e. "normal" artifact scaling)
 %
 % OUTPUT:   - EEG data as channels x samples, saved in the EEG_data_synthetic
@@ -15,11 +15,9 @@
 %
 % Also saves the working sample rate Fs and measurement duration.
 
-function T = EEG_data_synthetic(name, SNRn)
+function T = EEG_data_synthetic(name, SNR)
 
-if nargin < 2 
-    SNRn = 0; 
-end
+if (nargin < 2); SNR = 0; end
 
 settings = mwfgui_localsettings;
 
@@ -58,16 +56,34 @@ while pos < size(v,2) - L_blink - 0.5*S*Fs
     pos = pos + S*Fs;
 end
 
-% scaling factor gamma is multiplied with blinks to achieve desired SNR
-% ex. desired SNR = 6dB -> gamma = 2 (blink magnitude 2 times larger)
-gamma = 10^((SNRn)/20);
+% Generate artifacial artifact signal
+d_art = spatialdist * blinkchannel;
+
+% Scale template such that SNR = 0 for gamma = 1
+Ev2 = mean(v(1,:).^2); % average noise power in channel 1
+SNRfactor = 1/sqrt(mean(d_art(1,:).^2) / Ev2);
+
+% scaling factor gamma will be multiplied with blinks to achieve SNR as defined in paper
+gamma = sqrt((10^(SNR/10)) / (mean((SNRfactor * d_art(1,:)).^2) / Ev2));
+
+if (nargin < 2) % use realistic amplitudes
+    factor = 1;
+else % scale amplitude to reach given SNR
+    factor = SNRfactor * gamma;
+end
 
 % mix artifacts over channels
 eeg_data = v;
-eeg_data = eeg_data + spatialdist*blinkchannel*gamma;
+eeg_data = eeg_data + d_art * factor;
 
-% Save synthetic data and mask to a mat-file (only for SNR = 0)
-if (SNRn == 0)
+% check that 
+assert(abs(10*log10(mean((d_art(1,:) * factor).^2) / Ev2) - SNR) < 10^-3) ;
+
+% keep the approximate SNR of the real data processed at the start
+SNR_realdata = 10*log10(mean(d(1,:).^2) / Ev2);
+
+% Save synthetic data and mask to a mat-file (only for realistic SNR)
+if (nargin < 2)
     save(fullfile(settings.syntheticpath,[name '_synthetic.mat']), ...
         'eeg_data','mask','blinkchannel','spatialdist','Fs','duration','mask');
 end
@@ -82,7 +98,8 @@ if nargout > 0;
     T.Fs = Fs;
     T.duration = duration;
     T.mask = mask;
-    T.artifact = spatialdist*blinkchannel*gamma;
+    T.artifact = spatialdist * blinkchannel * factor;
+    T.realisticSNR = SNR_realdata;
 end
 
 end

@@ -29,7 +29,7 @@ end
 
 % Get clean EEG data
 [~, Fs, duration] = get_data(name,'eyeblink');
-params = filter_params('rank', 'poseig', 'delay', 10);
+params = filter_params('rank', 'poseig', 'delay', 5);
 [~, d, v] = remove_artifacts(name, 'eyeblink', params);
 
 % get normalized spatial distribution estimate of blink

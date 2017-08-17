@@ -25,7 +25,7 @@ plot((lambda_muscle-1),'linewidth',2);
 xlabel('GEVL number')
 ylabel('GEVLs')
 xlim([-3; size(w1,1)+3])
-ylim([-1; 130])
+ylim([-1; 160])
 legend('Eye blink artifacts','Eye blink & muscle artifacts')
 set(gca,'box','off')
 

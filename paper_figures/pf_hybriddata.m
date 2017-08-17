@@ -14,7 +14,7 @@ SER = zeros(Nsubj, Nsnrs);
 ARRhy = zeros(Nsubj, Nsnrs); % synthetic ARR (i.e. with real d)
 ARRre = zeros(Nsubj, Nsnrs); % real ARR (i.e. with y as approximation)
 
-params = filter_params('delay', 10, 'rank', 'poseig');
+params = filter_params('delay', 5, 'rank', 'poseig');
 
 for i = 1:Nsubj
     for j = 1:Nsnrs

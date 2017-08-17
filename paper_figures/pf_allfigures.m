@@ -12,9 +12,9 @@
 
 pf_eigenvalues;         % t = few seconds
 pf_movement_artifact;   % t = few seconds
-pf_rank;                % t = about 10 min (5 min per artifact type)
-pf_hybriddata;          % t = about 5 min
-pf_timelags;            % t = about 5 min
+pf_rank;                % t = about 20 min (10 min per artifact type)
+pf_hybriddata;          % t = about 10 min
+pf_timelags;            % t = about 10 min
 
 
 %% Generate strings to paste in LaTeX tables for results of different methods

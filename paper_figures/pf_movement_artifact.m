@@ -10,7 +10,7 @@ y = y(:,100*200:end);
 mov_mask = mov_mask(100*200:end);
 
 % Remove movement artifact
-p = filter_params('delay', 10, 'rank', 'poseig');
+p = filter_params('delay', 5, 'rank', 'poseig');
 w = filter_compute(y, mov_mask, p);
 [v, ~] = filter_apply(y, w);
 

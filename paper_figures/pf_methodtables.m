@@ -4,7 +4,7 @@
 clear
 
 artifact = {'eyeblink','muscle'};
-methods = { 'mwf5', 'mwf10', 'mwf25', 'infomax', 'fastica' 'cca'};
+methods = { 'mwf5', 'mwf10', 'mwf20', 'infomax', 'fastica' 'cca'};
 Nsubj = 10;
 Nmeth = numel(methods);
 
@@ -32,8 +32,8 @@ if domethod
     [SER(:,ind), ARR(:,ind), time(:,ind)] = remove_artifacts_allsubjects(artifact{a}, mwfparams);
 end
 
-% MWF, 25 lags
-[domethod, ind] = ismember('mwf25',methods);
+% MWF, 20 lags
+[domethod, ind] = ismember('mwf20',methods);
 if domethod
     mwfparams = filter_params('delay', 25, 'rank', 'poseig');
     [SER(:,ind), ARR(:,ind), time(:,ind)] = remove_artifacts_allsubjects(artifact{a}, mwfparams);

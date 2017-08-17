@@ -23,7 +23,7 @@ end
 
 function [CCAcomps, W, V] = cca(y, Nlags)
 % Create a time-delayed version of x with time delay tau
-yt = stack_delay_data(y, Nlags+1);
+yt = stack_delay_data(y, Nlags, true);
 yt(1:size(y,1),:) = [];
 
 % Calculate the CCA components of sets X and Y

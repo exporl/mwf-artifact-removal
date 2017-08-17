@@ -21,5 +21,5 @@ pf_timelags;            % t = about 10 min
 
 % Takes a while to run because of ICA computations
 
-% pf_methodtables; 
+% pf_methodtables;      % t = about 25 min
 

@@ -12,6 +12,9 @@ delay_options = [5];
 artifact = {'eyeblink','muscle'};
 
 for a = 1:numel(artifact)
+    SER = zeros(10,numel(rank_pct),numel(delay_options));
+    ARR = zeros(10,numel(rank_pct),numel(delay_options));
+    pct = zeros(10,numel(delay_options));
     for i = 1:numel(delay_options)
         for j = 1:numel(rank_pct)
             
@@ -20,7 +23,6 @@ for a = 1:numel(artifact)
             
             SER(:,j,i) = S;
             ARR(:,j,i) = A;
-            label{j} = [rank_options{1} num2str(rank_pct(j)) '_' num2str(delay_options(i))];
         end
         
         % what are normal keep percentages of positive eigenvalues?
@@ -29,7 +31,7 @@ for a = 1:numel(artifact)
     end
     
     if strcmp(artifact{a},'eyeblink')
-        SER(8,:) = []; ARR(8,:) = []; pct(8) = []; % remove continuous eyeblinking
+        SER(8,:,:) = []; ARR(8,:,:) = []; pct(8,:) = []; % remove continuous eyeblinking
     end
     
     fig = figure; hold on

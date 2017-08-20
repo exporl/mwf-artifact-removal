@@ -5,7 +5,7 @@ settings = mwfgui_localsettings;
 artifact = 'muscle';
 rank = 'poseig'; % 'full', 'poseig'
 
-Nlags = 10;
+Nlags = 15;
 Nsubj = 10;
 SER = zeros(Nsubj, Nlags+1);
 ARR = zeros(Nsubj, Nlags+1);
@@ -24,7 +24,6 @@ hSER = figure;
 boxplot(SER, 0:Nlags)
 xlabel('Time delay [samples]')
 ylabel('SER [dB]')
-title('SER in function of delays used')
 hold on
 plot(1:Nlags+1,SER.','.--','MarkerSize',10)
 set(gca,'box','off')
@@ -35,7 +34,6 @@ hARR = figure;
 boxplot(ARR, 0:Nlags)
 xlabel('Time delay [samples]')
 ylabel('ARR [dB]')
-title('ARR in function of delays used')
 hold on
 plot(1:Nlags+1,ARR.','.--','MarkerSize',10)
 set(gca,'box','off')

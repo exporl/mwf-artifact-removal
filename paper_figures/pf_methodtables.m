@@ -4,7 +4,7 @@
 clear
 
 artifact = {'eyeblink','muscle'};
-methods = { 'mwf5', 'mwf10', 'mwf15', 'infomax', 'fastica' 'cca'};
+methods = { 'mwfbasic', 'mwf5', 'mwf10', 'mwf15', 'infomax', 'fastica' 'cca'};
 Nsubj = 10;
 Nmeth = numel(methods);
 
@@ -17,6 +17,13 @@ time = zeros(Nsubj, Nmeth);
 
 for a = 1:numel(artifact)
 cache.artifact = artifact{a};
+
+% MWF, no lags and no reduced rank
+[domethod, ind] = ismember('mwfbasic',methods);
+if domethod
+    mwfparams = filter_params('delay', 0, 'rank', 'full');
+    [SER(:,ind), ARR(:,ind), time(:,ind)] = remove_artifacts_allsubjects(artifact{a}, mwfparams);
+end
 
 % MWF, 5 lags
 [domethod, ind] = ismember('mwf5',methods);

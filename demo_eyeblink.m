@@ -18,14 +18,14 @@ redo = 0; % put to 1 if you want to use the eyeballgui to make the mask
 mask = get_artifact_mask(name, artifact, redo);
 
 % set some processing parameters in struct p
-p = filter_params('delay', 100, 'rank', 'poseig');
+p = filter_params('delay', 10, 'rank', 'poseig');
 
 % compute GEVD-MWF for data y
-[w]         = filter_compute(y, mask, p);
+[W]         = filter_compute(y, mask, p);
 
-% apply the computed filter w to data y
-% v and d are resp. clean data and artifact estimate
-[v, d]      = filter_apply(y, w);
+% apply the computed filter W to data y
+% n and d are resp. clean data and artifact estimate
+[n, d]      = filter_apply(y, W);
 
 % compute performance parameters for the artifact removal
 [SER, ARR]  = filter_performance(y, d, mask);
@@ -37,6 +37,6 @@ plot(y(chan,:)); hold on; plot(d(chan,:),'red');
 legend('raw data', 'artifact estimate')
 
 figure
-plot(y(chan,:)); hold on; plot(v(chan,:),'green');
+plot(y(chan,:)); hold on; plot(n(chan,:),'green');
 legend('raw data', 'clean data')
 

@@ -25,7 +25,7 @@ cache.name = get_name(subj);
 [y, Fs] = get_data(subj, artifact);
 mask = get_artifact_mask(subj, artifact);
 
-[v,d,time(subj,2)] = method_infomax_ica(y, Fs, cache);
+[~,d,time(subj,2)] = method_infomax_ica(y, Fs, cache);
 [SER(subj,2), ARR(subj,2)] = filter_performance(y, d, mask);
 end
 
@@ -37,7 +37,7 @@ cache.name = get_name(subj);
 [y, Fs] = get_data(subj, artifact);
 mask = get_artifact_mask(subj, artifact);
 
-[v,d,time(subj,3)] = method_fastica(y, Fs, cache);
+[~,d,time(subj,3)] = method_fastica(y, Fs, cache);
 [SER(subj,3), ARR(subj,3)] = filter_performance(y, d, mask);
 end
 
@@ -48,7 +48,7 @@ cache.name = get_name(subj);
 [y, Fs] = get_data(subj, artifact);
 mask = get_artifact_mask(subj, artifact);
 
-[v,d,time(subj,4)] = method_cca(y, Fs, 1, cache);
+[~,d,time(subj,4)] = method_cca(y, Fs, 1, cache);
 [SER(subj,4), ARR(subj,4)] = filter_performance(y, d, mask);
 end
 

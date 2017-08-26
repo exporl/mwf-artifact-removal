@@ -1,4 +1,4 @@
-function [v, d, t] = method_fastica(y, Fs, cache)
+function [n, d, t] = method_fastica(y, Fs, cache)
 rng(0);
 tic
 [ICAcomps, V, ~] = fastica(y, 'maxNumIterations', 250);
@@ -18,8 +18,8 @@ tic
 V_art = V(:,Idx);
 ARTcomps = ICAcomps(Idx,:);
 d = V_art*ARTcomps;
-v = y-d;
-t = t+toc;
+n = y - d;
+t = t + toc;
 end
 
 

@@ -1,4 +1,4 @@
-function [v, d, t] = method_infomax_ica(y, Fs, cache)
+function [n, d, t] = method_infomax_ica(y, Fs, cache)
 rng(0);
 tic
 [weigth, sphere] = runica(y, 'steps', 256);
@@ -23,6 +23,6 @@ V = inv(W);
 V_art = V(:,Idx);
 ARTcomps = ICAcomps(Idx,:);
 d = V_art*ARTcomps;
-v = y-d;
-t = t+toc;
+n = y - d;
+t = t + toc;
 end

@@ -28,7 +28,7 @@ end
 % Get clean EEG data
 [~, Fs, duration] = get_data(name,'eyeblink');
 params = filter_params('rank', 'poseig', 'delay', 5);
-[~, d, v] = remove_artifacts(name, 'eyeblink', params);
+[~, d, n] = remove_artifacts(name, 'eyeblink', params);
 
 % get normalized spatial distribution estimate of blink
 mask = get_artifact_mask(name, 'eyeblink');
@@ -39,7 +39,7 @@ spatialdist = spatialdist./max(spatialdist);
 blink = getfield(load('blink_template.mat'), 'blink');
 
 % create channel full of eye blinks spaced about 5 seconds apart
-blinkchannel = zeros(1, size(v,2));
+blinkchannel = zeros(1, size(n,2));
 mask = blinkchannel;
 L_blink = size(blink,2);
 S = 5; % an eyeblink is inserted on average every S seconds
@@ -48,7 +48,7 @@ maxscale = 1.5; % maximum eyeblink scaling
 
 rng(0);
 pos = 0.5*S*Fs;
-while pos < size(v,2) - L_blink - 0.5*S*Fs
+while pos < size(n,2) - L_blink - 0.5*S*Fs
     pos = round(pos - 0.5*S*Fs + S*Fs*rand); % randomly shift the blink between [-0.5*S , 0.5*S]
     blinkfactor = minscale + (maxscale-minscale)*rand; % randomly scale blink amplitude
     blinkchannel(1,pos:pos+L_blink-1) = blink*blinkfactor;
@@ -60,11 +60,11 @@ end
 d_art = spatialdist * blinkchannel;
 
 % Scale template such that SNR = 0 for gamma = 1
-Ev2 = mean(v(1,:).^2); % average noise power in channel 1
-SNRfactor = 1/sqrt(mean(d_art(1,:).^2) / Ev2);
+En2 = mean(n(1,:).^2); % average noise power in channel 1
+SNRfactor = 1/sqrt(mean(d_art(1,:).^2) / En2);
 
 % scaling factor gamma will be multiplied with blinks to achieve SNR as defined in paper
-gamma = sqrt((10^(SNR/10)) / (mean((SNRfactor * d_art(1,:)).^2) / Ev2));
+gamma = sqrt((10^(SNR/10)) / (mean((SNRfactor * d_art(1,:)).^2) / En2));
 
 if (nargin < 2) % use realistic amplitudes
     factor = 1;
@@ -73,14 +73,14 @@ else % scale amplitude to reach given SNR
 end
 
 % mix artifacts over channels
-eeg_data = v;
+eeg_data = n;
 eeg_data = eeg_data + d_art * factor;
 
 % check that 
-assert(abs(10*log10(mean((d_art(1,:) * factor).^2) / Ev2) - SNR) < 10^-3) ;
+assert(abs(10*log10(mean((d_art(1,:) * factor).^2) / En2) - SNR) < 10^-3) ;
 
 % keep the approximate SNR of the real data processed at the start
-SNR_realdata = 10*log10(mean(d(1,:).^2) / Ev2);
+SNR_realdata = 10*log10(mean(d(1,:).^2) / En2);
 
 % Save synthetic data and mask to a mat-file (only for realistic SNR)
 if (nargin < 2)

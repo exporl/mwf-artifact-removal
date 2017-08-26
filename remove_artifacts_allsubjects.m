@@ -17,9 +17,9 @@ for i = 1 : N_data;
         continue
     end
     tic
-    [~ ,~ ,~ , w, SER(i), ARR(i)] = remove_artifacts(i, artifact_type, params);
+    [~ ,~ ,~ , W, SER(i), ARR(i)] = remove_artifacts(i, artifact_type, params);
     t(i) = toc;
-    pctkept(i) = rank(w)/size(w,1);
+    pctkept(i) = rank(W)/size(W,1);
 end
 
 end

@@ -20,8 +20,8 @@ params = filter_params('delay', 5, 'rank', 'poseig');
 for i = 1:Nsubj
     for j = 1:Nsnrs
     T   = EEG_data_synthetic(i, SNRs(j));
-    [w]         = filter_compute(T.eeg_data, T.mask, params);
-    [v, d]      = filter_apply(T.eeg_data, w);
+    [W]         = filter_compute(T.eeg_data, T.mask, params);
+    [~, d]      = filter_apply(T.eeg_data, W);
     [SER(i,j), ARRhy(i,j)]  = filter_performance(T.eeg_data, d, T.mask, T.artifact);
     [~, ARRre(i,j)]  = filter_performance(T.eeg_data, d, T.mask);
     end

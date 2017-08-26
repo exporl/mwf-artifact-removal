@@ -8,8 +8,8 @@ mask = get_artifact_mask(1,'muscle');
 
 % Remove artifacts
 p = filter_params('delay', 5, 'rank', 'poseig');
-w = filter_compute(y, mask, p);
-[v, d] = filter_apply(y, w);
+W = filter_compute(y, mask, p);
+[n, d] = filter_apply(y, W);
 
 % Generate figure
 range = 44*200:48*200;
@@ -21,11 +21,11 @@ plot(t,y(34,range)+spacing,'blue') %Fp2
 plot(t,y(35,range),'blue') %AF8
 plot(t,y(36,range)-spacing,'blue') %AF4
 plot(t,y(37,range)-2*spacing,'blue') %AFz
-leg2 = plot(t,v(33,range)+2*spacing,'green');
-plot(t,v(34,range)+spacing,'green')
-plot(t,v(35,range),'green')
-plot(t,v(36,range)-spacing,'green')
-plot(t,v(37,range)-2*spacing,'green')
+leg2 = plot(t,n(33,range)+2*spacing,'green');
+plot(t,n(34,range)+spacing,'green')
+plot(t,n(35,range),'green')
+plot(t,n(36,range)-spacing,'green')
+plot(t,n(37,range)-2*spacing,'green')
 
 % legend and axis labels
 legend([leg1, leg2],'Original','Filtered')

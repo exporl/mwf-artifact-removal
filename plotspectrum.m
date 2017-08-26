@@ -1,4 +1,4 @@
-% Utility function: plot signal alongside it's frequency spectrum
+% Utility function: plot signal alongside its frequency spectrum
 %
 % Input:    signal - 1D timesignal
 %           Fs - samplerate of signal

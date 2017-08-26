@@ -8,14 +8,14 @@ artifact = 'eyeblink';
 [y, ~,~] = get_data(name, artifact);
 mask = get_artifact_mask(name, artifact);
 p = filter_params('delay', 5);
-[w1, GEVL] = filter_compute(y, mask, p);
+[W1, GEVL] = filter_compute(y, mask, p);
 lambda_eyeblink = diag(GEVL);
 
 artifact = 'muscle';
 [y, ~,~] = get_data(name, artifact);
 mask = get_artifact_mask(name, artifact);
 p = filter_params('delay', 5);
-[w2, GEVL] = filter_compute(y, mask, p);
+[W2, GEVL] = filter_compute(y, mask, p);
 lambda_muscle = diag(GEVL);
 
 h = figure;
@@ -24,7 +24,7 @@ hold on
 plot((lambda_muscle-1),'linewidth',2);
 xlabel('GEVL number')
 ylabel('GEVLs')
-xlim([-3; size(w1,1)+3])
+xlim([-3; size(W1,1)+3])
 ylim([-1; 160])
 legend('Eye blink artifacts','Eye blink & muscle artifacts')
 set(gca,'box','off')

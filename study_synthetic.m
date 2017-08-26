@@ -9,8 +9,8 @@ ARR = zeros(Nsubj, 1);
 params = filter_params('delay', 10, 'rank', 'poseig');
 for i = 1:Nsubj
     [y, mask, ~, ~] = get_data_synthetic(i);
-    [w]         = filter_compute(y, mask, params);
-    [v, d]      = filter_apply(y, w);
+    [W]         = filter_compute(y, mask, params);
+    [~, d]      = filter_apply(y, W);
     [SER(i), ARR(i)]  = filter_performance(y, d, mask);
 end
 
@@ -18,13 +18,13 @@ end
 subj = 3;
 params = filter_params('delay', 10, 'rank', 'poseig');
 [y, mask, blinkchannel, spatialdist_gt] = get_data_synthetic(subj);
-[w] = filter_compute(y, mask, params);
-[v, d] = filter_apply(y, w);
+[W] = filter_compute(y, mask, params);
+[n, d] = filter_apply(y, W);
 [SER, ARR]  = filter_performance(y, d, mask);
 
 % ground truths
 d_gt = spatialdist_gt*blinkchannel;
-v_gt = y - d_gt;
+n_gt = y - d_gt;
 
 % estimated spatial distribution of artifacts
 spatialdist_est = std(d(:,mask==1),[],2);
@@ -41,7 +41,7 @@ plot(d_gt(1,:),'red')
 figure;
 plot(y(1,:))
 hold on;
-plot(v(1,:),'red')
+plot(n(1,:),'red')
 
 %% do rank study for synthetic data
 rank_pct = [1, 5:5:100];
@@ -49,8 +49,8 @@ for j = 1:numel(rank_pct)
     params = filter_params('delay',5,'rank','pct','rankopt',rank_pct(j));    
     for i = 1:Nsubj
         [y, mask, blinkchannel, spatialdist_gt] = get_data_synthetic(i);
-        [w]         = filter_compute(y, mask, params);
-        [v, d]      = filter_apply(y, w);
+        [W]         = filter_compute(y, mask, params);
+        [n, d]      = filter_apply(y, W);
         [SER(i,j), ARR(i,j)]  = filter_performance(y, d, mask);
     end
 end

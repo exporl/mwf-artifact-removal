@@ -1,4 +1,4 @@
-function [v, d, t] = method_cca(y, Fs, Nlags, cache)
+function [n, d, t] = method_cca(y, Fs, Nlags, cache)
 tic
 [CCAcomps, ~, V] = cca(y, Nlags);
 t = toc;
@@ -17,8 +17,8 @@ tic
 V_art = V(:,Idx);
 ARTcomps = CCAcomps(Idx,:);
 d = V_art*ARTcomps;
-v = y-d;
-t = t+toc;
+n = y - d;
+t = t + toc;
 end
 
 function [CCAcomps, W, V] = cca(y, Nlags)

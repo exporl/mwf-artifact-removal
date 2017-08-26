@@ -1,14 +1,14 @@
-% Apply a pre-computed Multi-channel Wiener Filter on a multi-channel EEG
-% signal y. The outputs are artifact estimate d and filtered signal v.
+% Apply a pre-computed Multi-channel Wiener Filter W on a multi-channel EEG
+% signal y. The outputs are artifact estimate d and filtered signal n.
 %
-% If time delays y were incorporated in the computation of filter w, there
-% will be a size mismatch between y and w. Before the filter can be
+% If time delays were incorporated in the computation of filter W, there
+% will be a size mismatch between y and W. Before the filter can be
 % applied, delays have to be introduced again in the channels of y.
 
-function [v, d] = filter_apply(y, w)
+function [n, d] = filter_apply(y, W)
 
 M = size(y,1);
-M_s = size(w,1);
+M_s = size(W,1);
 
 tau = (M_s - M) / (2 * M);
 if mod(tau,1) ~= 0
@@ -20,9 +20,9 @@ end
 
 % compute artifact estimate for original channels of y
 orig_chans = tau * M+1 : (tau+1) * M;
-d = w(:, orig_chans).' * y_s;
+d = W(:, orig_chans).' * y_s;
 
 % subtract artifact estimate from data
-v = y - d;
+n = y - d;
 
 end

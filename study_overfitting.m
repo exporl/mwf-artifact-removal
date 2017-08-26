@@ -15,8 +15,8 @@ train_params = filter_params('delay',tau,'train_len',trdur);
 for i = 1:Nsubj
     [y, ~, ~]   = get_data(i, artifact);
     mask        = get_artifact_mask(i, artifact);
-    [w]         = filter_compute(y, mask, train_params);
-    [v, d]      = filter_apply(y, w);
+    [W]         = filter_compute(y, mask, train_params);
+    [~, d]      = filter_apply(y, W);
     
     % split y and d in training/nontraining segments
     train_samples = train_params.train_len * train_params.srate;

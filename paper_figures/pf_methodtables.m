@@ -54,7 +54,7 @@ if domethod
         cache.name = get_name(subj);
         [y, Fs] = get_data(subj, artifact{a});
         mask = get_artifact_mask(subj, artifact{a});
-        [v,d,time(subj,ind)] = method_infomax_ica(y, Fs, cache);
+        [n,d,time(subj,ind)] = method_infomax_ica(y, Fs, cache);
         [SER(subj,ind), ARR(subj,ind)] = filter_performance(y, d, mask);
         rng('default')
     end
@@ -68,7 +68,7 @@ if domethod
         cache.name = get_name(subj);
         [y, Fs] = get_data(subj, artifact{a});
         mask = get_artifact_mask(subj, artifact{a});
-        [v,d,time(subj,ind)] = method_fastica(y, Fs, cache);
+        [n,d,time(subj,ind)] = method_fastica(y, Fs, cache);
         [SER(subj,ind), ARR(subj,ind)] = filter_performance(y, d, mask);
     end
 end
@@ -81,7 +81,7 @@ if domethod
         cache.name = get_name(subj);
         [y, Fs] = get_data(subj, artifact{a});
         mask = get_artifact_mask(subj, artifact{a});
-        [v,d,time(subj,ind)] = method_cca(y, Fs, 1, cache);
+        [n,d,time(subj,ind)] = method_cca(y, Fs, 1, cache);
         [SER(subj,ind), ARR(subj,ind)] = filter_performance(y, d, mask);
     end
 end

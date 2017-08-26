@@ -15,29 +15,29 @@ function [SER, ARR] = filter_performance(y, d, mask, d_real)
 % Good artifact removal is indicated by high SER and high ARR
 
 % Segmentation of data using mask
-y_clean     = y(:, mask==0).';
-y_corrupt   = y(:, mask==1).';
-d_clean     = d(:, mask==0).';
-d_corrupt   = d(:, mask==1).';
+Y_c     = y(:, mask==0).'; % clean EEG segments
+Y_a     = y(:, mask==1).'; % artifact EEG segments
+D_c     = d(:, mask==0).'; % estimated artifact, clean segments
+D_a     = d(:, mask==1).'; % estimated artifact, artifact segments
 if nargin > 3
-    d_real_corrupt = d_real(:,mask==1).';
+    D_a_real = d_real(:,mask==1).';
 else
-    d_real_corrupt = y_corrupt; % approximation for real data
+    D_a_real = Y_a; % approximation for real data
 end
 
 % Compute weights [0..1] according to artifact power per channel
-p = var(y_corrupt) - var(y_clean);
+p = var(Y_a) - var(Y_c);
 p(p < 0) = 0;
 p = p / sum(p);
 
 % SER
-SER_pc = 10*log10(var(y_clean) ./ var(d_clean)); % SER per channel
-SER_w = SER_pc .* p; % SER per channel (weighted)
+SER_i = 10*log10(var(Y_c) ./ var(D_c)); % SER per channel
+SER_w = SER_i .* p; % SER per channel (weighted)
 SER = sum(SER_w); % Total SER (weighted average)
 
 % ARR
-ARR_pc = 10*log10(var(d_real_corrupt) ./ var(d_real_corrupt - d_corrupt)); % ARR per channel
-ARR_w = ARR_pc .* p; % ARR per channel (weighted)
+ARR_i = 10*log10(var(D_a_real) ./ var(D_a_real - D_a)); % ARR per channel
+ARR_w = ARR_i .* p; % ARR per channel (weighted)
 ARR = sum(ARR_w); % Total ARR (weighted average)
 
 end

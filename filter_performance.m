@@ -1,18 +1,24 @@
-function [SER, ARR] = filter_performance(y, d, mask, d_real)
-
-% filter_performance takes multichannel eeg data y, and the multichannel 
-% artifact estimate d, and computes the performance parameters SER and ARR 
-% based on those. Furthermore, the function needs the artifact mask to 
-% compute the clean and corrupted regions.
-
-% SER = Signal-to-Error Ratio
-% Measures alteration of EEG signal in parts without artifact
-
-% ARR = Artifact-to-Residu Ratio
-% Measures artifact estimate in parts with artifacts. If the ground truth
-% artifact signal (d_real) is not known, it is approximated by y.
-
+% Compute artifact removal performance measures SER and ARR. 
+% If the real, ground truth artifact is known and given as 4th argument, 
+% the real ARR can be computed. Otherwise, the artifact is approximated by
+% the raw data. SER and ARR are expressed in dB.
+%
 % Good artifact removal is indicated by high SER and high ARR
+%
+% INPUTS:
+%   y       raw EEG data (channels x samples)
+%   d       estimated artifacts in every channel (channels x samples)
+%   mask    markings of artifacts in y (1 x samples)
+%   d_real  [optional] ground truth artifact signal (channels x samples)
+%
+% OUTPUTS: 
+%   SER     Signal to Error Ratio, measures clean EEG distortion
+%   ARR     Artifact to Residue Ratio, measures artifact estimation
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
+
+function [SER, ARR] = filter_performance(y, d, mask, d_real)
 
 % Segmentation of data using mask
 Y_c     = y(:, mask==0).'; % clean EEG segments

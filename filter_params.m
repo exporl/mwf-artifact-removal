@@ -1,8 +1,46 @@
-% Create struct with parameters for processing data with MWF. 
-% Non-specified parameters are set to a default value. Inputs must be given
-% as name/value pairs, e.g. 
+% Create struct with parameters regarding MWF data processing.
+% Parameters can be entered using <key>-<value> pairs as inputs to the
+% filter_params function. Parameters that are not specified are set to the
+% devault value.
+%
+% INPUTS:
+%   <key>-<value> pairs (see below)
+%
+% OUTPUTS: 
+%   p        MWF parameter struct
+%
+% KEY - VALUE PAIRS
+%   delay       number of time lags to include in MWF (positive integer or 0)
+%   rank        decides how the rank for the MWF should be set
+%               'full':     use full rank MWF (don't use GEVD)
+%               'poseig':   use GEVD, only retain positive eigenvalues
+%               'pct':      use GEVD, only retain x% of eigenvalues
+%               'first':    use GEVD, only retain x eigenvalues
+%   rankopt     additional rank options, required if rank is 'pct' or 'first'
+%               'pct': specify the percentage of eigenvalues to keep (0-100)
+%               'first': specify the number of eigenvalues to keep (positive integer)
+%   mu          noiseweighting factor (default = 1)
+%   train_len   length of training sequence in seconds (0 = don't use training set)
+%   srate       EEG sample rate in Hz
 % 
+% EXAMPLES
 %   p = filter_params('delay', 5, 'rank', 'full')
+%   creates settings for an MWF using 5 time lags and without GEVD
+%
+%   p = filter_params('delay', 10, 'rank', 'poseig')
+%   creates settings for an MWF using 10 time lags, using GEVD where only
+%   positive eigenvalues are kept
+%   
+%   p = filter_params('rank', 'pct', 'rankopt', 50)
+%   creates settings for an MWF using GEVD where only 50% of eigenvalues is
+%   kept. No time delays are used (default = 0).
+%
+%   p = filter_params('train_len', 30, 'mu', 2)
+%   creates settings for a noise-weighted MWF which will be trained on the
+%   first 30 seconds of the provided data, with noise-weighting factor 2.
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
 
 function p = filter_params(varargin)
 

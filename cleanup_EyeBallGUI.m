@@ -1,5 +1,8 @@
 % Remove generated backup and initialization files created by EyeBallGUI 
 % in the current working directory.
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
 
 function cleanup_EyeBallGUI
 

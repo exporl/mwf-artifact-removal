@@ -1,8 +1,16 @@
-function [name] = get_name(id)
-% Return one of the 10 subject names, depending on index id.
+% Retrieve subject identifier from numerical index. This allows to specify
+% subjects as number from 1-10 for easier handling in code (looping,...).
 %
-% The names are ordered alphabetically:
-% alex, anneleen, hanneke, jan-peter, jeroen, jonas, lorenz, olivia, otto, steven
+% INPUTS:
+%   id      numerical index corresponding to subject
+%
+% OUTPUTS: 
+%   name    subject identifier (string)
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
+
+function [name] = get_name(id)
 
 switch id
     case 1

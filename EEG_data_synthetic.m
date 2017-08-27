@@ -1,19 +1,25 @@
-% Create synthetic EEG data corrupted with eye blink artifacts
+% Create hybrid EEG data containing artificial eye blink artifacts 
+% corresponding to the given name input, and with specified artifact SNR.
 %
-% Synthetic data is created from the eye blink artifact measurements. The
+% The hybrid data is created from the eye blink artifact measurements. The
 % data is cleaned of eye blink artifacts using the GEVD-MWF. Eye blink
 % artifact templates are then added across the channels with a realistic
-% spatial distribution. The synthetic data and the mask are saved.
-% 
-% INPUT:    - name (or index) of EEG data subject.
-%           - SNR (optional): desired SNR of artifacts relative
-%           to clean EEG. Default SNR is 0 (i.e. "normal" artifact scaling)
+% spatial distribution derived from real measurements. The hybrid data and 
+% the ground truth artifact information are to cache and optionally
+% returned as output.
 %
-% OUTPUT:   - EEG data as channels x samples, saved in the EEG_data_synthetic
-%           folder in the format <name>_synthetic.mat
-%           - If output is requested, the same data is returned in struct T
+% The cache directory to write is set by mwfgui_localsettings.m
 %
-% Also saves the working sample rate Fs and measurement duration.
+% INPUTS:
+%   name    subject identifier (string)
+%   SNR     artifact SNR of resulting hybrid data
+%
+% OUTPUTS: 
+%   T       [optional] struct containing ground truth information about
+%           artificial eye blink artifacts added to EEG data.
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
 
 function T = EEG_data_synthetic(name, SNR)
 

@@ -1,20 +1,22 @@
+% Retrieve the EEG data corresponding to the given name/artifact inputs. 
+% If no EEG data is present in the cache, the data will be read out from 
+% the raw bdf files and stored in the cache.
+%
+% The cache directory to read/write is set by mwfgui_localsettings.m
+%
+% INPUTS:
+%   name        subject identifier (string)
+%   artifact    artifact type specifier (string)
+%
+% OUTPUTS: 
+%   eeg_data    raw eeg data with artifacts (channels x samples)
+%   Fs          EEG data sample rate
+%   duration    EEG data recording duration in seconds
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
+
 function [eeg_data, Fs, duration] = get_data(name, artifact)
-% Return a dataset for subject 'name' in artifact condition 'artifact'.
-%
-% If the data has been read and saved before using EEG_data_readout, the
-% data is just loaded from the saved struct. If the name/artifact pair has
-% no associated save file yet, it's created in the EEG_data_readout folder.
-%
-% name is expected to be either a string name or integer representing the
-% alphabetical order of the 10 names.
-% alex, anneleen, hanneke, jan-peter, jeroen, jonas, lorenz, olivia, otto, steven
-%
-% artifact is expected to be one of the following:
-% eyeblink, muscle, speech, movement, mix
-%
-% output values are eeg_data in channels x samples format, sample rate and
-% duration of the EEG data measurement
-%
 
 if (isa(name,'double'))
     name = get_name(name);

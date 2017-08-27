@@ -1,13 +1,15 @@
-% Read out the EEG data corrupted with artifacts
-% 
-% INPUT: artifacted .bdf files for the 10 test subjects, referenced by both
-% a name and the artifact type
+% Read out raw EEG data containing artifacts corresponding to the given 
+% name/artifact inputs from bdf files. The result is stored in the cache.
 %
-% OUTPUT: EEG data as channels x samples, saved in the EEG_data_readout 
-% folder in the format <name>_<artifact_type>.mat. 
+% The cache directory to read/write and the cache directory with raw bdf 
+% files is set by mwfgui_localsettings.m.
 %
-% Also saves the working sample rate Fs and measurement duration.
+% INPUTS:
+%   name        subject identifier (string)
+%   artifact    artifact type specifier (string)
 %
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
 
 function EEG_data_readout(name, artifact)
 settings = mwfgui_localsettings;
@@ -46,7 +48,9 @@ eeg_data(refchan,:) = [];
 % Save the structure and resampled frequency to a mat-file
 save(fullfile(settings.savedatapath,[name '_' artifact '.mat']),'eeg_data','Fs','duration');
 
+end
 
+% Transform bdf naming to artifact names used in this toolbox
 function [artifact_file] = artifactBDFname(artifact)
 
 switch artifact

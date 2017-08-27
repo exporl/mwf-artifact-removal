@@ -1,38 +1,33 @@
-% Create mask for artifacts in an EEG measurement, specified by subject
-% name and artifact type. 
+% Retrieve an artifact mask for the EEG data corresponding to the given
+% name/artifact inputs. If no mask is present or the "redo" flag is set, a
+% new mask will be created and stored in the cache.
 %
-% The argument redo can be specified to indicate if the has to be redone
-% (for example if a bad marking was saved).
+% The cache directory to read/write is set by mwfgui_localsettings.m
 %
-% INPUT:
-%        name - Name of subject. Used in search for corresponding files.
-%        artifact - Type of artifact
-%        redo - 0 - If a corresponding mask is already present, always load that one
-%               1 - redo the mask, regardless of whether it exists already
-%        mode - Input to specify which tool to use to mark artifacts
-%               mode = 0 - EyeBallGUI
-%               mode = 1 - EEGLAB
-% OUTPUT:
-%        mask - All 0 in artifact-free segments, and 1 in marked artifact 
-%               segments.
+% INPUTS:
+%   name        subject identifier (string)
+%   artifact    artifact type specifier (string)
+%   redo        flag:   if 1, a new mask will always be generated
+%                       if 0, a new mask is generated only if no cache is present
+%   mode        GUI/toolbox to use for artifact marking
+%                       0: EyeBallGUI
+%                       1: EEGLAB (eegplot)
 %
-% Remarks: Masks are returned as output and saved in the EEG_artifact_masks 
-%          folder. This function generates the masks using the EyeBallGUI 
-%          or EEG Lab. The purpose of saving them is so they can easily be 
-%          reused in the MWF analysis scripts without having to remark the 
-%          artifacts for every EEG dataset.
-% Used toolboxes:
-%                   EEGLab     : https://sccn.ucsd.edu/eeglab/
-%                   EyeBallGUI : http://eyeballgui.sourceforge.net
+% OUTPUTS: 
+%   mask    markings of artifacts in y (1 x samples)
+%           The mask contains 1's in marked artifact segments and 0's elsewhere.
 %
-% Owner of Code : KU Leuven
-% Developer of Code : Ben Somers 
-% Contact Persons : Ben Somers (ben.somers1@kuleuven.be)
+% Toolbox references:
+%   EEGLab: https://sccn.ucsd.edu/eeglab/
+%   EyeBallGUI: http://eyeballgui.sourceforge.net
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
 
 function [mask] = get_artifact_mask(name, artifact, redo, mode)
 
 if (nargin <3)
-    redo = 0; %default: load existing mask
+    redo = 0; % default: attempt to load existing mask from cache
 end
 if (nargin < 4)
     mode = 1; % default: EEGLAB

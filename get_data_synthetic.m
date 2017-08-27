@@ -1,18 +1,24 @@
+% Retrieve the hybrid EEG data with artificial eye blink artifact 
+% corresponding to the given name input. If no hybrid EEG data is present 
+% in the cache, the data will be generated and stored in the cache.
+%
+% The cache directory to read/write is set by mwfgui_localsettings.m
+%
+% INPUTS:
+%   name        subject identifier (string)
+%
+% OUTPUTS: 
+%   eeg_data    raw eeg data with artificial artifacts (channels x samples)
+%   mask        ground truth mask with artifact locations (1 x samples)
+%   blinkchannel  ground truth single-channel artifact (1 x samples)
+%   spatialdist   ground truth spatial mixing vector (channels x 1)
+%   Fs          EEG data sample rate
+%   duration    EEG data recording duration in seconds
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
+
 function [eeg_data, mask, blinkchannel, spatialdist, Fs, duration] = get_data_synthetic(name)
-% Return a synthetic dataset for subject 'name'.
-%
-% name is expected to be either a string name or integer representing the
-% alphabetical order of the 10 names.
-% alex, anneleen, hanneke, jan-peter, jeroen, jonas, lorenz, olivia, otto, steven
-%
-% output values are 
-% - eeg_data in channels x samples format, 
-% - ground truth artifact locations
-% - ground truth one-dimensional artifact signal
-% - ground truth spatial artifact mixing vector
-% - sample rate 
-% - duration of the EEG data measurement
-%
 
 if (isa(name,'double'))
     name = get_name(name);

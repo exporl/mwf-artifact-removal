@@ -1,4 +1,16 @@
-% Copy & paste this file and set the paths to your corresponding system folders
+% Return local system directories for reading/writing cached EEG data.
+%
+% INSTRUCTIONS:
+%  - make a copy of this template and rename it mwfgui_localsettings.m
+%  - make sure that the copy is on the Matlab path
+%  - change the file paths in this file to your local system directories
+%       where you'd like to cache the EEG data.
+%
+% OUTPUTS: 
+%   settings    struct containing local directory paths
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
 
 function settings = mwfgui_localsettings
 

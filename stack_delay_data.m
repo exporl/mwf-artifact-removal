@@ -1,5 +1,21 @@
-% Construct stacked multichannel signal y_s consisting of multiple
-% time-delayed versions of input y.
+% Sort a set of eigenvectors and eigenvalues in descending order.
+%
+% The eigenvectors and eigenvalues are permutated in the same way to ensure
+% corresponding eigenvalues/eigenvectors correspond in the sorted result.
+%
+% INPUTS:
+%   y       raw EEG data (channels x samples)
+%   delay   maximum time delay to include
+%   singlesided     [default 0] use single sided or double sided delays
+%                   if 1, use only positive time delays up to 'delay'
+%                   if 0, use positive and negative time delays up to 'delay'
+%
+% OUTPUTS: 
+%   y_s     raw EEG data, included delayed versions (channels x samples)
+%   M_s     number of channels in y_s
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
 
 function [y_s, M_s] = stack_delay_data(y, delay, singlesided)
 

@@ -1,4 +1,12 @@
-% save figure as pdf cropped to content size
+% Print generated figure to pdf.
+%
+% INPUTS:
+%   h       figure handle
+%   name    pdf file name
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
+
 function pf_printpdf(h, name)
 
 if ~strcmp(h.Renderer,'painters')

@@ -1,6 +1,7 @@
 # exclude folders including only .mat files
 EEG_data_readout/
 EEG_artifact_masks/
+EEG_data_synthetic/
 
 # local matlab settings
 *_localsettings.m

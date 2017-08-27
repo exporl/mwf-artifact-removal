@@ -80,5 +80,5 @@ end
 function initialize_component_cache
     fprintf('Initializing new cache for components... \n');
     cached_components = struct;
-    save('method_cached_components_test.mat', 'cached_components');
+    save('method_cached_components.mat', 'cached_components');
 end

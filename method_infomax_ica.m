@@ -1,3 +1,18 @@
+% Perform Independent Component Analsyis (infomax) for artifact removal.
+%
+% INPUTS:
+%   y       raw EEG data (channels x samples)
+%   Fs      EEG data sample rate
+%   cache   data identifier struct to retrieve cached components
+%
+% OUTPUTS: 
+%   n       filtered EEG data (channels x samples)
+%   d       estimated artifacts in every channel (channels x samples)
+%   t       computation time (seconds)
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
+
 function [n, d, t] = method_infomax_ica(y, Fs, cache)
 rng(0);
 tic

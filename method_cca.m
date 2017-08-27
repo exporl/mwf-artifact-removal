@@ -1,3 +1,19 @@
+% Perform Canonical Correlation Analysis for artifact removal.
+%
+% INPUTS:
+%   y       raw EEG data (channels x samples)
+%   Fs      EEG data sample rate
+%   Nlags   number of CCA time lags to use
+%   cache   data identifier struct to retrieve cached components
+%
+% OUTPUTS: 
+%   n       filtered EEG data (channels x samples)
+%   d       estimated artifacts in every channel (channels x samples)
+%   t       computation time (seconds)
+%
+% Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
+% Correspondence: ben.somers@med.kuleuven.be
+
 function [n, d, t] = method_cca(y, Fs, Nlags, cache)
 tic
 [CCAcomps, ~, V] = cca(y, Nlags);

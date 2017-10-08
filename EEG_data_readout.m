@@ -67,5 +67,7 @@ switch artifact
     otherwise
         error('Error: Specified artifact type not found')
 end
+end
+
 
 

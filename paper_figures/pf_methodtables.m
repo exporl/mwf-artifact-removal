@@ -3,8 +3,8 @@
 
 clear
 
-artifact = {'eyeblink','muscle'};
-methods = { 'mwfbasic', 'mwf5', 'mwf10', 'mwf15', 'infomax', 'fastica' 'cca'};
+artifact = {'eyeblink', 'muscle'};
+methods = { 'MWF', 'MWF-GEVD', 'ICA-infomax', 'fastICA' 'CCA'};
 Nsubj = 10;
 Nmeth = numel(methods);
 
@@ -19,14 +19,14 @@ for a = 1:numel(artifact)
 cache.artifact = artifact{a};
 
 % MWF, no lags and no reduced rank
-[domethod, ind] = ismember('mwfbasic',methods);
+[domethod, ind] = ismember('MWF',methods);
 if domethod
     mwfparams = filter_params('delay', 0, 'rank', 'full');
     [SER(:,ind), ARR(:,ind), time(:,ind)] = remove_artifacts_allsubjects(artifact{a}, mwfparams);
 end
 
 % MWF, 5 lags
-[domethod, ind] = ismember('mwf5',methods);
+[domethod, ind] = ismember('MWF-GEVD',methods);
 if domethod
     mwfparams = filter_params('delay', 5, 'rank', 'poseig');
     [SER(:,ind), ARR(:,ind), time(:,ind)] = remove_artifacts_allsubjects(artifact{a}, mwfparams);
@@ -39,7 +39,7 @@ if domethod
     [SER(:,ind), ARR(:,ind), time(:,ind)] = remove_artifacts_allsubjects(artifact{a}, mwfparams);
 end
 
-% MWF, 20 lags
+% MWF, 15 lags
 [domethod, ind] = ismember('mwf15',methods);
 if domethod
     mwfparams = filter_params('delay', 15, 'rank', 'poseig');
@@ -47,7 +47,7 @@ if domethod
 end
 
 % infomax ICA
-[domethod, ind] = ismember('infomax',methods);
+[domethod, ind] = ismember('ICA-infomax',methods);
 if domethod
     cache.method = 'infomax';
     for subj = 1:Nsubj
@@ -61,7 +61,7 @@ if domethod
 end
 
 % fastICA
-[domethod, ind] = ismember('fastica',methods);
+[domethod, ind] = ismember('fastICA',methods);
 if domethod
     cache.method = 'fastica';
     for subj = 1:Nsubj
@@ -74,7 +74,7 @@ if domethod
 end
 
 % CCA
-[domethod, ind] = ismember('cca',methods);
+[domethod, ind] = ismember('CCA',methods);
 if domethod
     cache.method = 'cca';
     for subj = 1:Nsubj
@@ -85,6 +85,9 @@ if domethod
         [SER(subj,ind), ARR(subj,ind)] = filter_performance(y, d, mask);
     end
 end
+
+% print figure
+pf_methodcomparison(artifact{a}, methods, SER, ARR, time)
 
 switch artifact{a}
     case 'eyeblink'

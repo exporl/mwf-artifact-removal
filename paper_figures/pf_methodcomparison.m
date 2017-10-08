@@ -6,7 +6,7 @@ switch artifact
         offset = [-5, 0, 0];
     case 'muscle'
         selectsubject = 1:10;
-        offset = [-12, 0, 0];
+        offset = [-12, -0.5, 0];
     otherwise
         error('Error: invalid artifact specifier');
 end
@@ -90,6 +90,7 @@ end
 % make axis
 axL = gca;
 ylabel('SER and ARR [dB]')
+set(axL, 'YLim', [0 25]);
 
 axR = axes('XAxisLocation','top',...
 'YAxisLocation','right',...

@@ -19,9 +19,9 @@ p = filter_params('delay', 5);
 lambda_muscle = diag(GEVL);
 
 h = figure;
-plot((lambda_eyeblink-1),'linewidth',2);
+plot((lambda_eyeblink-1),'b','linewidth',2);
 hold on
-plot((lambda_muscle-1),'linewidth',2);
+plot((lambda_muscle-1),'r','linewidth',2);
 xlabel('GEVL number')
 ylabel('GEVLs')
 xlim([-3; size(W1,1)+3])

@@ -21,7 +21,7 @@ ARR(:,delay+1) = A;
 end
 
 hSER = figure;
-boxplot(SER, 0:Nlags)
+boxplot(SER, 0:Nlags, 'Colors', 'k')
 xlabel('Time delay [samples]')
 ylabel('SER [dB]')
 hold on
@@ -31,7 +31,7 @@ pf_printpdf(hSER, fullfile(settings.figurepath,'timelag_SER'))
 close(hSER)
 
 hARR = figure;
-boxplot(ARR, 0:Nlags)
+boxplot(ARR, 0:Nlags, 'Colors', 'k')
 xlabel('Time delay [samples]')
 ylabel('ARR [dB]')
 hold on

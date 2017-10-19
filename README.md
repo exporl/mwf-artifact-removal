@@ -1,4 +1,14 @@
-### MATLAB CODE FOR MWF-BASED EEG ARTIFACT REMOVAL ###
+# MATLAB CODE FOR MWF-BASED EEG ARTIFACT REMOVAL
+
+## License
+
+See the [LICENSE](LICENSE.md) file for license rights and limitations. 
+By downloading and/or installing this software and associated files on your computing system you agree to use the software under the terms and condition as specified in the License agreement.
+
+
+## Manual
+
+(to be updated soon)
 
 Required toolboxes:
  - EyeBallGUI (if you need to create masks)
@@ -23,7 +33,7 @@ The functions are currently built to work on a closed dataset of ~10 subjects wi
 The files starting with 'study' are scripts using the various functions to explore parameter settings and create graphs.
 
 
-### HOW TO USE THE GUI FOR CREATING THE ARTIFACT MASK ###
+### HOW TO USE THE GUI FOR CREATING THE ARTIFACT MASK
 
 The eyeballGUI use is implemented in get_artifact_mask.m. 
 

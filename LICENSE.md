@@ -14,7 +14,7 @@ This Software was developed by the research groups STADIUS, Dept. of Electrical 
 
 2.1 As long as you qualify as an Academic User, KU LEUVEN hereby grants you a royalty-free, non-exclusive, non-transferable, time limited license to the Software supplied by KU LEUVEN for internal, non-commercial research use only. You acknowledge and agree that you may not use the Software for commercial purpose without first obtaining a commercial license from KU LEUVEN. 
 
-2.2 For the purposes of this Agreement "use for commercial purposes" shall include the use or transfer of the Software for a consideration as well as the use of the Software to support commercial activities including providing  services with the Software to third parties. Any use of Software for commercial purposes without first obtaining a license from KU LEUVEN shall be deemed a breach of this Agreement for which KU LEUVEN shall be entitled to whatever remedies it may have under law or equity, including recovery of consequential damages.
+2.2 For the purposes of this Agreement "use for commercial purposes" shall include the use or transfer of the Software for a consideration as well as the use of the Software to support commercial activities including providing services with the Software to third parties. Any use of Software for commercial purposes without first obtaining a license from KU LEUVEN shall be deemed a breach of this Agreement for which KU LEUVEN shall be entitled to whatever remedies it may have under law or equity, including recovery of consequential damages.
 
 2.3 You shall not sublicense any of your rights to the Software. Neither will you transfer the Software to a third party, unless prior written agreement of KU LEUVEN has been obtained. 
 

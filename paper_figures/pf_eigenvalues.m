@@ -29,5 +29,5 @@ ylim([-1; 160])
 legend('Eye blink artifacts','Eye blink & muscle artifacts')
 set(gca,'box','off')
 
-pf_printpdf(h, fullfile(settings.figurepath,'eigenvalues'))
+pf_printpdf(h, fullfile(settings.figurepath,'eigenvalues'), 'eps')
 close(h)

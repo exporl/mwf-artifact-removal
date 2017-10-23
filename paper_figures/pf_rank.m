@@ -49,7 +49,7 @@ for a = 1:numel(artifact)
     xlabel('Percent of eigenvalues kept [%]')
     ylabel('SER and ARR [dB]')
     ylim([0 25])
-    pf_printpdf(fig, fullfile(settings.figurepath,['rank_SER_ARR_' artifact{a}]))
+    pf_printpdf(fig, fullfile(settings.figurepath,['rank_SER_ARR_' artifact{a}]), 'eps')
     close(fig)
     
 end

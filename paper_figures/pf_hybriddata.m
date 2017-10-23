@@ -48,6 +48,6 @@ ylabel('SER and ARR [dB]')
 xlim([SNRs(1) SNRs(end)])
 ylim([-10 35])
 set(gca,'XTick',SNRs);
-pf_printpdf(fig, fullfile(settings.figurepath,'hybrid_SER_ARR'))
+pf_printpdf(fig, fullfile(settings.figurepath,'hybrid_SER_ARR'), 'eps')
 close(fig)
 

@@ -27,7 +27,7 @@ ylabel('SER [dB]')
 hold on
 plot(1:Nlags+1,SER.','.--','MarkerSize',10)
 set(gca,'box','off')
-pf_printpdf(hSER, fullfile(settings.figurepath,'timelag_SER'))
+pf_printpdf(hSER, fullfile(settings.figurepath,'timelag_SER'), 'eps')
 close(hSER)
 
 hARR = figure;
@@ -37,5 +37,5 @@ ylabel('ARR [dB]')
 hold on
 plot(1:Nlags+1,ARR.','.--','MarkerSize',10)
 set(gca,'box','off')
-pf_printpdf(hARR, fullfile(settings.figurepath,'timelag_ARR'))
+pf_printpdf(hARR, fullfile(settings.figurepath,'timelag_ARR'), 'eps')
 close(hARR)

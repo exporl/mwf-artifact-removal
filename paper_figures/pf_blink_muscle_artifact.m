@@ -45,5 +45,5 @@ plot([0.18 0.22],[-120 -120],'k-')
 text(0.24,-70,'100 \muV')
 
 % Save figure
-pf_printpdf(h, fullfile(settings.figurepath,'muscle_eyeblink'))
+pf_printpdf(h, fullfile(settings.figurepath,'muscle_eyeblink'), 'eps')
 close(h)

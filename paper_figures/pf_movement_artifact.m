@@ -47,5 +47,5 @@ plot([0.45 0.55],[-120 -120],'k-')
 text(0.6,-70,'100 \muV')
 
 % Save figure
-pf_printpdf(h, fullfile(settings.figurepath,'movement'))
+pf_printpdf(h, fullfile(settings.figurepath,'movement'), 'eps')
 close(h)

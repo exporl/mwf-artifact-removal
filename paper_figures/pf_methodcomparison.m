@@ -24,7 +24,14 @@ stddata = [std(SER); std(ARR); std(procTime)];
 hBar = bar(meandata);
 labels = {'SER','ARR','Time'};
 set(gca, 'XTick', 1:numel(meandata), 'XTickLabel', labels);
-colormap(gray)
+
+% viridis colormap (grayscale print friendly)
+cmap = [    0.2670    0.0049    0.3294
+    0.2302    0.3213    0.5455
+    0.1282    0.5651    0.5509
+    0.3629    0.7867    0.3866
+    0.9932    0.9062    0.1439];
+colormap(cmap)
 legend(methods, 'Location','northwest')
 
 % draw errorbars
@@ -54,8 +61,13 @@ for measure = 1:2; % for SER and ARR
         end
     end
     
+    p = [pval(1,2:5) pval(2,3:5)];
+    p = bonf_holm(p,0.05);
+    pval(1,2:5) = p(1:4);
+    pval(2,3:5) = p(5:7);
+    
     % significance bars
-    alpha = 0.01;
+    alpha = 0.05;
     adjust = zeros(2,N);
     for mIdx = 1:2
         pvals = pval(mIdx, mIdx:end);
@@ -91,6 +103,7 @@ end
 axL = gca;
 ylabel('SER and ARR [dB]')
 set(axL, 'YLim', [0 25]);
+box off
 
 axR = axes('XAxisLocation','top',...
 'YAxisLocation','right',...
@@ -99,10 +112,11 @@ axR = axes('XAxisLocation','top',...
 set(axR, 'XTick', [], 'YTick', axL.YTick,...
     'YLim', axL.YLim, 'YTickLabel', axL.YTickLabel)
 ylabel('Processing Time [s]')
+box off
 
 % save figure
 settings = mwfgui_localsettings;
-pf_printpdf(gcf, fullfile(settings.figurepath, ['methodcomparison' '_' artifact]))
+pf_printpdf(gcf, fullfile(settings.figurepath, ['methodcomparison' '_' artifact]), 'eps')
 close(gcf)
 
 end

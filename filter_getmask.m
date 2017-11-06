@@ -1,42 +1,85 @@
-% Create an artifact mask for the input EEG data.
-% 
-% If an ID corresponding to a mask in the cache is provided, the cached 
-% mask will be loaded instead. If an ID is given and the "redo" flag is
-% set, the saved mask in the cache will be overwritten.
-%
-% The cache directory to read/write is set by mwfgui_localsettings.m
+% Create or load an artifact mask for the input EEG data.
 %
 % INPUTS:
-%   y       raw EEG data (channels x samples)
-%   fs      EEG data sample rate
-%   redo    flag:   if 1, a new mask will always be generated
-%                   if 0, a new mask is generated only if no cache is present
-%   mode    GUI/toolbox to use for artifact marking
-%               0: EEGLAB (eegplot)
-%               1: EyeBallGUI
+%   y           raw EEG data (channels x samples)
+%   fs          EEG data sample rate                
+%   cacheID     specifier to identify cached mask
+%   cachepath   path to cache folder where masks can be saved
+%   redo        flag:   if 1, a new mask will always be generated
+%                       if 0, a new mask is generated only if no cache is present
+%   mode        GUI/toolbox to use for artifact marking
+%                       0: EEGLAB (eegplot)
+%                       1: EyeBallGUI
 %
 % OUTPUTS: 
 %   mask    markings of artifacts in y (1 x samples)
 %           The mask contains 1's in marked artifact segments and 0's elsewhere.
 %
+% USAGE:
+% Only the first two inputs are required, the rest is optional.
+%
+% You can make use of the caching functionality to save your artifact
+% masks to disk so they can be reused later. In order to retrieve the masks
+% in the cache, an ID ('cacheID') must be provided. 
+% If no cachepath is specified, the masks will be saved in the current 
+% working directory.
+% The redo input can be set to 1 if you wish to redo (overwrite) an
+% existing mask saved in the cache. 
+%
+% EXAMPLES:
+% Assume there is some EEG data 'EEG' (channels x samples) and the
+% samplerate 'fs' in the matlab workspace.
+%
+%   mask = filter_getmask(EEG, fs)
+%   Create a mask. It is not saved to the cache.
+%
+%   mask = filter_getmask(EEG, fs, 'subject1')
+%   Create a mask and save it in the current working directory as 'subject1_mask.mat'. 
+%   If this file already existed in the current directory, it is loaded.
+%
+%   mask = filter_getmask(EEG, fs, 'subject1', 'C:/users/cache')
+%   Create a mask and save it in 'C:/users/cache' as 'subject1_mask.mat'. 
+%   If this matfile already existed in that directory, it is loaded instead.
+%
+%   mask = filter_getmask(EEG, fs, 'subject1', 'C:/users/cache', 1)
+%   Regardless of whether as 'subject1_mask.mat' exists in 'C:/users/cache', 
+%   a new mask is generated and saved to cache. If it already existed, it is overwritten. 
+%
 % Toolbox references:
+%   MWF toolbox manual: https://github.com/exporl/mwf-artifact-removal
 %   EEGLab: https://sccn.ucsd.edu/eeglab/
 %   EyeBallGUI: http://eyeballgui.sourceforge.net
 %
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [mask] = filter_getmask(y, fs, redo, mode)
+function [mask] = filter_getmask(y, fs, cacheID, cachepath, redo, mode)
 
-if (nargin <3)
-    redo = 0; % default: attempt to load existing mask from cache
+% input validation
+if (nargin < 6)
+    mode = 0; % default: EEGLAB plotting
+end
+if (nargin < 5)
+    redo = 0; % default: load existing mask from cache, if non-existing, create a new one
 end
 if (nargin < 4)
-    mode = 1; % default: EEGLAB
+    cachepath = pwd; % default: if no cache path is given, save masks in current directory
+end
+if (nargin < 3)
+    cacheID = ''; % default: if no ID is given, the mask will not be saved to cache
+end
+if (nargin < 2)
+    error('EEG samplerate is required for plotting')
+end
+if (nargin < 1) || (nargin > 6)
+    error('Invalid number of inputs.')
 end
 
-settings = mwfgui_localsettings;
-maskpath = fullfile(settings.savemaskpath,[name '_' artifact '_mask.mat']);
+if isempty(cacheID);
+    maskpath = '';
+else
+    maskpath = fullfile(cachepath, [cacheID '_mask.mat']);
+end
 
 if (~exist(maskpath, 'file') || redo)
     if (~mode) % Use EEGlab
@@ -100,7 +143,9 @@ if (~exist(maskpath, 'file') || redo)
         
         cleanup_EyeBallGUI; 
     end
-    save(maskpath, 'mask');
+    if ~isempty(maskpath)        
+        save(maskpath, 'mask');
+    end
 else % mask already exists
     S = load(maskpath);
     mask = S.mask;

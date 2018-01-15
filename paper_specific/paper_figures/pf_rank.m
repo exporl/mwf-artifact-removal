@@ -35,14 +35,17 @@ for a = 1:numel(artifact)
     end
     
     fig = figure; hold on
+    harr = shadedErrorbar(rank_pct,ARR(:,:,1),{@mean,@std},'--r',1);
     hser = shadedErrorbar(rank_pct,SER(:,:,1),{@mean,@std},'-b',1);
-    harr = shadedErrorbar(rank_pct,ARR(:,:,1),{@mean,@std},'-r',1);
+    
+    hser.mainLine.LineWidth = 1;
+    harr.mainLine.LineWidth = 1.5;
     
     mp = mean(pct)*100;
     sp = std(pct)*100;
-    plot([mp,mp],[0,30],'k-')
-    plot([mp-sp,mp-sp],[0,30],'k:')
-    plot([mp+sp,mp+sp],[0,30],'k:')
+    plot([mp,mp], [0,30], 'k-', 'LineWidth', 1)
+    plot([mp-sp,mp-sp], [0,30], 'k:', 'LineWidth', 1)
+    plot([mp+sp,mp+sp], [0,30], 'k:', 'LineWidth', 1)
     
     legend([hser.mainLine, harr.mainLine],{'SER','ARR'},'Location','northeast')
     

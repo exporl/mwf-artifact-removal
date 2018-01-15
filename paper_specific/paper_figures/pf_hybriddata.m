@@ -30,23 +30,27 @@ end
 ARRdiff = ARRhy - ARRre;
 
 fig = figure; hold on
-harrdiff = shadedErrorbar(SNRs,ARRdiff(:,:),{@mean,@std},'-k',1);
-harrhy = shadedErrorbar(SNRs,ARRhy(:,:),{@mean,@std},'-g',1);
-harrre = shadedErrorbar(SNRs,ARRre(:,:),{@mean,@std},'-r',1);
+harrdiff = shadedErrorbar(SNRs,ARRdiff(:,:),{@mean,@std},'-k*',1);
+harrhy = shadedErrorbar(SNRs,ARRhy(:,:),{@mean,@std},':g',1);
+harrre = shadedErrorbar(SNRs,ARRre(:,:),{@mean,@std},'--r',1);
 hser = shadedErrorbar(SNRs,SER(:,:),{@mean,@std},'-b',1);
+
+hser.mainLine.LineWidth = 1;
+harrre.mainLine.LineWidth = 1.5;
+harrhy.mainLine.LineWidth = 1.5;
 
 mp = mean(realSNRs);
 sp = std(realSNRs);
-plot([mp,mp],[-50,50],'k-')
-plot([mp-sp,mp-sp],[-50,50],'k:')
-plot([mp+sp,mp+sp],[-50,50],'k:')
+plot([mp,mp], [-50,50], 'k-', 'LineWidth', 1)
+plot([mp-sp,mp-sp], [-50,50], 'k:', 'LineWidth', 1)
+plot([mp+sp,mp+sp], [-50,50], 'k:', 'LineWidth', 1)
 
 legend([hser.mainLine, harrre.mainLine, harrhy.mainLine, harrdiff.mainLine], ...
     {'SER','ARR_{real}', 'ARR_{hybrid}', 'ARR_{diff}'},'Location','northwest')    
 xlabel('Artifact SNR [dB]')
 ylabel('SER and ARR [dB]')
 xlim([SNRs(1) SNRs(end)])
-ylim([-10 35])
+ylim([-10 30])
 set(gca,'XTick',SNRs);
 pf_printpdf(fig, fullfile(settings.figurepath,'hybrid_SER_ARR'), 'eps')
 close(fig)

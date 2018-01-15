@@ -19,14 +19,15 @@ p = filter_params('delay', 5);
 lambda_muscle = diag(GEVL);
 
 h = figure;
-plot((lambda_eyeblink-1),'b','linewidth',2);
+plot((lambda_eyeblink-1),'b','linewidth',2.5);
 hold on
-plot((lambda_muscle-1),'r','linewidth',2);
+plot((lambda_muscle-1),'r-.','linewidth',3);
 xlabel('GEVL number')
-ylabel('GEVLs')
-xlim([-3; size(W1,1)+3])
-ylim([-1; 160])
-legend('Eye blink artifacts','Eye blink & muscle artifacts')
+ylabel('GEVL magnitude')
+xlim([-3; 150])
+ylim([0; 160])
+legend('GEVLs for eye blink artifact EEG', ...
+    'GEVLs for eye blink & muscle artifact EEG')
 set(gca,'box','off')
 
 pf_printpdf(h, fullfile(settings.figurepath,'eigenvalues'), 'eps')

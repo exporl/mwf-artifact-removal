@@ -13,7 +13,7 @@ train_params = mwf.params('delay',tau,'train_len',trdur);
 
 % Use training data to compute filter
 for i = 1:Nsubj
-    [y, ~, ~]   = get_data(i, artifact);
+    [y, ~, ~]   = get_artifact_data(i, artifact);
     mask        = get_artifact_mask(i, artifact);
     [W]         = mwf.compute(y, mask, train_params);
     [~, d]      = mwf.apply(y, W);

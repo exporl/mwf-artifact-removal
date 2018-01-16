@@ -21,8 +21,8 @@ mwfparams = mwf.params('delay', 10, 'rank', 'poseig');
 % infomax ICA
 cache.method = 'infomax';
 for subj = 1:Nsubj
-cache.name = get_name(subj);
-[y, Fs] = get_data(subj, artifact);
+cache.name = get_name_from_id(subj);
+[y, Fs] = get_artifact_data(subj, artifact);
 mask = get_artifact_mask(subj, artifact);
 
 [~,d,time(subj,2)] = method_infomax_ica(y, Fs, cache);
@@ -33,8 +33,8 @@ end
 rng('default')
 cache.method = 'fastica';
 for subj = 1:Nsubj
-cache.name = get_name(subj);
-[y, Fs] = get_data(subj, artifact);
+cache.name = get_name_from_id(subj);
+[y, Fs] = get_artifact_data(subj, artifact);
 mask = get_artifact_mask(subj, artifact);
 
 [~,d,time(subj,3)] = method_fastica(y, Fs, cache);
@@ -44,8 +44,8 @@ end
 % CCA
 cache.method = 'cca';
 for subj = 1:Nsubj
-cache.name = get_name(subj);
-[y, Fs] = get_data(subj, artifact);
+cache.name = get_name_from_id(subj);
+[y, Fs] = get_artifact_data(subj, artifact);
 mask = get_artifact_mask(subj, artifact);
 
 [~,d,time(subj,4)] = method_cca(y, Fs, 1, cache);
@@ -55,8 +55,8 @@ end
 % MCCA
 % cache.method = 'mcca';
 % for subj = 1:Nsubj
-% cache.name = get_name(subj);
-% [y, Fs] = get_data(subj, artifact);
+% cache.name = get_name_from_id(subj);
+% [y, Fs] = get_artifact_data(subj, artifact);
 % mask = get_artifact_mask(subj, artifact);
 % 
 % [v,d,time(subj,4)] = method_cca(y, Fs, 5, cache);

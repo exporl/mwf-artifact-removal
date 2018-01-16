@@ -3,7 +3,7 @@
 settings = mwfgui_localsettings;
 
 % Get data and mask for muscle + eye blink artifact data
-[y, Fs, ~] = get_data(1,'muscle');
+[y, Fs, ~] = get_artifact_data(1,'muscle');
 mask = get_artifact_mask(1,'muscle');
 
 % Remove artifacts

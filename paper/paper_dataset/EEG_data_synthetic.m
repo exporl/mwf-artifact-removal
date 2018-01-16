@@ -28,11 +28,11 @@ if (nargin < 2); SNR = 0; end
 settings = mwfgui_localsettings;
 
 if (isa(name,'double'))
-    name = get_name(name);
+    name = get_name_from_id(name);
 end
 
 % Get clean EEG data
-[~, Fs, duration] = get_data(name,'eyeblink');
+[~, Fs, duration] = get_artifact_data(name,'eyeblink');
 params = mwf.params('rank', 'poseig', 'delay', 5);
 [~, d, n] = remove_artifacts(name, 'eyeblink', params);
 

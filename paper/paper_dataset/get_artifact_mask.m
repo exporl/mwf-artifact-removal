@@ -34,14 +34,14 @@ if (nargin < 4)
 end
 
 if (isa(name,'double'))
-    name = get_name(name);
+    name = get_name_from_id(name);
 end
 
 settings = mwfgui_localsettings;
 maskpath = fullfile(settings.savemaskpath,[name '_' artifact '_mask.mat']);
 
 if (~exist(maskpath, 'file') || redo)
-    [FileEEGdata, FileEEGsrate, ~] = get_data(name, artifact);
+    [FileEEGdata, FileEEGsrate, ~] = get_artifact_data(name, artifact);
     if (~mode) % Use EyeBallGUI
         % Create .mat file to be loaded by EyeBallGUI
         save('TRAINING_DATA.mat','FileEEGdata','FileEEGsrate')

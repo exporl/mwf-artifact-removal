@@ -18,10 +18,10 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [eeg_data, mask, blinkchannel, spatialdist, Fs, duration] = get_data_synthetic(name)
+function [eeg_data, mask, blinkchannel, spatialdist, Fs, duration] = get_artifact_data_synthetic(name)
 
 if (isa(name,'double'))
-    name = get_name(name);
+    name = get_name_from_id(name);
 end
 
 settings = mwfgui_localsettings;

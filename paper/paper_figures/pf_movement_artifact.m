@@ -3,7 +3,7 @@
 settings = mwfgui_localsettings;
 
 % Get data and mask selecting single movement artifact
-[y, Fs, ~] = get_data(3,'movement');
+[y, Fs, ~] = get_artifact_data(3,'movement');
 L = load('movement_artifact_figure_mask.mat');
 mov_mask = L.mask;
 y = y(:,100*200:end);

@@ -10,7 +10,7 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [name] = get_name(id)
+function [name] = get_name_from_id(id)
 
 switch id
     case 1

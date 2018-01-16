@@ -19,7 +19,7 @@
 
 function [y, d, n, W, SER, ARR] = remove_artifacts(name, artifact, params)
 
-[y, ~, ~]   = get_data(name, artifact);
+[y, ~, ~]   = get_artifact_data(name, artifact);
 mask        = get_artifact_mask(name, artifact);
 [W]         = mwf.compute(y, mask, params);
 [n, d]      = mwf.apply(y, W);

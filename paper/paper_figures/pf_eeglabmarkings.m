@@ -5,7 +5,7 @@ settings = mwfgui_localsettings;
 name = 10;
 artifact = 'eyeblink';
 redo = 1;
-[y, Fs, duration] = get_data(name, artifact);
+[y, Fs, duration] = get_artifact_data(name, artifact);
 mask = get_artifact_mask(name, artifact, redo);
 
 % MAKE MARKINGS IN PLOT THAT POPS OPEN

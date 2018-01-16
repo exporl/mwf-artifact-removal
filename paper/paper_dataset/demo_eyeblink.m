@@ -12,7 +12,7 @@ redo = 0; % put to 1 if you want to use the eyeballgui to make the mask
 
 % retrieve EEG data with 'eyeblink' artifacts from subject 1 ('alex')
 % EEG data y is in channels x samples format
-[y, Fs, duration] = get_data(name, artifact);
+[y, Fs, duration] = get_artifact_data(name, artifact);
 
 % retrieve EEG artifact mask for subject 1 ('alex')
 mask = get_artifact_mask(name, artifact, redo);

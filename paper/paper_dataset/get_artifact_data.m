@@ -16,10 +16,10 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [eeg_data, Fs, duration] = get_data(name, artifact)
+function [eeg_data, Fs, duration] = get_artifact_data(name, artifact)
 
 if (isa(name,'double'))
-    name = get_name(name);
+    name = get_name_from_id(name);
 end
 if (~ischar(name) || ~ischar(artifact))
     error('Error: invalid name or artifact specifier')

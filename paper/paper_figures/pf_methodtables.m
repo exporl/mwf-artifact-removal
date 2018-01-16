@@ -51,8 +51,8 @@ end
 if domethod
     cache.method = 'infomax';
     for subj = 1:Nsubj
-        cache.name = get_name(subj);
-        [y, Fs] = get_data(subj, artifact{a});
+        cache.name = get_name_from_id(subj);
+        [y, Fs] = get_artifact_data(subj, artifact{a});
         mask = get_artifact_mask(subj, artifact{a});
         [n,d,time(subj,ind)] = method_infomax_ica(y, Fs, cache);
         [SER(subj,ind), ARR(subj,ind)] = mwf.performance(y, d, mask);
@@ -65,8 +65,8 @@ end
 if domethod
     cache.method = 'fastica';
     for subj = 1:Nsubj
-        cache.name = get_name(subj);
-        [y, Fs] = get_data(subj, artifact{a});
+        cache.name = get_name_from_id(subj);
+        [y, Fs] = get_artifact_data(subj, artifact{a});
         mask = get_artifact_mask(subj, artifact{a});
         [n,d,time(subj,ind)] = method_fastica(y, Fs, cache);
         [SER(subj,ind), ARR(subj,ind)] = mwf.performance(y, d, mask);
@@ -78,8 +78,8 @@ end
 if domethod
     cache.method = 'cca';
     for subj = 1:Nsubj
-        cache.name = get_name(subj);
-        [y, Fs] = get_data(subj, artifact{a});
+        cache.name = get_name_from_id(subj);
+        [y, Fs] = get_artifact_data(subj, artifact{a});
         mask = get_artifact_mask(subj, artifact{a});
         [n,d,time(subj,ind)] = method_cca(y, Fs, 1, cache);
         [SER(subj,ind), ARR(subj,ind)] = mwf.performance(y, d, mask);

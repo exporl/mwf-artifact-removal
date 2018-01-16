@@ -1,7 +1,6 @@
-% Sort a set of eigenvectors and eigenvalues in descending order.
-%
-% The eigenvectors and eigenvalues are permutated in the same way to ensure
-% corresponding eigenvalues/eigenvectors correspond in the sorted result.
+% Stack delayed versions of the input (multi-channel) data together.
+% Zero-padding is applied to the delayed signals to ensure that samples per
+% channel of the output data y_s remains the same as the input data y.
 %
 % INPUTS:
 %   y       raw EEG data (channels x samples)

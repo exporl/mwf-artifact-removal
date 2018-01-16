@@ -21,14 +21,14 @@ SER(8,:,:) = [];
 ARR(8,:,:) = [];
 
 figure
-shadedErrorbar(rank_pct,SER(:,:,1),{@mean,@std},'-b',1)
+contributions.shadedErrorbar(rank_pct,SER(:,:,1),{@mean,@std},'-b',1)
 hold on
-shadedErrorbar(rank_pct,SER(:,:,2),{@mean,@std},'-r',1)
+contributions.shadedErrorbar(rank_pct,SER(:,:,2),{@mean,@std},'-r',1)
 
 figure
-shadedErrorbar(rank_pct,ARR(:,:,1),{@mean,@std},'-b',1)
+contributions.shadedErrorbar(rank_pct,ARR(:,:,1),{@mean,@std},'-b',1)
 hold on
-shadedErrorbar(rank_pct,ARR(:,:,2),{@mean,@std},'-r',1)
+contributions.shadedErrorbar(rank_pct,ARR(:,:,2),{@mean,@std},'-r',1)
 
 figure
 boxplot(SER, 1:size(SER,2))

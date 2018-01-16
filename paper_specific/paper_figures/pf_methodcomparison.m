@@ -62,7 +62,7 @@ for measure = 1:2; % for SER and ARR
     end
     
     p = [pval(1,2:5) pval(2,3:5)];
-    p = bonf_holm(p,0.05);
+    p = contributions.bonf_holm(p,0.05);
     pval(1,2:5) = p(1:4);
     pval(2,3:5) = p(5:7);
     
@@ -76,7 +76,7 @@ for measure = 1:2; % for SER and ARR
         if nsig > 0
             groups = repmat({[1,2]}, 1, nsig);
             pvals(pvals > alpha) = [];
-            hSig{mIdx} = sigstar(groups, pvals);
+            hSig{mIdx} = contributions.sigstar(groups, pvals);
         end
     end
     

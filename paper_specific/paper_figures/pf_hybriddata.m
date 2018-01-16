@@ -30,10 +30,10 @@ end
 ARRdiff = ARRhy - ARRre;
 
 fig = figure; hold on
-harrdiff = shadedErrorbar(SNRs,ARRdiff(:,:),{@mean,@std},'-k*',1);
-harrhy = shadedErrorbar(SNRs,ARRhy(:,:),{@mean,@std},':g',1);
-harrre = shadedErrorbar(SNRs,ARRre(:,:),{@mean,@std},'--r',1);
-hser = shadedErrorbar(SNRs,SER(:,:),{@mean,@std},'-b',1);
+harrdiff = contributions.shadedErrorbar(SNRs,ARRdiff(:,:),{@mean,@std},'-k*',1);
+harrhy = contributions.shadedErrorbar(SNRs,ARRhy(:,:),{@mean,@std},':g',1);
+harrre = contributions.shadedErrorbar(SNRs,ARRre(:,:),{@mean,@std},'--r',1);
+hser = contributions.shadedErrorbar(SNRs,SER(:,:),{@mean,@std},'-b',1);
 
 hser.mainLine.LineWidth = 1;
 harrre.mainLine.LineWidth = 1.5;

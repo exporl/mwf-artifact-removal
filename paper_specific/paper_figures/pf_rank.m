@@ -35,8 +35,8 @@ for a = 1:numel(artifact)
     end
     
     fig = figure; hold on
-    harr = shadedErrorbar(rank_pct,ARR(:,:,1),{@mean,@std},'--r',1);
-    hser = shadedErrorbar(rank_pct,SER(:,:,1),{@mean,@std},'-b',1);
+    harr = contributions.shadedErrorbar(rank_pct,ARR(:,:,1),{@mean,@std},'--r',1);
+    hser = contributions.shadedErrorbar(rank_pct,SER(:,:,1),{@mean,@std},'-b',1);
     
     hser.mainLine.LineWidth = 1;
     harr.mainLine.LineWidth = 1.5;

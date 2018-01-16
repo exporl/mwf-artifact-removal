@@ -22,11 +22,11 @@ for i = 1:Nsubj
 end
 
 figure
-shadedErrorbar(SNRs,SER(:,:),{@mean,@std},'-b',1)
+contributions.shadedErrorbar(SNRs,SER(:,:),{@mean,@std},'-b',1)
 hold on
-shadedErrorbar(SNRs,ARR(:,:),{@mean,@std},'-r',1)
-shadedErrorbar(SNRs,ARRre(:,:),{@mean,@std},'-g',1)
-shadedErrorbar(SNRs,diff(:,:),{@mean,@std},'-k',1) % difference between ARR synth and ARR real
+contributions.shadedErrorbar(SNRs,ARR(:,:),{@mean,@std},'-r',1)
+contributions.shadedErrorbar(SNRs,ARRre(:,:),{@mean,@std},'-g',1)
+contributions.shadedErrorbar(SNRs,diff(:,:),{@mean,@std},'-k',1) % difference between ARR synth and ARR real
 
 
 %% plot differences between result and ground truth
@@ -65,6 +65,6 @@ for j = 1:numel(rank_pct)
 end
 
 figure
-shadedErrorbar(rank_pct,SER(:,:),{@mean,@std},'-b',1)
+contributions.shadedErrorbar(rank_pct,SER(:,:),{@mean,@std},'-b',1)
 hold on
-shadedErrorbar(rank_pct,ARR(:,:),{@mean,@std},'-r',1)
+contributions.shadedErrorbar(rank_pct,ARR(:,:),{@mean,@std},'-r',1)

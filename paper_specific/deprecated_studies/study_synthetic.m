@@ -56,6 +56,6 @@ for j = 1:numel(rank_pct)
 end
 
 figure
-shadedErrorbar(rank_pct,SER(:,:),{@mean,@std},'-b',1)
+contributions.shadedErrorbar(rank_pct,SER(:,:),{@mean,@std},'-b',1)
 hold on
-shadedErrorbar(rank_pct,ARR(:,:),{@mean,@std},'-r',1)
+contributions.shadedErrorbar(rank_pct,ARR(:,:),{@mean,@std},'-r',1)

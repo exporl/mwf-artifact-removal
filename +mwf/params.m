@@ -1,6 +1,6 @@
 % Create struct with parameters regarding MWF data processing.
 % Parameters can be entered using <key>-<value> pairs as inputs to the
-% filter_params function. Parameters that are not specified are set to the
+% mwf.params function. Parameters that are not specified are set to the
 % devault value.
 %
 % INPUTS:
@@ -24,25 +24,25 @@
 %   srate       EEG sample rate in Hz
 % 
 % EXAMPLES
-%   p = filter_params('delay', 5, 'rank', 'full')
+%   p = mwf.params('delay', 5, 'rank', 'full')
 %   creates settings for an MWF using 5 time lags and without GEVD
 %
-%   p = filter_params('delay', 10, 'rank', 'poseig')
+%   p = mwf.params('delay', 10, 'rank', 'poseig')
 %   creates settings for an MWF using 10 time lags, using GEVD where only
 %   positive eigenvalues are kept
 %   
-%   p = filter_params('rank', 'pct', 'rankopt', 50)
+%   p = mwf.params('rank', 'pct', 'rankopt', 50)
 %   creates settings for an MWF using GEVD where only 50% of eigenvalues is
 %   kept. No time delays are used (default = 0).
 %
-%   p = filter_params('train_len', 30, 'mu', 2)
+%   p = mwf.params('train_len', 30, 'mu', 2)
 %   creates settings for a noise-weighted MWF which will be trained on the
 %   first 30 seconds of the provided data, with noise-weighting factor 2.
 %
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function p = filter_params(varargin)
+function p = params(varargin)
 
 % Set processing parameter defaults
 p = struct(...
@@ -58,7 +58,7 @@ p_names = fieldnames(p);
 % Count arguments
 nArgs = length(varargin);
 if mod(nArgs,2) ~= 0
-    error('filter_params needs pairs of parameterName/parameterValue')
+    error('mwf.params needs pairs of parameterName/parameterValue')
 end
 
 for pair = reshape(varargin,2,[]) % one pair is {parameterName; parameterValue}

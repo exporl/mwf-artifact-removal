@@ -10,14 +10,14 @@ SER = zeros(Nsubj, Nsnrs);
 ARR = zeros(Nsubj, Nsnrs);
 
 % Loop over SNRs and subjects
-params = filter_params('delay', 10, 'rank', 'poseig');
+params = mwf.params('delay', 10, 'rank', 'poseig');
 for i = 1:Nsubj
     for j = 1:Nsnrs
     T   = EEG_data_synthetic(i, SNRs(j));
-    [W]         = filter_compute(T.eeg_data, T.mask, params);
-    [~, d]      = filter_apply(T.eeg_data, W);
-    [SER(i,j), ARR(i,j)]  = filter_performance(T.eeg_data, d, T.mask, T.artifact);
-    [SER(i,j), ARRre(i,j)]  = filter_performance(T.eeg_data, d, T.mask);
+    [W]         = mwf.compute(T.eeg_data, T.mask, params);
+    [~, d]      = mwf.apply(T.eeg_data, W);
+    [SER(i,j), ARR(i,j)]  = mwf.performance(T.eeg_data, d, T.mask, T.artifact);
+    [SER(i,j), ARRre(i,j)]  = mwf.performance(T.eeg_data, d, T.mask);
     end
 end
 
@@ -32,11 +32,11 @@ contributions.shadedErrorbar(SNRs,diff(:,:),{@mean,@std},'-k',1) % difference be
 %% plot differences between result and ground truth
 subj = 3;
 snr = -18;
-params = filter_params('delay', 10, 'rank', 'poseig');
+params = mwf.params('delay', 10, 'rank', 'poseig');
 T = EEG_data_synthetic(subj, snr);
-[W] = filter_compute(T.eeg_data, T.mask, params);
-[n, d] = filter_apply(T.eeg_data, W);
-[SER, ARR] = filter_performance(T.eeg_data, d, T.mask, T.artifact);
+[W] = mwf.compute(T.eeg_data, T.mask, params);
+[n, d] = mwf.apply(T.eeg_data, W);
+[SER, ARR] = mwf.performance(T.eeg_data, d, T.mask, T.artifact);
 y = T.eeg_data;
 d_gt = T.artifact;
 
@@ -55,12 +55,12 @@ plot(n(1,:),'red')
 %% do rank study for synthetic data
 rank_pct = [1, 5:5:100];
 for j = 1:numel(rank_pct)
-    params = filter_params('delay',5,'rank','pct','rankopt',rank_pct(j));    
+    params = mwf.params('delay',5,'rank','pct','rankopt',rank_pct(j));    
     for i = 1:Nsubj
         [y, mask, blinkchannel, spatialdist_gt] = get_data_synthetic(i);
-        [W]         = filter_compute(y, mask, params);
-        [n, d]      = filter_apply(y, W);
-        [SER(i,j), ARR(i,j)]  = filter_performance(y, d, mask);
+        [W]         = mwf.compute(y, mask, params);
+        [n, d]      = mwf.apply(y, W);
+        [SER(i,j), ARR(i,j)]  = mwf.performance(y, d, mask);
     end
 end
 

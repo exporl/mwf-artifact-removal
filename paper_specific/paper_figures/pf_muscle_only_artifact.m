@@ -8,9 +8,9 @@ L = load('muscle_artifact_figure_mask.mat');
 mask = L.mask;
 
 % Remove artifacts
-p = filter_params('delay', 5, 'rank', 'poseig');
-W = filter_compute(y, mask, p);
-[n, d] = filter_apply(y, W);
+p = mwf.params('delay', 5, 'rank', 'poseig');
+W = mwf.compute(y, mask, p);
+[n, d] = mwf.apply(y, W);
 
 % Generate figure
 range = 44*200:48*200;

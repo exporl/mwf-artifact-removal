@@ -6,7 +6,7 @@
 % INPUTS:
 %   y       raw EEG data (channels x samples)
 %   mask    markings of artifacts in y (1 x samples)
-%   p       [optional] MWF parameter struct (see filter_params.m)
+%   p       [optional] MWF parameter struct (see mwf.params)
 %
 % OUTPUTS: 
 %   W       multi-channel Wiener filter (size depends on number of delays)
@@ -15,10 +15,10 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [W, Lambda] = filter_compute(y, mask, p)
+function [W, Lambda] = compute(y, mask, p)
 
 if (nargin < 3); % use default settings
-    p = filter_params;
+    p = mwf.params;
 end
 
 if p.train_len > 0 % if needed, split data in distinct training & testing sets
@@ -28,7 +28,7 @@ if p.train_len > 0 % if needed, split data in distinct training & testing sets
 end
 
 % Include time lagged versions of y
-[y, M_s] = stack_delay_data(y, p.delay);
+[y, M_s] = mwf.util.stack_delay_data(y, p.delay);
 
 % Calculate the covariance matrices Ryy and Rnn
 Ryy = cov(y(:,mask == 1).');
@@ -36,7 +36,7 @@ Rnn = cov(y(:,mask == 0).');
 
 % Perform GEVD
 [V, Lambda] = eig(Ryy, Rnn);
-[V, Lambda] = sort_evd(V, Lambda);
+[V, Lambda] = mwf.util.sort_evd(V, Lambda);
 Delta = Lambda - eye(M_s);
 
 % Set filter rank depending on settings

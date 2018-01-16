@@ -8,7 +8,7 @@ delay_options = [0, 5];
 for i = 1:numel(delay_options)
     for j = 1:numel(rank_pct)
         
-        params = filter_params('delay',delay_options(i),'rank',rank_options{1},'rankopt',rank_pct(j));
+        params = mwf.params('delay',delay_options(i),'rank',rank_options{1},'rankopt',rank_pct(j));
         [S, A] = remove_artifacts_allsubjects('muscle', params);
         
         SER(:,j,i) = S;

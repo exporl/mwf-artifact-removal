@@ -12,7 +12,7 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [n, d] = filter_apply(y, W)
+function [n, d] = apply(y, W)
 
 M = size(y, 1);
 M_s = size(W, 1);
@@ -23,7 +23,7 @@ if mod(tau, 1) ~= 0
 end
 
 % re-apply time lags to y to apply filter W
-[y_s, ~] = stack_delay_data(y, tau);
+[y_s, ~] = mwf.util.stack_delay_data(y, tau);
 
 % compute artifact estimate for original channels of y
 orig_chans = tau * M+1 : (tau+1) * M;

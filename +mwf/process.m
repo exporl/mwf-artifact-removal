@@ -11,7 +11,7 @@
 %   W       MWF matrix used to estimate artifacts
 %   SER     Signal to Error Ratio, measures clean EEG distortion
 %   ARR     Artifact to Residue Ratio, measures artifact estimation
-%   p       MWF parameter struct (see filter_params.m)
+%   p       MWF parameter struct (see mwf.params)
 %
 % USAGE
 % Only the first two inputs are required, if delay is omitted the default
@@ -22,17 +22,17 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [n, d, W, SER, ARR, p] = filter_MWF(y, mask, delay)
+function [n, d, W, SER, ARR, p] = process(y, mask, delay)
 
 if nargin < 3
     delay = 0;
 end
 
-p           = filter_params(...
+p           = mwf.params(...
                 'rank', 'poseig', ...
                 'delay', delay);
-W           = filter_compute(y, mask, p);
-[n, d]      = filter_apply(y, W);
-[SER, ARR]  = filter_performance(y, d, mask);
+W           = mwf.compute(y, mask, p);
+[n, d]      = mwf.apply(y, W);
+[SER, ARR]  = mwf.performance(y, d, mask);
 
 end

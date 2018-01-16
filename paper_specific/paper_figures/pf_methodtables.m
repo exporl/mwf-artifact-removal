@@ -21,28 +21,28 @@ cache.artifact = artifact{a};
 % MWF, no lags and no reduced rank
 [domethod, ind] = ismember('MWF',methods);
 if domethod
-    mwfparams = filter_params('delay', 0, 'rank', 'full');
+    mwfparams = mwf.params('delay', 0, 'rank', 'full');
     [SER(:,ind), ARR(:,ind), time(:,ind)] = remove_artifacts_allsubjects(artifact{a}, mwfparams);
 end
 
 % MWF, 5 lags
 [domethod, ind] = ismember('MWF-GEVD',methods);
 if domethod
-    mwfparams = filter_params('delay', 5, 'rank', 'poseig');
+    mwfparams = mwf.params('delay', 5, 'rank', 'poseig');
     [SER(:,ind), ARR(:,ind), time(:,ind)] = remove_artifacts_allsubjects(artifact{a}, mwfparams);
 end
 
 % MWF, 10 lags
 [domethod, ind] = ismember('mwf10',methods);
 if domethod
-    mwfparams = filter_params('delay', 10, 'rank', 'poseig');
+    mwfparams = mwf.params('delay', 10, 'rank', 'poseig');
     [SER(:,ind), ARR(:,ind), time(:,ind)] = remove_artifacts_allsubjects(artifact{a}, mwfparams);
 end
 
 % MWF, 15 lags
 [domethod, ind] = ismember('mwf15',methods);
 if domethod
-    mwfparams = filter_params('delay', 15, 'rank', 'poseig');
+    mwfparams = mwf.params('delay', 15, 'rank', 'poseig');
     [SER(:,ind), ARR(:,ind), time(:,ind)] = remove_artifacts_allsubjects(artifact{a}, mwfparams);
 end
 
@@ -55,7 +55,7 @@ if domethod
         [y, Fs] = get_data(subj, artifact{a});
         mask = get_artifact_mask(subj, artifact{a});
         [n,d,time(subj,ind)] = method_infomax_ica(y, Fs, cache);
-        [SER(subj,ind), ARR(subj,ind)] = filter_performance(y, d, mask);
+        [SER(subj,ind), ARR(subj,ind)] = mwf.performance(y, d, mask);
         rng('default')
     end
 end
@@ -69,7 +69,7 @@ if domethod
         [y, Fs] = get_data(subj, artifact{a});
         mask = get_artifact_mask(subj, artifact{a});
         [n,d,time(subj,ind)] = method_fastica(y, Fs, cache);
-        [SER(subj,ind), ARR(subj,ind)] = filter_performance(y, d, mask);
+        [SER(subj,ind), ARR(subj,ind)] = mwf.performance(y, d, mask);
     end
 end
 
@@ -82,7 +82,7 @@ if domethod
         [y, Fs] = get_data(subj, artifact{a});
         mask = get_artifact_mask(subj, artifact{a});
         [n,d,time(subj,ind)] = method_cca(y, Fs, 1, cache);
-        [SER(subj,ind), ARR(subj,ind)] = filter_performance(y, d, mask);
+        [SER(subj,ind), ARR(subj,ind)] = mwf.performance(y, d, mask);
     end
 end
 

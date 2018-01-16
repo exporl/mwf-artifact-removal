@@ -5,8 +5,8 @@ Nsubj = 10;
 artifact = 'eyeblink';
 trdur = 30;
 tau = 0;
-notrain_params = filter_params('delay',tau);
-train_params = filter_params('delay',tau,'train_len',trdur);
+notrain_params = mwf.params('delay',tau);
+train_params = mwf.params('delay',tau,'train_len',trdur);
 
 % Use full data to compute filter
 [SER, ARR] = remove_artifacts_allsubjects(artifact, notrain_params);
@@ -15,8 +15,8 @@ train_params = filter_params('delay',tau,'train_len',trdur);
 for i = 1:Nsubj
     [y, ~, ~]   = get_data(i, artifact);
     mask        = get_artifact_mask(i, artifact);
-    [W]         = filter_compute(y, mask, train_params);
-    [~, d]      = filter_apply(y, W);
+    [W]         = mwf.compute(y, mask, train_params);
+    [~, d]      = mwf.apply(y, W);
     
     % split y and d in training/nontraining segments
     train_samples = train_params.train_len * train_params.srate;
@@ -27,9 +27,9 @@ for i = 1:Nsubj
     mask2 = mask(:,train_samples+1:end);
     d2 = d(:,train_samples+1:end);
     
-    [SERt(i), ARRt(i)]  = filter_performance(y, d, mask);
-    [SER1(i), ARR1(i)]  = filter_performance(y1, d1, mask1);
-    [SER2(i), ARR2(i)]  = filter_performance(y2, d2, mask2);
+    [SERt(i), ARRt(i)]  = mwf.performance(y, d, mask);
+    [SER1(i), ARR1(i)]  = mwf.performance(y1, d1, mask1);
+    [SER2(i), ARR2(i)]  = mwf.performance(y2, d2, mask2);
 end
 
 S = [SER SERt' SER1' SER2'];

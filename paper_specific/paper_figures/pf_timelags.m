@@ -12,7 +12,7 @@ ARR = zeros(Nsubj, Nlags+1);
 
 for delay = 0:Nlags
 
-params = filter_params('delay', delay, 'rank', rank);
+params = mwf.params('delay', delay, 'rank', rank);
 [S, A, t] = remove_artifacts_allsubjects(artifact, params);
 
 SER(:,delay+1) = S;

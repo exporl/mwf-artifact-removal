@@ -37,7 +37,19 @@ Rnn = cov(y(:,mask == 0).');
 % Perform GEVD
 [V, Lambda] = eig(Ryy, Rnn);
 [V, Lambda] = mwf.util.sort_evd(V, Lambda);
-Delta = Lambda - eye(M_s);
+Lambda_y = V' * Ryy * V;
+Lambda_n = V' * Rnn * V;
+Delta = Lambda_y - Lambda_n;
+
+% Eigenvectors V are assumed to be scaled such that Lambda_n is identity
+diffs = abs(Lambda_n - eye(M_s));
+if any(diffs(:) > 1e-3)
+    warning([...
+        'Generalized eigenvectors are not scaled as assumed: results may be inacurrate. \n' ...
+        'This is likely caused by (almost) rank deficient covariance matrices. \n' ...
+        'Make sure that the EEG has full rank and that the mask provides enough' ...
+        'clean/artifact EEG samples for covariance matrix estimation.'],[])
+end
 
 % Set filter rank depending on settings
 switch p.rank
@@ -60,10 +72,5 @@ end
 % Create filter of rank specified above
 Delta(rank_w * (M_s + 1) + 1 : M_s + 1 : M_s * M_s) = 0;
 W = V / (Lambda+(p.mu-1)*eye(M_s)) * Delta / V;
-
-% Check assumption that X.' * Rvv * X is (close to) identity matrix
-if max(abs(diag(V.' * Rnn * V - eye(M_s))) > 10e-3) 
-    error('Scaling error: assumption of scaling of generalized eigenvectors is not valid')
-end
 
 end

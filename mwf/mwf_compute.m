@@ -15,7 +15,7 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [W, Lambda] = compute(y, mask, p)
+function [W, Lambda] = mwf_compute(y, mask, p)
 
 if (nargin < 3); % use default settings
     p = mwf_params;

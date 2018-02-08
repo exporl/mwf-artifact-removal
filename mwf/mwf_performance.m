@@ -18,7 +18,7 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [SER, ARR] = performance(y, d, mask, d_real)
+function [SER, ARR] = mwf_performance(y, d, mask, d_real)
 
 % Segmentation of data using mask
 Y_c     = y(:, mask==0).'; % clean EEG segments

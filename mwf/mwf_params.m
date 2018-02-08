@@ -42,7 +42,7 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function p = params(varargin)
+function p = mwf_params(varargin)
 
 % Set processing parameter defaults
 p = struct(...

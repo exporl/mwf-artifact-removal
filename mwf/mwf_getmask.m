@@ -53,7 +53,7 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [mask] = getmask(y, fs, cacheID, cachepath, redo, mode)
+function [mask] = mwf_getmask(y, fs, cacheID, cachepath, redo, mode)
 
 % input validation
 if (nargin < 6)

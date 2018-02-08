@@ -22,7 +22,7 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [n, d, W, SER, ARR, p] = process(y, mask, delay)
+function [n, d, W, SER, ARR, p] = mwf_process(y, mask, delay)
 
 if nargin < 3
     delay = 0;

@@ -12,7 +12,7 @@
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
-function [n, d] = apply(y, W)
+function [n, d] = mwf_apply(y, W)
 
 M = size(y, 1);
 M_s = size(W, 1);

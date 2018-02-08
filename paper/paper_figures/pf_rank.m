@@ -18,7 +18,7 @@ for a = 1:numel(artifact)
     for i = 1:numel(delay_options)
         for j = 1:numel(rank_pct)
             
-            params = mwf.params('delay',delay_options(i),'rank',rank_options{1},'rankopt',rank_pct(j));
+            params = mwf_params('delay',delay_options(i),'rank',rank_options{1},'rankopt',rank_pct(j));
             [S, A] = remove_artifacts_allsubjects(artifact{a}, params);
             
             SER(:,j,i) = S;
@@ -26,7 +26,7 @@ for a = 1:numel(artifact)
         end
         
         % what are normal keep percentages of positive eigenvalues?
-        params = mwf.params('delay',delay_options(i),'rank','poseig');
+        params = mwf_params('delay',delay_options(i),'rank','poseig');
         [~, ~, ~, pct(:,i)] = remove_artifacts_allsubjects(artifact{a}, params);
     end
     

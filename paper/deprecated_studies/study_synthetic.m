@@ -6,21 +6,21 @@ ARR = zeros(Nsubj, 1);
 
 %% SER and ARR for all subjects
 
-params = mwf.params('delay', 10, 'rank', 'poseig');
+params = mwf_params('delay', 10, 'rank', 'poseig');
 for i = 1:Nsubj
     [y, mask, ~, ~] = get_artifact_data_synthetic(i);
-    [W]         = mwf.compute(y, mask, params);
-    [~, d]      = mwf.apply(y, W);
-    [SER(i), ARR(i)]  = mwf.performance(y, d, mask);
+    [W]         = mwf_compute(y, mask, params);
+    [~, d]      = mwf_apply(y, W);
+    [SER(i), ARR(i)]  = mwf_performance(y, d, mask);
 end
 
 %% plot differences between result and ground truth
 subj = 3;
-params = mwf.params('delay', 10, 'rank', 'poseig');
+params = mwf_params('delay', 10, 'rank', 'poseig');
 [y, mask, blinkchannel, spatialdist_gt] = get_artifact_data_synthetic(subj);
-[W] = mwf.compute(y, mask, params);
-[n, d] = mwf.apply(y, W);
-[SER, ARR]  = mwf.performance(y, d, mask);
+[W] = mwf_compute(y, mask, params);
+[n, d] = mwf_apply(y, W);
+[SER, ARR]  = mwf_performance(y, d, mask);
 
 % ground truths
 d_gt = spatialdist_gt*blinkchannel;
@@ -46,12 +46,12 @@ plot(n(1,:),'red')
 %% do rank study for synthetic data
 rank_pct = [1, 5:5:100];
 for j = 1:numel(rank_pct)
-    params = mwf.params('delay',5,'rank','pct','rankopt',rank_pct(j));    
+    params = mwf_params('delay',5,'rank','pct','rankopt',rank_pct(j));    
     for i = 1:Nsubj
         [y, mask, blinkchannel, spatialdist_gt] = get_artifact_data_synthetic(i);
-        [W]         = mwf.compute(y, mask, params);
-        [n, d]      = mwf.apply(y, W);
-        [SER(i,j), ARR(i,j)]  = mwf.performance(y, d, mask);
+        [W]         = mwf_compute(y, mask, params);
+        [n, d]      = mwf_apply(y, W);
+        [SER(i,j), ARR(i,j)]  = mwf_performance(y, d, mask);
     end
 end
 

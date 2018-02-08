@@ -39,7 +39,7 @@ end
 
 function [CCAcomps, W, V] = cca(y, Nlags)
 % Create a time-delayed version of x with time delay tau
-yt = mwf.util.stack_delay_data(y, Nlags, true);
+yt = mwf_utils.stack_delay_data(y, Nlags, true);
 yt(1:size(y,1),:) = [];
 
 % Calculate the CCA components of sets X and Y

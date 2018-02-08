@@ -7,7 +7,7 @@ Nsubj = 10;
 timeMWF = zeros(Nsubj, Nchans);
 
 artifact = 'muscle';
-params = mwf.params('delay', 5, 'rank', 'poseig');
+params = mwf_params('delay', 5, 'rank', 'poseig');
 for c = 1:Nchans
     for s = 1:Nsubj
         [y, ~, ~]   = get_artifact_data(s, artifact);
@@ -17,8 +17,8 @@ for c = 1:Nchans
         y = y(1:chans(c),:);
         mask        = get_artifact_mask(s, artifact);
         tic
-        [W]         = mwf.compute(y, mask, params);
-        [n, ~]      = mwf.apply(y, W);
+        [W]         = mwf_compute(y, mask, params);
+        [n, ~]      = mwf_apply(y, W);
         timeMWF(s, c) = toc;
     end
 end

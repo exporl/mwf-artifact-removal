@@ -15,7 +15,7 @@ ARR = zeros(Nsubj, Nmeth);
 time = zeros(Nsubj, Nmeth);
 
 % MWF
-mwfparams = mwf.params('delay', 10, 'rank', 'poseig');
+mwfparams = mwf_params('delay', 10, 'rank', 'poseig');
 [SER(:,1), ARR(:,1), time(:,1)] = remove_artifacts_allsubjects(artifact, mwfparams);
 
 % infomax ICA
@@ -26,7 +26,7 @@ cache.name = get_name_from_id(subj);
 mask = get_artifact_mask(subj, artifact);
 
 [~,d,time(subj,2)] = method_infomax_ica(y, Fs, cache);
-[SER(subj,2), ARR(subj,2)] = mwf.performance(y, d, mask);
+[SER(subj,2), ARR(subj,2)] = mwf_performance(y, d, mask);
 end
 
 % fastICA
@@ -38,7 +38,7 @@ cache.name = get_name_from_id(subj);
 mask = get_artifact_mask(subj, artifact);
 
 [~,d,time(subj,3)] = method_fastica(y, Fs, cache);
-[SER(subj,3), ARR(subj,3)] = mwf.performance(y, d, mask);
+[SER(subj,3), ARR(subj,3)] = mwf_performance(y, d, mask);
 end
 
 % CCA
@@ -49,7 +49,7 @@ cache.name = get_name_from_id(subj);
 mask = get_artifact_mask(subj, artifact);
 
 [~,d,time(subj,4)] = method_cca(y, Fs, 1, cache);
-[SER(subj,4), ARR(subj,4)] = mwf.performance(y, d, mask);
+[SER(subj,4), ARR(subj,4)] = mwf_performance(y, d, mask);
 end
 
 % MCCA
@@ -60,7 +60,7 @@ end
 % mask = get_artifact_mask(subj, artifact);
 % 
 % [v,d,time(subj,4)] = method_cca(y, Fs, 5, cache);
-% [SER(subj,4), ARR(subj,4)] = mwf.performance(y, d, mask);
+% [SER(subj,4), ARR(subj,4)] = mwf_performance(y, d, mask);
 % end
 
 figure; boxplot(SER, methods)

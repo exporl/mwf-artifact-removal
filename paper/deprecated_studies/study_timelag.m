@@ -9,7 +9,7 @@ time = zeros(Nsubj, Nlags+1);
 
 for delay = 0:Nlags
 
-params = mwf.params('delay', delay, 'rank', 'poseig');
+params = mwf_params('delay', delay, 'rank', 'poseig');
 [S, A, t] = remove_artifacts_allsubjects('muscle', params);
 
 SER(:,delay+1) = S;

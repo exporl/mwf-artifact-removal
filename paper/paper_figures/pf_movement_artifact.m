@@ -10,9 +10,9 @@ y = y(:,100*200:end);
 mov_mask = mov_mask(100*200:end);
 
 % Remove movement artifact
-p = mwf.params('delay', 5, 'rank', 'poseig');
-W = mwf.compute(y, mov_mask, p);
-[n, ~] = mwf.apply(y, W);
+p = mwf_params('delay', 5, 'rank', 'poseig');
+W = mwf_compute(y, mov_mask, p);
+[n, ~] = mwf_apply(y, W);
 
 % Generate figure
 range = 40*200:50*200;

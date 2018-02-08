@@ -18,17 +18,17 @@ redo = 0; % put to 1 if you want to use the eyeballgui to make the mask
 mask = get_artifact_mask(name, artifact, redo);
 
 % set some processing parameters in struct p
-p = mwf.params('delay', 10, 'rank', 'poseig');
+p = mwf_params('delay', 10, 'rank', 'poseig');
 
 % compute GEVD-MWF for data y
-[W]         = mwf.compute(y, mask, p);
+[W]         = mwf_compute(y, mask, p);
 
 % apply the computed filter W to data y
 % n and d are resp. clean data and artifact estimate
-[n, d]      = mwf.apply(y, W);
+[n, d]      = mwf_apply(y, W);
 
 % compute performance parameters for the artifact removal
-[SER, ARR]  = mwf.performance(y, d, mask);
+[SER, ARR]  = mwf_performance(y, d, mask);
 
 % plot result of artifact removal
 chan = 1;  % Fp1

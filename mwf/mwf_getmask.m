@@ -30,18 +30,18 @@
 % Assume there is some EEG data 'EEG' (channels x samples) and the
 % samplerate 'fs' in the matlab workspace.
 %
-%   mask = mwf.getmask(EEG, fs)
+%   mask = mwf_getmask(EEG, fs)
 %   Create a mask. It is not saved to the cache.
 %
-%   mask = mwf.getmask(EEG, fs, 'subject1')
+%   mask = mwf_getmask(EEG, fs, 'subject1')
 %   Create a mask and save it in the current working directory as 'subject1_mask.mat'. 
 %   If this file already existed in the current directory, it is loaded.
 %
-%   mask = mwf.getmask(EEG, fs, 'subject1', 'C:/users/cache')
+%   mask = mwf_getmask(EEG, fs, 'subject1', 'C:/users/cache')
 %   Create a mask and save it in 'C:/users/cache' as 'subject1_mask.mat'. 
 %   If this matfile already existed in that directory, it is loaded instead.
 %
-%   mask = mwf.getmask(EEG, fs, 'subject1', 'C:/users/cache', 1)
+%   mask = mwf_getmask(EEG, fs, 'subject1', 'C:/users/cache', 1)
 %   Regardless of whether as 'subject1_mask.mat' exists in 'C:/users/cache', 
 %   a new mask is generated and saved to cache. If it already existed, it is overwritten. 
 %
@@ -114,7 +114,7 @@ if (~exist(maskpath, 'file') || redo)
         mask = zeros(1,size(y,2));
         for i = 1:size(markings,1)
             mask(:,floor(markings(i,1)):ceil(markings(i,2))) = 1;
-        end        
+        end
     else % use EyeBallGUI
         % Create .mat file to be loaded by EyeBallGUI
         save('TRAINING_DATA.mat','FileEEGdata','FileEEGsrate')

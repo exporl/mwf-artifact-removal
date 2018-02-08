@@ -23,7 +23,7 @@ if mod(tau, 1) ~= 0
 end
 
 % re-apply time lags to y to apply filter W
-[y_s, ~] = mwf.util.stack_delay_data(y, tau);
+[y_s, ~] = mwf_utils.stack_delay_data(y, tau);
 
 % compute artifact estimate for original channels of y
 orig_chans = tau * M+1 : (tau+1) * M;

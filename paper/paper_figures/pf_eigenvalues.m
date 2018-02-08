@@ -7,15 +7,15 @@ name = 3;
 artifact = 'eyeblink';
 [y, ~,~] = get_artifact_data(name, artifact);
 mask = get_artifact_mask(name, artifact);
-p = mwf.params('delay', 5);
-[W1, GEVL] = mwf.compute(y, mask, p);
+p = mwf_params('delay', 5);
+[W1, GEVL] = mwf_compute(y, mask, p);
 lambda_eyeblink = diag(GEVL);
 
 artifact = 'muscle';
 [y, ~,~] = get_artifact_data(name, artifact);
 mask = get_artifact_mask(name, artifact);
-p = mwf.params('delay', 5);
-[W2, GEVL] = mwf.compute(y, mask, p);
+p = mwf_params('delay', 5);
+[W2, GEVL] = mwf_compute(y, mask, p);
 lambda_muscle = diag(GEVL);
 
 h = figure;

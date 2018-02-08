@@ -15,15 +15,15 @@ ARRhy = zeros(Nsubj, Nsnrs); % hybrid ARR (i.e. with real d)
 ARRre = zeros(Nsubj, Nsnrs); % real ARR (i.e. with y as approximation)
 realSNRs = zeros(Nsubj, 1);
 
-params = mwf.params('delay', 5, 'rank', 'poseig');
+params = mwf_params('delay', 5, 'rank', 'poseig');
 
 for i = 1:Nsubj
     for j = 1:Nsnrs
     T   = EEG_data_synthetic(i, SNRs(j));
-    [W]         = mwf.compute(T.eeg_data, T.mask, params);
-    [~, d]      = mwf.apply(T.eeg_data, W);
-    [SER(i,j), ARRhy(i,j)]  = mwf.performance(T.eeg_data, d, T.mask, T.artifact);
-    [~, ARRre(i,j)]  = mwf.performance(T.eeg_data, d, T.mask);
+    [W]         = mwf_compute(T.eeg_data, T.mask, params);
+    [~, d]      = mwf_apply(T.eeg_data, W);
+    [SER(i,j), ARRhy(i,j)]  = mwf_performance(T.eeg_data, d, T.mask, T.artifact);
+    [~, ARRre(i,j)]  = mwf_performance(T.eeg_data, d, T.mask);
     end
     realSNRs(i) = T.realisticSNR;
 end

@@ -8,7 +8,7 @@ ARR = zeros(Nsubj, Nmu);
 
 for mu = 1:Nmu
 
-params = mwf.params('mu', mu);
+params = mwf_params('mu', mu);
 [S, A] = remove_artifacts_allsubjects('muscle', params);
 
 SER(:,mu) = S;

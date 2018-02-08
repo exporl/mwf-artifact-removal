@@ -7,9 +7,9 @@ settings = mwfgui_localsettings;
 mask = get_artifact_mask(1,'muscle');
 
 % Remove artifacts
-p = mwf.params('delay', 5, 'rank', 'poseig');
-W = mwf.compute(y, mask, p);
-[n, d] = mwf.apply(y, W);
+p = mwf_params('delay', 5, 'rank', 'poseig');
+W = mwf_compute(y, mask, p);
+[n, d] = mwf_apply(y, W);
 
 % Generate figure
 range = 44*200:48*200;

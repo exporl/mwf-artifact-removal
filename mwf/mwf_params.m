@@ -48,7 +48,7 @@ function p = mwf_params(varargin)
 p = struct(...
     'srate', 200, ...   % sampling rate
     'delay', 0, ...     % any integer >= 0
-    'rank', 'full', ... % 'full', 'poseig', 'pct', 'first'
+    'rank', 'poseig', ... % 'full', 'poseig', 'pct', 'first'
     'rankopt', 1, ...   % additional specifier if 'rank' is 'pct' or 'first'
     'mu', 1, ...        % any value [1 = default, >1 = noise weighted MWF]
     'train_len', 0);    % any value >= 0 [0 = no training, use full data]

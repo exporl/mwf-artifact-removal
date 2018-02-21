@@ -21,7 +21,8 @@
 %               'first': specify the number of eigenvalues to keep (positive integer)
 %   mu          noiseweighting factor (default = 1)
 %   train_len   length of training sequence in seconds (0 = don't use training set)
-%   srate       EEG sample rate in Hz
+%   srate       EEG sample rate in Hz (only required if train_len is
+%               specified and greater than 0).
 % 
 % EXAMPLES
 %   p = mwf_params('delay', 5, 'rank', 'full')
@@ -35,7 +36,7 @@
 %   creates settings for an MWF using GEVD where only 50% of eigenvalues is
 %   kept. No time delays are used (default = 0).
 %
-%   p = mwf_params('train_len', 30, 'mu', 2)
+%   p = mwf_params('train_len', 30, 'srate', 200, 'mu', 2)
 %   creates settings for a noise-weighted MWF which will be trained on the
 %   first 30 seconds of the provided data, with noise-weighting factor 2.
 %

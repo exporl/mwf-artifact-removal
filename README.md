@@ -1,21 +1,29 @@
-# MWF-based EEG artifact removal in MATLAB 
+# MWF toolbox for EEG artifact removal
 
 ## License
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations. 
 By downloading and/or installing this software and associated files on your computing system you agree to use the software under the terms and condition as specified in the License agreement.
 
-## Using the MWF-EEG toolbox
+## Using the MWF toolbox
 
 ### About
- 
+
+This MATLAB toolbox implements an algorithm based on the Multi-channel Wiener Filter (MWF) 
+for processing multi-channel EEG as published in [1]. The algorithm removes any type of 
+artifact marked a-priori by the user from the EEG in order to enhance signal quality for 
+further processing.
+
 Developed and tested in MATLAB R2015a. Required toolboxes:
  - EEGLAB (only required for manual marking of artifacts). [EEGLAB website](https://sccn.ucsd.edu/eeglab/index.php).  
  (Make sure EEGLAB is added to the MATLAB path: you can check this by typing "eeglab" in the command window)
 
 ### Documentation
 
-A more detailed manual will follow soon.
+All functions are documented properly in their respective m-files. Additional documentation 
+and examples can be found in the [doc](doc/) folder, which contains a 
+[manual](doc/mwf_manual.pdf) in pdf format and a [MWF demo file](doc/mwf_demo.m) to illustrate 
+the usage of the various functions. A quick start guide is provided in the next section.
  
 ### Quick start guide
  
@@ -55,4 +63,4 @@ may increase processing time. If omitted, the default value is zero. See [1] for
  ## References
  
  [1] B. Somers, T. Francart, A. Bertrand (2018). A generic EEG artifact removal algorithm based on the multi-channel Wiener filter. 
- Journal of Neural Engineering (Manuscript accepted for publication)
+ Journal of Neural Engineering, 2018

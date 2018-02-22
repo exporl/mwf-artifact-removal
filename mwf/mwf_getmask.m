@@ -13,7 +13,11 @@
 %
 % OUTPUTS: 
 %   mask    markings of artifacts in y (1 x samples)
-%           The mask contains 1's in marked artifact segments and 0's elsewhere.
+%           The mask can contain three values: 1, 0 or NaN:
+%               1: in segments marked in the GUI (artifact)
+%               0: in segments unmarked in the GUI (clean data)
+%               NaN: everything after the last marked artifact (will not be
+%                    included in MWF computation).
 %
 % USAGE:
 % Only the first two inputs are required, the rest is optional.
@@ -143,6 +147,11 @@ if (~exist(maskpath, 'file') || redo)
         
         cleanup_EyeBallGUI; 
     end
+    
+    % set mask entries after last marked artifact to NaN
+    lastArtifactIdx = find(mask, 1, 'last');
+    mask(lastArtifactIdx+1:end) = NaN;
+    
     if ~isempty(maskpath)        
         save(maskpath, 'mask');
     end

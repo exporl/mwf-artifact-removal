@@ -42,12 +42,25 @@ of the data using a GUI. If you have your EEG data matrix in the the MATLAB work
 This pops up the GUI in which artifacts can be marked by clicking and dragging over
 them. When done, clicking the 'Save Marks' button will close the GUI and the function
 returns a binary (1 x samples) mask. In this mask, ones correspond to artifact segments, and
-zeros correspond to clean data.
+zeros correspond to clean data. Optionally, the mask may contain NaNs which indicate segments 
+to be ignored from the MWF computation (i.e. they belong neither to the artifact nor the clean 
+segments). Section 4.1.4. of the [manual](doc/mwf_manual.pdf) contains extra 
+tips on annotating artifacts.
+
+**Important note:** all segments that are not marked and come *before* the lasted marked 
+segment will be treated as artifact-free samples in the training of the filter. The samples 
+that come after the last marked segment are not used in the filter design. In other words: 
+the filter design assumes that *all* artifacts before the last marked artifact are marked. 
+
+Because samples after the lasted marked segment are ignored, it is not necessary to go through 
+the entire signal to mark all the artifacts. It is sufficient to annotate only the first few 
+seconds or minutes of the signal. However, the more artifacts are marked, the better the filter 
+design will be.
 
 The artifact detection step is not inherently a part of the MWF algorithm: if you prefer,
 you can also use a different method for acquiring the artifact mask (e.g. an automatic method,
-for example based on thresholding,. . . ). The mask needs to consist of ones and zeros, and
-have the same length as the EEG data.
+for example based on thresholding,. . . ). The mask needs to consist of ones, zeros and NaNs, 
+and must have the same length as the EEG data.
  
 **Step 2: MWF artifact removal** is performed by calling the mwf process function. It
 requires the EEG data, the mask indicating which segments are artifacts, and optionally a

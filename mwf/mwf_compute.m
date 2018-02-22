@@ -21,12 +21,6 @@ if (nargin < 3); % use default settings
     p = mwf_params;
 end
 
-if p.train_len > 0 % if needed, split data in distinct training & testing sets
-    train_samples = p.train_len * p.srate;
-    y = y(:,1:train_samples);
-    mask = mask(:,1:train_samples);
-end
-
 % Include time lagged versions of y
 [y, M_s] = mwf_utils.stack_delay_data(y, p.delay);
 

@@ -20,9 +20,6 @@
 %               'pct': specify the percentage of eigenvalues to keep (0-100)
 %               'first': specify the number of eigenvalues to keep (positive integer)
 %   mu          noiseweighting factor (default = 1)
-%   train_len   length of training sequence in seconds (0 = don't use training set)
-%   srate       EEG sample rate in Hz (only required if train_len is
-%               specified and greater than 0).
 % 
 % EXAMPLES
 %   p = mwf_params('delay', 5, 'rank', 'full')
@@ -36,10 +33,6 @@
 %   creates settings for an MWF using GEVD where only 50% of eigenvalues is
 %   kept. No time delays are used (default = 0).
 %
-%   p = mwf_params('train_len', 30, 'srate', 200, 'mu', 2)
-%   creates settings for a noise-weighted MWF which will be trained on the
-%   first 30 seconds of the provided data, with noise-weighting factor 2.
-%
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be
 
@@ -47,12 +40,10 @@ function p = mwf_params(varargin)
 
 % Set processing parameter defaults
 p = struct(...
-    'srate', 200, ...   % sampling rate
-    'delay', 0, ...     % any integer >= 0
-    'rank', 'poseig', ... % 'full', 'poseig', 'pct', 'first'
-    'rankopt', 1, ...   % additional specifier if 'rank' is 'pct' or 'first'
-    'mu', 1, ...        % any value [1 = default, >1 = noise weighted MWF]
-    'train_len', 0);    % any value >= 0 [0 = no training, use full data]
+    'delay', 0, ...         % any integer >= 0
+    'rank', 'poseig', ...   % 'full', 'poseig', 'pct', 'first'
+    'rankopt', 1, ...       % additional specifier if 'rank' is 'pct' or 'first'
+    'mu', 1);               % any value [1 = default, >1 = noise weighted MWF]
 
 p_names = fieldnames(p);
 
@@ -76,8 +67,6 @@ end
 % Test for valid parameters settings
 for i = 1:numel(p_names)
     switch p_names{i}
-        case 'srate'
-            validateattributes(p.(p_names{i}), {'numeric'}, {'integer','nonnegative'}, mfilename, p_names{i})
         case 'delay'
             validateattributes(p.(p_names{i}), {'numeric'}, {'integer','nonnegative'}, mfilename, p_names{i})
         case 'rank'
@@ -91,10 +80,7 @@ for i = 1:numel(p_names)
             end
         case 'mu'
             validateattributes(p.(p_names{i}), {'numeric'}, {'real'}, mfilename, p_names{i})
-        case 'train_len'
-            validateattributes(p.(p_names{i}), {'numeric'}, {'nonnegative','real'}, mfilename, p_names{i})
     end
 end
 
 end
-

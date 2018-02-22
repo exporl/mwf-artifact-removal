@@ -120,6 +120,7 @@ Running this function will pop up an EEGLAB plot as depicted in figure~\ref{fig:
     \label{fig:getmask}
 \end{figure}
 
+\newpage
 \subsubsection{Notes}
 \label{tips}
 
@@ -176,6 +177,13 @@ The following parameters are able to be set:
 \end{itemize}
 
 \item \textbf{rankopt}: specify X if `first' or `pct' were selected for the rank parameter. Expects a positive integer (`first') or a percentage (`pct').
+
+\item \textbf{treatnans}: expects one of the following strings :
+\begin{itemize}
+\item[-] `ignore': any NaNs in the mask are excluded from MWF training (default)
+\item[-] `artifact': any NaNs in the mask are considered as artifact for MWF training
+\item[-] `clean': any NaNs in the mask are considered as clean data for MWF training
+\end{itemize}
 
 \item \textbf{mu}: noiseweighting factor. By default, mu is 1, which results in a regular MWF. If mu $> 1$, a so-called Distortion Weighted MWF (DW-MWF)~\cite{serizel2010integrated} is computed, which allows better artifact estimation, but introduces more noise in the artifact-free segments (i.e. higher ARR but lower SER). The opposite trade-off is true when mu $< 1$ (but greater than 0).
 

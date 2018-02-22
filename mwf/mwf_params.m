@@ -10,15 +10,19 @@
 %   p        MWF parameter struct
 %
 % KEY - VALUE PAIRS
-%   delay       number of time lags to include in MWF (positive integer or 0)
-%   rank        decides how the rank for the MWF should be set
+%   delay       number of time lags to include in MWF (default = 0)
+%   rank        specifies how the rank for the MWF should be set
 %               'full':     use full rank MWF (don't use GEVD)
-%               'poseig':   use GEVD, only retain positive eigenvalues
+%               'poseig':   use GEVD, only retain positive eigenvalues (default)
 %               'pct':      use GEVD, only retain x% of eigenvalues
 %               'first':    use GEVD, only retain x eigenvalues
 %   rankopt     additional rank options, required if rank is 'pct' or 'first'
 %               'pct': specify the percentage of eigenvalues to keep (0-100)
 %               'first': specify the number of eigenvalues to keep (positive integer)
+%   treatnans   specifies how to treat NaNs in the artifact mask
+%               'ignore':   ignore all NaNs, i.e. exclude them from MWF training (default)
+%               'artifact': set all NaNs to 1, i.e. treat them as artifact for MWF training
+%               'clean':    set all NaNs to 0, i.e. treat them as clean data for MWF training
 %   mu          noiseweighting factor (default = 1)
 % 
 % EXAMPLES
@@ -43,6 +47,7 @@ p = struct(...
     'delay', 0, ...         % any integer >= 0
     'rank', 'poseig', ...   % 'full', 'poseig', 'pct', 'first'
     'rankopt', 1, ...       % additional specifier if 'rank' is 'pct' or 'first'
+    'treatnans', 'ignore', ...  % 'ignore', 'artifact', 'clean'
     'mu', 1);               % any value [1 = default, >1 = noise weighted MWF]
 
 p_names = fieldnames(p);
@@ -78,6 +83,9 @@ for i = 1:numel(p_names)
             elseif strcmp(p.rank,'first')
                 validateattributes(p.(p_names{i}), {'numeric'}, {'positive','integer'}, mfilename, p_names{i})
             end
+        case 'treatnans'
+            validateattributes(p.(p_names{i}), {'char'}, {'nonempty'}, mfilename, p_names{i})
+            validatestring(p.(p_names{i}), {'ignore','artifact','clean'}, mfilename, p_names{i});
         case 'mu'
             validateattributes(p.(p_names{i}), {'numeric'}, {'real'}, mfilename, p_names{i})
     end

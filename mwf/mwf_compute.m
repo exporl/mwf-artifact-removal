@@ -21,6 +21,15 @@ if (nargin < 3); % use default settings
     p = mwf_params;
 end
 
+switch p.treatnans
+    case 'ignore'
+        % ignore NaNs in mask
+    case 'artifact'
+        mask(isnan(mask)) = 1; % treat NaNs in mask as artifact
+    case 'clean'
+        mask(isnan(mask)) = 0; % treat NaNs in mask as clean data
+end
+
 % Include time lagged versions of y
 [y, M_s] = mwf_utils.stack_delay_data(y, p.delay);
 

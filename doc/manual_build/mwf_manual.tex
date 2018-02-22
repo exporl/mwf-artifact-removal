@@ -205,7 +205,7 @@ The following parameters are able to be set:
 [W, Lambda] = mwf_compute(EEG, mask, p)
 \end{lstlisting}
 
-This function computes the MWF based on the input \textbf{EEG}. The EEG is split into artifacted and clean segments using the \textbf{mask}. Any samples corresponding to NaNs in the mask are ignored from the MWF computation. Additional parameters involved in the processing are set in the parameter struct \textbf{p}.
+This function computes the MWF based on the input \textbf{EEG}. The EEG is split into artifacted and clean segments using the \textbf{mask}. By default, any samples corresponding to NaNs in the mask are ignored from the MWF computation. Additional parameters involved in the processing are set in the parameter struct \textbf{p}.
 
 The function returns the MWF matrix \textbf{W}, as well as an ordered diagonal matrix containing the generalized eigenvalues in \textbf{Lambda}. The sizes of W and Lambda will be M~x~M, where M is the number of channels \emph{including delayed channels}. 
 

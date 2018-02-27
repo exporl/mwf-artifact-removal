@@ -1,8 +1,12 @@
 %% Demonstration of the MWF-based tool for EEG artifact removal. 
 %
-% This file demonstrates how to use MWF functions provided in this toolbox.
-% It is recommended to go through the different sections of this code
-% one-by-one to clearly see the processing steps taken.
+% This file demonstrates section-by-section how to use MWF functions 
+% provided in this toolbox.
+%
+% NOTES: 
+%   - check that the "mwf" folder is on the MATLAB path.
+%   - ensure that eeglab is on the MATLAB path Type "eeglab" in the 
+%     command window to verify that eeglab is on the MATLAB path.
 %
 % The processing with MWF basically goes as follows:
 %   - obtain raw EEG data

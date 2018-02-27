@@ -46,9 +46,9 @@ Lambda_y = V' * Ryy * V;
 Lambda_n = V' * Rnn * V;
 Delta = Lambda_y - Lambda_n;
 
-% Eigenvectors V are assumed to be scaled such that Lambda_n is identity
+% Eigenvectors V are assumed to be scaled such that Lambda_n is (approx.) identity
 diffs = abs(Lambda_n - eye(M_s));
-if any(diffs(:) > 1e-3)
+if any(diffs(:) > 1e-2)
     warning([...
         'Generalized eigenvectors are not scaled as assumed: results may be inacurrate. \n' ...
         'This is likely caused by (almost) rank deficient covariance matrices. \n' ...

@@ -24,6 +24,8 @@
 
 function [n, d, W, SER, ARR, p] = mwf_process(y, mask, delay)
 
+mwf_utils.check_dimensions(size(y));
+
 if nargin < 3
     delay = 0;
 end

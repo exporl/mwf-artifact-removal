@@ -20,6 +20,8 @@
 
 function [SER, ARR] = mwf_performance(y, d, mask, d_real)
 
+mwf_utils.check_dimensions(size(y));
+
 % Segmentation of data using mask
 Y_c     = y(:, mask==0).'; % clean EEG segments
 Y_a     = y(:, mask==1).'; % artifact EEG segments

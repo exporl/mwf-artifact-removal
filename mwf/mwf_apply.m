@@ -19,6 +19,8 @@
 
 function [n, d] = mwf_apply(y, W)
 
+mwf_utils.check_dimensions(size(y));
+
 [M, T] = size(y);
 M_s = size(W, 1);
 

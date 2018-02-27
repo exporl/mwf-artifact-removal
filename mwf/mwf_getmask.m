@@ -79,6 +79,8 @@ if (nargin < 1) || (nargin > 6)
     error('Invalid number of inputs.')
 end
 
+mwf_utils.check_dimensions(size(y));
+
 if isempty(cacheID);
     maskpath = '';
 else

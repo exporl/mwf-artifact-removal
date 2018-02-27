@@ -76,5 +76,6 @@ may increase processing time. If omitted, the default value is zero. See [1] for
 
  ## References
  
- [1] B. Somers, T. Francart, A. Bertrand (2018). A generic EEG artifact removal algorithm based on the multi-channel Wiener filter. 
- Journal of Neural Engineering, 2018
+[1] Somers, B., Francart, T. and Bertrand, A. (2018). A generic EEG artifact removal algorithm based on the multi-channel Wiener filter. 
+_Journal of Neural Engineering, 15_(3), 036007. DOI: 10.1088/1741-2552/aaac92
+

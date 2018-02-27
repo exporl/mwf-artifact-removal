@@ -82,7 +82,7 @@ https://sccn.ucsd.edu/eeglab/index.php
 
 #### A.2 References:
 
-[1] B. Somers, T. Francart, A. Bertrand. "A generic EEG artifact removal algorithm based on the multi-channel Wiener filter". _Journal of Neural Engineering_, 2018
+[1] Somers, B., Francart, T. and Bertrand, A. (2018). A generic EEG artifact removal algorithm based on the multi-channel Wiener filter. _Journal of Neural Engineering, 15_(3), 036007. DOI: 10.1088/1741-2552/aaac92
 
-[2] B. Somers, T. Francart, A. Bertrand. "MWF toolbox for EEG artifact removal", 2017. _Available online, URL:_ http://www.github.com/exporl/mwf-artifact-removal
+[2] Somers, B., Francart, T. and Bertrand, A. (2017). MWF toolbox for EEG artifact removal. _Available online, URL:_ http://www.github.com/exporl/mwf-artifact-removal
 

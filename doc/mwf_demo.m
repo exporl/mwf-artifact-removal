@@ -17,9 +17,10 @@
 %   - evaluate performance
 %
 % If this method has been useful for you, please cite the corresponding
-% paper: "A generic EEG artifact removal method based on the multi-channel
-% Wiener filter (2018) Ben Somers, Alexander Bertrand, Tom Francart. 
-% Journal of Neural Engineering (accepted for publication)". [1]
+% paper: 
+% [1] Somers, B., Francart, T. and Bertrand, A. (2018). A generic EEG 
+% artifact removal method based on the multi-channel Wiener filter. 
+% Journal of Neural Engineering, 15(3), 036007. DOI: 10.1088/1741-2552/aaac92
 %
 % Author: Ben Somers, KU Leuven, Department of Neurosciences, ExpORL
 % Correspondence: ben.somers@med.kuleuven.be

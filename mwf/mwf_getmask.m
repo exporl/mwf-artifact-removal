@@ -50,7 +50,7 @@
 %   a new mask is generated and saved to cache. If it already existed, it is overwritten. 
 %
 % Toolbox references:
-%   MWF toolbox manual: https://github.com/exporl/mwf-artifact-removal
+%   MWF toolbox: https://github.com/exporl/mwf-artifact-removal
 %   EEGLab: https://sccn.ucsd.edu/eeglab/
 %   EyeBallGUI: http://eyeballgui.sourceforge.net
 %

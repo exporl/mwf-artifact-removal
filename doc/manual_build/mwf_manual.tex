@@ -54,29 +54,23 @@ The MWF first requires examples of EEG with and EEG without artifacts. Based on 
 \textbf{Step 1: EEG segmentation.} In the toolbox, this step is performed by manual marking of the data using a GUI\footnote{The GUI makes use of EEGLAB functionality. In order to visualize the EEG for manual marking, it is required to download the EEGLAB MATLAB toolbox \url{www.sccn.ucsd.edu/eeglab/index.php}. Make sure the EEGLAB toolbox is added to the MATLAB path as well.}. If you have your EEG data matrix in the the MATLAB workspace (channels x samples), you can obtain the artifact mask by calling
 
 \begin{lstlisting}[frame=single, language=matlab]
-    mask = mwf_getmask(EEG, samplerate)
+    mask = mwf_getmask(EEG, samplerate);
 \end{lstlisting}
 
 This pops up the GUI in which artifacts can be marked by clicking and dragging over them. When done, clicking the 'Save Marks' button will close the GUI and the function returns a binary (1 x samples) mask. In this mask, ones correspond to artifact segments, and zeros correspond to clean data. Optionally, the mask may contain NaNs which indicate segments to be ignored from the MWF computation (i.e. they belong neither to the artifact nor the clean segments). Section~\ref{tips} contains extra tips on annotating artifacts.
 \\
 
-\textbf{Important note:} all segments that are not marked and come BEFORE the lasted marked segment will be treated as artifact-free samples in the training of the filter. The samples that come after the last marked segment are not used in the filter design. In other words: the filter design assumes that ALL artifacts before the last marked artifact are marked.
+\textbf{Important note:} all segments that are not marked and come BEFORE the lasted marked segment will be treated as artifact-free samples in the training of the filter. The samples that come after the last marked segment are not used in the filter design. In other words: the filter design assumes that \emph{all} artifacts before the last marked artifact are marked.
 
-Because samples after the lasted marked segment are ignored, it is not necessary to go through the entire signal to mark all the artifacts. It is sufficient to annotate only the first few seconds or minutes of the signal. However, the more artifacts are marked, the better the filter design will be.
+Because samples after the lasted marked segment are ignored, it is not necessary to go through the entire signal to mark all the artifacts. It is sufficient to annotate only the first few seconds or minutes of the signal. However, the more artifacts are marked, the better the filter design will be. Additionally, there should be enough clean (unmarked) segments before the last marked artifact for a good filter design.
 
-It is not required to manually mark the entire signal in the GUI; it suffices to go through the first few seconds or minutes of data and mark all artifacts you see there. All samples after the last marked artifact segment are set to NaN, which will exclude them from the data used to train the MWF. However, there are two important considerations:
-\begin{itemize}[noitemsep]
-\item[-] The more artifacts are marked, the better the filter designed to remove those artifacts will be.
-\item[-] In addition to the previous point, there should be enough clean (unmarked) segments before the last marked artifact for a good filter design.
-\end{itemize}
-
-The artifact detection step is not inherently a part of the MWF algorithm: if you prefer, you can also use a different method for acquiring the artifact mask (e.g. an automatic method, for example based on thresholding,\ldots). The mask needs to consist of ones and zeros, and have the same length as the EEG data.
+The artifact detection step is not inherently a part of the MWF algorithm: if you prefer, you can also use a different method for acquiring the artifact mask (e.g. an automatic method, for example based on thresholding,\ldots). The mask needs to consist of ones, zeros and NaNs, and have the same length as the EEG data.
 \\
 
 \textbf{Step 2: MWF artifact removal} is performed by calling the mwf\_process function. It requires the EEG data, the mask indicating which segments are artifacts, and optionally a delay parameter:
 
 \begin{lstlisting}[frame=single, language=matlab]
-    clean_EEG = mwf_process(EEG, mask, delay)
+    clean_EEG = mwf_process(EEG, mask, delay);
 \end{lstlisting}
 
 This will return the artifact-free EEG in the clean\_EEG variable. Using the optional delay parameter includes temporal information into the filter, leading to better artifact removal but may increase processing time. If omitted, the default value is zero. See~\cite{somers2018generic} for more details.
@@ -88,7 +82,7 @@ The MATLAB m-files of the MWF functions contain detailed documentation about the
 \subsection{mwf\_getmask}
 
 \begin{lstlisting}[frame=single, language=matlab]
-[mask] = mwf_getmask(EEG, Fs, cacheID, cachepath, redo, mode)
+mask = mwf_getmask(EEG, Fs, cacheID, cachepath, redo, mode);
 \end{lstlisting}
 
 \subsubsection{Input arguments}
@@ -136,7 +130,7 @@ Running this function will pop up an EEGLAB plot as depicted in figure~\ref{fig:
 \subsection{mwf\_process}
 
 \begin{lstlisting}[frame=single, language=matlab]
-[n, d, W, SER, ARR, p] = mwf_process(EEG, mask, delay)
+[n, d, W, SER, ARR, p] = mwf_process(EEG, mask, delay);
 \end{lstlisting}
 
 The mwf\_process function processes the input \textbf{EEG} with the MWF to remove the artifacts as marked in the input \textbf{mask}. An option \textbf{delay} input argument can be specified to include temporal information in the MWF, which will improve artifact removal but increase computation time. The delay should be a positive scalar (samples) and is 0 by default. All other MWF parameters are set to their default values which should work well in general.
@@ -150,7 +144,7 @@ The mwf\_process function is a high-level, user-friendly function and should gen
 \label{mwfparams}
 
 \begin{lstlisting}[frame=single, language=matlab]
-p = mwf_params(`parameter1', `value1', `parameter2', `value2', ...)
+p = mwf_params(`parameter1', `value1', `parameter2', `value2', ...);
 \end{lstlisting}
 
 \subsubsection{Specification of MWF parameters}
@@ -158,7 +152,7 @@ p = mwf_params(`parameter1', `value1', `parameter2', `value2', ...)
 This function creates a MATLAB structure \textbf{p} containing key-value pairs of parameters defining the MWF processing. The struct should be passed on to the mwf\_compute function (see section~\ref{mwfcompute}). Parameters can be set by providing their keyword followed by the desired value as an input, for example:
 %
 \begin{lstlisting}[frame=single, language=matlab]
-p = mwf_params(`delay', 5, `rank', `poseig')
+p = mwf_params(`delay', 5, `rank', `poseig');
 \end{lstlisting}
 %
 Unspecified parameters will be kept at their default value.
@@ -202,7 +196,7 @@ The following parameters are able to be set:
 \label{mwfcompute}
 
 \begin{lstlisting}[frame=single, language=matlab]
-[W, Lambda] = mwf_compute(EEG, mask, p)
+[W, Lambda] = mwf_compute(EEG, mask, p);
 \end{lstlisting}
 
 This function computes the MWF based on the input \textbf{EEG}. The EEG is split into artifacted and clean segments using the \textbf{mask}. By default, any samples corresponding to NaNs in the mask are ignored from the MWF computation. Additional parameters involved in the processing are set in the parameter struct \textbf{p}.
@@ -212,7 +206,7 @@ The function returns the MWF matrix \textbf{W}, as well as an ordered diagonal m
 \subsection{mwf\_apply}
 
 \begin{lstlisting}[frame=single, language=matlab]
-[n, d] = mwf_apply(EEG, W)
+[n, d] = mwf_apply(EEG, W);
 \end{lstlisting}
 
 This function applies a precomputed MWF matrix \textbf{W} to the input \textbf{EEG} data. The filtered, artifact-free EEG data \textbf{n} is returned, as well as the estimate of the artifacts \textbf{d}. It may be informative to inspect the pure artifact signal~d to see what the artifacts look like without the rest of the EEG.
@@ -222,7 +216,7 @@ Because the compute and apply functionality if split in two different functions,
 \subsection{mwf\_performance}
 
 \begin{lstlisting}[frame=single, language=matlab]
-[SER, ARR] = mwf_performance(EEG, d, mask, d_real)
+[SER, ARR] = mwf_performance(EEG, d, mask, d_real);
 \end{lstlisting}
 
 This function computes two performance measures SER and ARR, which are defined in \cite{somers2018generic}. The \textbf{SER} is a measure for distortion of clean EEG caused by the filter. The \textbf{ARR} is a measure for artifact estimation accuracy by the filter. Good performance is indicated by both high SER and high ARR. Both values are expressed on a decibel scale.

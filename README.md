@@ -37,7 +37,7 @@ the artifacts. This two-step approach is fully implemented in the toolbox.
 of the data using a GUI. If you have your EEG data matrix in the the MATLAB workspace
 (channels x samples), you can obtain the artifact mask by calling
 
-     mask = mwf_getmask(EEG, samplerate)
+     mask = mwf_getmask(EEG, samplerate);
  
 This pops up the GUI in which artifacts can be marked by clicking and dragging over
 them. When done, clicking the 'Save Marks' button will close the GUI and the function
@@ -55,7 +55,8 @@ the filter design assumes that *all* artifacts before the last marked artifact a
 Because samples after the lasted marked segment are ignored, it is not necessary to go through 
 the entire signal to mark all the artifacts. It is sufficient to annotate only the first few 
 seconds or minutes of the signal. However, the more artifacts are marked, the better the filter 
-design will be.
+design will be. Additionally, there should be enough clean (unmarked) segments before the last 
+marked artifact for a good filter design.
 
 The artifact detection step is not inherently a part of the MWF algorithm: if you prefer,
 you can also use a different method for acquiring the artifact mask (e.g. an automatic method,
@@ -66,7 +67,7 @@ and must have the same length as the EEG data.
 requires the EEG data, the mask indicating which segments are artifacts, and optionally a
 delay parameter:
  
-     clean_EEG = mwf_process(EEG, mask, delay)
+     clean_EEG = mwf_process(EEG, mask, delay);
 
 This will return the artifact-free EEG in the clean EEG variable. Using the optional delay
 parameter includes temporal information into the filter, leading to better artifact removal but

@@ -181,6 +181,8 @@ The following parameters are able to be set:
 
 \item \textbf{mu}: noiseweighting factor. By default, mu is 1, which results in a regular MWF. If mu $> 1$, a so-called Distortion Weighted MWF (DW-MWF)~\cite{serizel2010integrated} is computed, which allows better artifact estimation, but introduces more noise in the artifact-free segments (i.e. higher ARR but lower SER). The opposite trade-off is true when mu $< 1$ (but greater than 0).
 
+\item \textbf{verbose}: expects a logical value, i.e. true (default) or false. By default, some information about the MWF computation is logged to the MATLAB command window. This can be turned off by setting verbose to false.
+
 \end{itemize}
 
 \subsubsection{Notes}
@@ -191,7 +193,6 @@ The following parameters are able to be set:
 \item[-] The factor mu allows to trade off artifact estimation quality for clean EEG distortion. It is recommended to leave it at the default value of 1.
 \end{itemize}
 
-\newpage
 \subsection{mwf\_compute}
 \label{mwfcompute}
 
@@ -223,7 +224,6 @@ This function computes two performance measures SER and ARR, which are defined i
 
 In order to compute these measures, the function requires the \textbf{EEG} data, as well as the artifact signal \textbf{d} estimated by the MWF, and the \textbf{mask} used to split EEG in artifact and clean segments (NaNs in the mask are ignored). An optional fourth input \textbf{d\_real} can be provided, which should contain the real, ground-truth artifact signal that is estimated by \textbf{d}. Of course, this is only possible to provide for synthetic or simulated EEG data. If d\_real is provided, a more accurate ARR can be computed.
 
-\newpage
 \section{Closing remarks}
 
 The MWF-EEG code is distributed freely online in the hope that it may provide a useful method for other researchers in dealing with artifacts in their EEG data. See the \href{www.github.com/exporl/mwf-artifact-removal/blob/master/LICENSE.md}{license file} distributed along with the toolbox for license rights and limitations. If this toolbox is useful for your data analysis, please cite~ \cite{somers2018generic} in any publications that may follow from it.

@@ -60,18 +60,23 @@ end
 switch p.rank
     case 'full'     % equivalent to regular (full-rank) MWF
         rank_w = M_s;
-        fprintf(' Keeping all eigenvalues... Rank = %d\n', rank_w)
+        msg = sprintf(' Keeping all eigenvalues... Rank = %d\n', rank_w);
     case 'poseig'   % only retain positive eigenvalues in rank approximation
         rank_w = M_s - sum(diag(Delta)<0); 
-        fprintf(' Rejecting %d negative eigenvalues (total: %d)... Rank = %d\n',sum(diag(Delta)<0),M_s,rank_w)
+        msg = sprintf(' Rejecting %d negative eigenvalues (total: %d)... Rank = %d\n',sum(diag(Delta)<0),M_s,rank_w);
     case 'pct'      % retain only first x% of eigenvalues
         rank_w = ceil(p.rankopt*M_s/100);
-        fprintf(' Keeping largest %d%% of %d eigenvalues... Rank = %d\n',p.rankopt,M_s,rank_w)
+        msg = sprintf(' Keeping largest %d%% of %d eigenvalues... Rank = %d\n',p.rankopt,M_s,rank_w);
     case 'first'    % retain only first x eigenvalues
         rank_w = p.rankopt;
-        fprintf(' Keeping largest %d of %d eigenvalues... Rank = %d\n',p.rankopt,M_s,rank_w)
+        msg = sprintf(' Keeping largest %d of %d eigenvalues... Rank = %d\n',p.rankopt,M_s,rank_w);
     otherwise
         error('unknown rank specifier in filter parameter struct')
+end
+
+% display MWF info in command window
+if p.verbose
+    fprintf(msg)
 end
 
 % Create filter of rank specified above

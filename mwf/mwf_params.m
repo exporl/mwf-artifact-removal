@@ -24,6 +24,7 @@
 %               'artifact': set all NaNs to 1, i.e. treat them as artifact for MWF training
 %               'clean':    set all NaNs to 0, i.e. treat them as clean data for MWF training
 %   mu          noiseweighting factor (default = 1)
+%   verbose     true or false: allow logging in the command window (default = true)
 % 
 % EXAMPLES
 %   p = mwf_params('delay', 5, 'rank', 'full')
@@ -48,7 +49,8 @@ p = struct(...
     'rank', 'poseig', ...   % 'full', 'poseig', 'pct', 'first'
     'rankopt', 1, ...       % additional specifier if 'rank' is 'pct' or 'first'
     'treatnans', 'ignore', ...  % 'ignore', 'artifact', 'clean'
-    'mu', 1);               % any value [1 = default, >1 = noise weighted MWF]
+    'mu', 1, ...            % any value (1 = default, >1 = noise weighted MWF)
+    'verbose', true);       % true or false
 
 p_names = fieldnames(p);
 
@@ -88,6 +90,8 @@ for i = 1:numel(p_names)
             validatestring(p.(p_names{i}), {'ignore','artifact','clean'}, mfilename, p_names{i});
         case 'mu'
             validateattributes(p.(p_names{i}), {'numeric'}, {'real'}, mfilename, p_names{i})
+        case 'verbose'
+            validateattributes(p.(p_names{i}), {'logical'}, {'binary'}, mfilename, p_names{i})
     end
 end
 

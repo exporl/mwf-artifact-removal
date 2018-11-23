@@ -39,6 +39,9 @@ end
 Ryy = cov(y(:,mask == 1).');
 Rnn = cov(y(:,mask == 0).');
 
+Ryy = mwf_utils.ensure_symmetry(Ryy);
+Rnn = mwf_utils.ensure_symmetry(Rnn);
+
 % Perform GEVD
 [V, Lambda] = eig(Ryy, Rnn);
 [V, Lambda] = mwf_utils.sort_evd(V, Lambda);

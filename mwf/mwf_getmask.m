@@ -90,7 +90,7 @@ end
 if (~exist(maskpath, 'file') || redo)
     if (~mode) % Use EEGlab
         eegplot(y, 'srate', fs, 'winlength', 10, ...
-            'tag', 'eegplot_marks', 'command', 'get_mask_eeglab', 'butlabel', 'SAVE MARKS');
+            'tag', 'eegplot_marks', 'command', 'mwf_utils.get_mask_dummy_callback', 'butlabel', 'SAVE MARKS');
         h = findobj(0, 'tag', 'eegplot_marks');
         [FIGexist, TMPREJexist] = updateEegplotStatus(h);
         if TMPREJexist % clear global variable for safety
@@ -170,11 +170,6 @@ function [FIGexist, TMPREJexist] = updateEegplotStatus(h)
     W = evalin('base','whos');
     TMPREJexist = any(strcmp('TMPREJ',{W(:).name}));
     FIGexist = ishghandle(h);
-end
-
-function get_mask_eeglab() %#ok<DEFNU>
-% Dummy function for eegplot button callback
-    disp('Generating the mask from EEGLAB markings...');
 end
 
 function cleanup_EyeBallGUI

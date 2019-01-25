@@ -19,7 +19,7 @@ function [W, Lambda] = mwf_compute(y, mask, p)
 
 mwf_utils.check_dimensions(size(y));
 
-if (nargin < 3); % use default settings
+if (nargin < 3) % use default settings
     p = mwf_params;
 end
 

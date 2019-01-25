@@ -81,7 +81,7 @@ end
 
 mwf_utils.check_dimensions(size(y));
 
-if isempty(cacheID);
+if isempty(cacheID)
     maskpath = '';
 else
     maskpath = fullfile(cachepath, [cacheID '_mask.mat']);

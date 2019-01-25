@@ -38,6 +38,7 @@ end
 % Calculate the covariance matrices Ryy and Rnn
 Ryy = cov(y(:,mask == 1).');
 Rnn = cov(y(:,mask == 0).');
+clear y;
 
 Ryy = mwf_utils.ensure_symmetry(Ryy);
 Rnn = mwf_utils.ensure_symmetry(Rnn);

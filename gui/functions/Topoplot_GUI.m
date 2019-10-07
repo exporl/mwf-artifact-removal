@@ -63,7 +63,7 @@ set(handles.axes2,'Position',current_position.*[1 1 current_position(4)/current_
 current_position = get(handles.axes2,'Position');
 set(handles.axes2,'Position',current_position.*[1 1 screensize(4)/screensize(3)  1]);
 
-DEFAULT_LOCS = load('64_Channel_locations.mat');
+DEFAULT_LOCS = load('gui_64_Channel_locations.mat');
 DEFAULT_RANGE = 1;
 DEFAULT_FREQ_RANGE = [-1 -1];
 DEFAULT_FRAMERATE = 1;

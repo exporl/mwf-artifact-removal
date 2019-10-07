@@ -73,8 +73,16 @@ This will return the artifact-free EEG in the clean EEG variable. Using the opti
 parameter includes temporal information into the filter, leading to better artifact removal but
 may increase processing time. If omitted, the default value is zero. See [1] for more details.
 
+### Graphical user interface
 
- ## References
+Release 2.0 includes a GUI to mark artifact segments, apply the MWF and inspect signals during 
+the process. Use of the GUI is an optional alternative to using MWF functions from the MATLAB 
+command line/scripts or with EEGLAB for manual marking of artifacts. 
+
+The MWF GUI requires MATLAB **version R2018b** or later. More information about functionality and 
+usage can be found in the included [GUI manual](gui/GUI_manual.pdf).
+
+## References
  
 [1] Somers, B., Francart, T. and Bertrand, A. (2018). A generic EEG artifact removal algorithm based on the multi-channel Wiener filter. 
 _Journal of Neural Engineering, 15_(3), 036007. DOI: 10.1088/1741-2552/aaac92

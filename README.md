@@ -14,9 +14,14 @@ for processing multi-channel EEG as published in [1]. The algorithm removes any 
 artifact marked a-priori by the user from the EEG in order to enhance signal quality for 
 further processing.
 
+The functions of the MWF toolbox can be used either 1) directly in your own scripts or from the MATLAB
+command window (see [MWF manual](doc/mwf_manual.pdf)), or 2) through a graphical user interface
+(see [GUI manual](gui/GUI_manual.pdf)).
+
 Developed and tested in MATLAB R2015a. Required toolboxes:
  - EEGLAB (only required for manual marking of artifacts). [EEGLAB website](https://sccn.ucsd.edu/eeglab/index.php).  
  (Make sure EEGLAB is added to the MATLAB path: you can check this by typing "eeglab" in the command window)
+ - MATLAB R2018b is required for use of the GUI.
 
 ### Documentation
 
@@ -25,7 +30,7 @@ and examples can be found in the [doc](doc/) folder, which contains a
 [manual](doc/mwf_manual.pdf) in pdf format and a [MWF demo file](doc/mwf_demo.m) to illustrate 
 the usage of the various functions. A quick start guide is provided in the next section.
  
-### Quick start guide
+### Quick start guide for scripting with MWF functions
  
 All functions needed to perform MWF-based EEG artifact removal are in the mwf folder.
 Before starting, make sure that this folder is added to the MATLAB path.

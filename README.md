@@ -14,9 +14,9 @@ for processing multi-channel EEG as published in [1]. The algorithm removes any 
 artifact marked a-priori by the user from the EEG in order to enhance signal quality for 
 further processing.
 
-The functions of the MWF toolbox can be used either 1) directly in your own scripts or from the MATLAB
-command window (see [MWF manual](doc/mwf_manual.pdf)), or 2) through a graphical user interface
-(see [GUI manual](gui/GUI_manual.pdf)).
+The functions of the MWF toolbox can be used either 1) through a graphical user interface
+(see [GUI manual](gui/GUI_manual.pdf)), or 2) directly in your own scripts or from the MATLAB
+command window (see [MWF manual](doc/mwf_manual.pdf)).
 
 Developed and tested in MATLAB R2015a. Required toolboxes:
  - EEGLAB (only required for manual marking of artifacts). [EEGLAB website](https://sccn.ucsd.edu/eeglab/index.php).  
@@ -26,11 +26,20 @@ Developed and tested in MATLAB R2015a. Required toolboxes:
 ### Documentation
 
 All functions are documented properly in their respective m-files. Additional documentation 
-and examples can be found in the [doc](doc/) folder, which contains a 
-[manual](doc/mwf_manual.pdf) in pdf format and a [MWF demo file](doc/mwf_demo.m) to illustrate 
-the usage of the various functions. A quick start guide is provided in the next section.
+and examples can be found in:
+- For the GUI: [gui](gui/) folder, which contains a [manual](gui/GUI_manual.pdf) in pdf format and demo data to illustrate the usage of the various functions. Open the GUI with the file [main_GUI.m](gui/main_GUI.m).
+- For scripting: [doc](doc/) folder, which contains a [manual](doc/mwf_manual.pdf) in pdf format and a [MWF demo file](doc/mwf_demo.m) to illustrate 
+the usage of the various functions. A quick start guide is provided below.
+
+### Graphical user interface
+
+NEW: Release 2.0 includes a GUI to mark artifact segments, apply the MWF and inspect signals during the process. Use of the GUI is an optional alternative to using MWF functions from the MATLAB command line/scripts or with EEGLAB for manual marking of artifacts (see below). Open the GUI with the file [main_GUI.m](gui/main_GUI.m).
+
+More information about functionality and usage can be found in the included [GUI manual](gui/GUI_manual.pdf).
+
+The MWF GUI requires MATLAB **version R2018b** or later (scripting with MWF functions (see below) also works with older versions of Matlab).
  
-### Quick start guide for scripting with MWF functions
+### Quick start guide for scripting with MWF functions (without GUI)
  
 All functions needed to perform MWF-based EEG artifact removal are in the mwf folder.
 Before starting, make sure that this folder is added to the MATLAB path.
@@ -78,14 +87,6 @@ This will return the artifact-free EEG in the clean EEG variable. Using the opti
 parameter includes temporal information into the filter, leading to better artifact removal but
 may increase processing time. If omitted, the default value is zero. See [1] for more details.
 
-### Graphical user interface
-
-Release 2.0 includes a GUI to mark artifact segments, apply the MWF and inspect signals during 
-the process. Use of the GUI is an optional alternative to using MWF functions from the MATLAB 
-command line/scripts or with EEGLAB for manual marking of artifacts. 
-
-The MWF GUI requires MATLAB **version R2018b** or later. More information about functionality and 
-usage can be found in the included [GUI manual](gui/GUI_manual.pdf).
 
 ## References
  

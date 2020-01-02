@@ -14,14 +14,12 @@ for processing multi-channel EEG as published in [1]. The algorithm removes any 
 artifact marked a-priori by the user from the EEG in order to enhance signal quality for 
 further processing.
 
-The functions of the MWF toolbox can be used either 1) through a graphical user interface
-(see [GUI manual](gui/GUI_manual.pdf)), or 2) directly in your own scripts or from the MATLAB
-command window (see [MWF manual](doc/mwf_manual.pdf)).
+The functions of the MWF toolbox can be used either 
 
-Developed and tested in MATLAB R2015a. Required toolboxes:
- - EEGLAB (only required for manual marking of artifacts). [EEGLAB website](https://sccn.ucsd.edu/eeglab/index.php).  
- (Make sure EEGLAB is added to the MATLAB path: you can check this by typing "eeglab" in the command window)
- - MATLAB R2018b is required for use of the GUI.
+-through a graphical user interface (see [GUI manual](gui/GUI_manual.pdf))
+-directly in your own scripts or from the MATLAB command window (see [MWF manual](doc/mwf_manual.pdf)). Manual marking of artifacts can be done in [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) (Make sure EEGLAB is added to the MATLAB path: you can check this by typing "eeglab" in the command window)
+
+NOTE: Scripting + EEGLab was developed and tested in MATLAB R2015a. The use of the GUI in V2.0 requires MATLAB R2018b
 
 ### Documentation
 
@@ -31,11 +29,11 @@ and examples can be found in:
 - For scripting: [doc](doc/) folder, which contains a [manual](doc/mwf_manual.pdf) in pdf format and a [MWF demo file](doc/mwf_demo.m) to illustrate 
 the usage of the various functions. A quick start guide is provided below.
 
-### Graphical user interface
+### Quick start guide for the graphical user interface (GUI)
 
 NEW: Release 2.0 includes a GUI to mark artifact segments, apply the MWF and inspect signals during the process. Use of the GUI is an optional alternative to using MWF functions from the MATLAB command line/scripts or with EEGLAB for manual marking of artifacts (see below). Open the GUI with the file [main_GUI.m](gui/main_GUI.m).
 
-More information about functionality and usage can be found in the included [GUI manual](gui/GUI_manual.pdf).
+More information about functionality and usage can be found in the included [GUI manual](gui/GUI_manual.pdf), which includes a quick start guide on demo data.
 
 The MWF GUI requires MATLAB **version R2018b** or later (scripting with MWF functions (see below) also works with older versions of Matlab).
  

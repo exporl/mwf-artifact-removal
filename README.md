@@ -87,7 +87,7 @@ This will return the artifact-free EEG in the clean EEG variable. Using the opti
 parameter includes temporal information into the filter, leading to better artifact removal but
 may increase processing time. If omitted, the default value is zero. See [1] for more details.
 
-** 2024 update - Optional modification to MWF artifact removal:** 
+### 2024 update - Optional modification to MWF artifact removal by using sparser delays
 
 Informal testing by Neil Bailey suggests that MWF cleaning can be improved by using sparse
 delay spacing of the delay embedded matrices, in contrast to embedding the delay matrices
@@ -103,7 +103,7 @@ of data sampled at 1000Hz, a delay period of 10 and delay spacing of 2 was found
 A version of mwf_process that allows the user to set a sparse delay spacing is now included 
 in the toolbox. It can be implemented using the following function:
 
-clean_EEG = mwf_process_sparse(EEG, mask, delay, delay_spacing);
+     clean_EEG = mwf_process_sparse(EEG, mask, delay, delay_spacing);
 
 ## References
  

@@ -87,6 +87,24 @@ This will return the artifact-free EEG in the clean EEG variable. Using the opti
 parameter includes temporal information into the filter, leading to better artifact removal but
 may increase processing time. If omitted, the default value is zero. See [1] for more details.
 
+** 2024 update - Optional modification to MWF artifact removal:** 
+
+Informal testing by Neil Bailey suggests that MWF cleaning can be improved by using sparse
+delay spacing of the delay embedded matrices, in contrast to embedding the delay matrices
+from immediately consecutive samples. For example, for data sampled at 1000Hz, optimal 
+performance at cleaning eye blink artifacts was obtained by using a delay parameter setting 
+of 8 (so that 8 delay embeddings are included in the MWF cleaning before and after each 
+timepoint), as well as a delay spacing of 16 (so that each delay embedded matrix is separated
+from the previous delay embedding by 16 samples). This provides the MWF algorithm with delay 
+embedded covariance matrices that characterises 272ms of the data, enabling the MWF algorithm
+to account for a considerable proportion of each blink period. For muscle artifact cleaning
+of data sampled at 1000Hz, a delay period of 10 and delay spacing of 2 was found to be optimal.
+
+A version of mwf_process that allows the user to set a sparse delay spacing is now included 
+in the toolbox. It can be implemented using the following function:
+
+clean_EEG = mwf_process_sparse(EEG, mask, delay, delay_spacing);
+
 ## References
  
 [1] Somers, B., Francart, T. and Bertrand, A. (2018). A generic EEG artifact removal algorithm based on the multi-channel Wiener filter. 

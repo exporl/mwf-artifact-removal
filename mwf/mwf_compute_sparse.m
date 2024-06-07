@@ -7,6 +7,8 @@
 %   y       raw EEG data (channels x samples)
 %   mask    markings of artifacts in y (1 x samples)
 %   p       [optional] MWF parameter struct (see mwf_params)
+%   delay_spacing   spacing between delay samples (samples) DEFAULT: 1 sample
+%                   if N, then every N'th sample will be used for the delays. (N should be an integer larger than 0).
 %
 % OUTPUTS: 
 %   W       multi-channel Wiener filter (size depends on number of delays)
@@ -17,7 +19,7 @@
 
 %% NWB added option to space out the delay stacking
 
-function [W, Lambda] = mwf_compute_sparse(y, mask, p,delay_spacing)
+function [W, Lambda] = mwf_compute_sparse(y, mask, p, delay_spacing)
 
 mwf_utils.check_dimensions(size(y));
 
@@ -35,7 +37,7 @@ switch p.treatnans
 end
 
 % Include time lagged versions of y
-[y, M_s] = mwf_utils.stack_delay_data_sparse(y, p.delay,[],delay_spacing);
+[y, M_s] = mwf_utils.stack_delay_data_sparse(y, p.delay, [], delay_spacing);
 
 % Calculate the covariance matrices Ryy and Rnn
 Ryy = cov(y(:,mask == 1).');

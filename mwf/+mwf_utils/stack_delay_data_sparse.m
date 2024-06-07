@@ -8,6 +8,8 @@
 %   singlesided     [default 0] use single sided or double sided delays
 %                   if 1, use only positive time delays up to 'delay'
 %                   if 0, use positive and negative time delays up to 'delay'
+%   delay_spacing   spacing between delay samples (samples) DEFAULT: 1 sample
+%                   if N, then every N'th sample will be used for the delays. (N should be an integer larger than 0).
 %
 % OUTPUTS: 
 %   y_s     raw EEG data, included delayed versions (channels x samples)
@@ -20,8 +22,11 @@
 
 function [y_s, M_s] = stack_delay_data_sparse(y, delay, singlesided, delay_spacing)
 
-if nargin < 3
+if nargin < 3 || isempty(singlesided)
     singlesided = false;
+end
+if nargin < 4 || isempty(delay_spacing)
+    delay_spacing = 1;
 end
 
 M = size(y,1);
@@ -43,6 +48,5 @@ else
         y_s((tau+delay)*M+1 : M*(tau+delay+1) , :) = y_shift;
     end
 end
-
 
 end

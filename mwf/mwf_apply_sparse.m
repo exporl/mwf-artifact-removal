@@ -9,6 +9,8 @@
 % INPUTS:
 %   y       raw EEG data (channels x samples)
 %   W       precomputed multi-channel Wiener filter
+%   delay_spacing   spacing between delay samples (samples) DEFAULT: 1 sample
+%                   if N, then every N'th sample will be used for the delays. (N should be an integer larger than 0).
 %
 % OUTPUTS: 
 %   n       filtered EEG data (channels x samples)
@@ -19,7 +21,7 @@
 
 %% NWB added option to space out the delay stacking
 
-function [n, d] = mwf_apply_sparse(y, W,delay_spacing)
+function [n, d] = mwf_apply_sparse(y, W, delay_spacing)
 
 mwf_utils.check_dimensions(size(y));
 
@@ -36,7 +38,7 @@ channelmeans = mean(y,2);
 y = y - repmat(channelmeans, 1, T);
 
 % re-apply time lags to y to apply filter W
-[y_s, ~] = mwf_utils.stack_delay_data_sparse(y, tau,[],delay_spacing);
+[y_s, ~] = mwf_utils.stack_delay_data_sparse(y, tau, [], delay_spacing);
 
 % compute artifact estimate for original channels of y
 orig_chans = tau * M+1 : (tau+1) * M;

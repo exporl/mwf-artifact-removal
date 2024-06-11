@@ -45,7 +45,7 @@ mask = L.demo_mask;         % Example marking of artifacts in y
 % and zeroes everywhere else.
 
 your_mask = mwf_getmask(y, Fs);
-% mask = your_mask; % uncomment to use your own created mask.
+mask = your_mask; % uncomment to use your own created mask.
 
 %% Select MWF parameters
 % In order to compute a MWF for estimating the artifacts targetted by your
@@ -78,7 +78,7 @@ W = mwf_compute(y, mask, params);
 % clean EEG data n and the artifact estimate d. They both add up to y, i.e.
 % y = d + n.
 
-[n, d] = mwf_apply(y, W);
+[n, d] = mwf_apply(y, W, params);
 
 % Let's have a look at the estimated artifact in channel 1 near the eyes:
 t = linspace(0, size(y,2)/Fs, size(y,2));

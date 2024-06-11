@@ -45,12 +45,14 @@ function p = mwf_params(varargin)
 
 % Set processing parameter defaults
 p = struct(...
-    'delay', 0, ...         % any integer >= 0
-    'rank', 'poseig', ...   % 'full', 'poseig', 'pct', 'first'
-    'rankopt', 1, ...       % additional specifier if 'rank' is 'pct' or 'first'
+    'delay', 0, ...             % any integer >= 0
+    'delay_spacing', 1, ...     % any integer >= 1
+    'singlesided', false, ...   % true, false or 1, 0
+    'rank', 'poseig', ...       % 'full', 'poseig', 'pct', 'first'
+    'rankopt', 1, ...           % additional specifier if 'rank' is 'pct' or 'first'
     'treatnans', 'ignore', ...  % 'ignore', 'artifact', 'clean'
-    'mu', 1, ...            % any value (1 = default, >1 = noise weighted MWF)
-    'verbose', true);       % true or false
+    'mu', 1, ...                % any value (1 = default, >1 = noise weighted MWF)
+    'verbose', true);           % true or false
 
 p_names = fieldnames(p);
 
@@ -75,7 +77,11 @@ end
 for i = 1:numel(p_names)
     switch p_names{i}
         case 'delay'
-            validateattributes(p.(p_names{i}), {'numeric'}, {'integer','nonnegative'}, mfilename, p_names{i})
+            validateattributes(p.(p_names{i}), {'numeric'}, {'integer','nonnegative', 'scalar'}, mfilename, p_names{i})
+        case 'delay_spacing'
+            validateattributes(p.(p_names{i}), {'numeric'}, {'integer','positive', 'scalar'}, mfilename, p_names{i})
+        case 'singlesided'
+            validateattributes(p.(p_names{i}), {'logical', 'numeric'}, {'binary', 'scalar'}, mfilename, p_names{i})
         case 'rank'
             validateattributes(p.(p_names{i}), {'char'}, {'nonempty'}, mfilename, p_names{i})
             validatestring(p.(p_names{i}), {'full','poseig','pct','first'}, mfilename, p_names{i});

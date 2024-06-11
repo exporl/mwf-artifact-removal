@@ -33,7 +33,7 @@ switch p.treatnans
 end
 
 % Include time lagged versions of y
-[y, M_s] = mwf_utils.stack_delay_data(y, p.delay);
+[y, M_s] = mwf_utils.stack_delay_data(y, p);
 
 % Calculate the covariance matrices Ryy and Rnn
 Ryy = cov(y(:,mask == 1).');

@@ -77,33 +77,39 @@ seconds or minutes of the signal. However, the more artifacts are marked, the be
 design will be. Additionally, there should be enough clean (unmarked) segments before the last 
 marked artifact for a good filter design.
  
-**Step 2: MWF artifact removal** is performed by calling the mwf process function. It
+**Step 2: MWF artifact removal** is performed by calling the mwf_process function. It
 requires the EEG data, the mask indicating which segments are artifacts, and optionally a
 delay parameter:
  
      clean_EEG = mwf_process(EEG, mask, delay);
 
-This will return the artifact-free EEG in the clean EEG variable. Using the optional delay
-parameter includes temporal information into the filter, leading to better artifact removal but
+More parameters than  the delay value can be changed and used by setting them in a struct using mwf_params() 
+function and passing this struct to the mwf_process function:
+
+     params = mwf_params(...
+                  'delay', 5, ...             
+                  'delay_spacing', 2);
+     clean_EEG = mwf_process(EEG, mask, params);
+
+This will return the artifact-free EEG in the clean EEG variable. Using a delay greater than zero 
+includes temporal information into the filter, leading to better artifact removal but
 may increase processing time. If omitted, the default value is zero. See [1] for more details.
 
 ### 2024 update - Optional modification to MWF artifact removal by using sparser delays
 
-Informal testing by Neil Bailey suggests that MWF cleaning can be improved by using sparse
-delay spacing of the delay embedded matrices, in contrast to embedding the delay matrices
-from immediately consecutive samples. For example, for data sampled at 1000Hz, optimal 
-performance at cleaning eye blink artifacts was obtained by using a delay parameter setting 
-of 8 (so that 8 delay embeddings are included in the MWF cleaning before and after each 
-timepoint), as well as a delay spacing of 16 (so that each delay embedded matrix is separated
-from the previous delay embedding by 16 samples). This provides the MWF algorithm with delay 
-embedded covariance matrices that characterises 272ms of the data, enabling the MWF algorithm
+A contribution made by Neil Bailey (Monash University) suggests that MWF cleaning can be improved 
+by using sparse delay spacing. For example, instead of using consecutive delays [-3 -2 -1 0 1 2 3], 
+it is now possible to specify the "delay_spacing" parameter to create a sparser sampling such as [-9 -6 -3 0 3 6 9],
+which is obtained with "delay = 3" and "delay_spacing = 3". This is also useful to include more relevant samples when your data has a higher sample rate.
+
+From informal testing by Neil Bailey, for data sampled at 1000Hz, optimal performance at cleaning 
+eye blink artifacts was obtained by using a delay parameter setting of 8 (so that 8 positive & negative delays are included in the MWF ), 
+as well as a delay spacing of 16 (so that each delay is separated from the previous delay by 16 samples or 16 milliseconds). 
+This provides the MWF algorithm with delay embedded covariance matrices that characterises 272ms of the data, enabling the MWF algorithm
 to account for a considerable proportion of each blink period. For muscle artifact cleaning
 of data sampled at 1000Hz, a delay period of 10 and delay spacing of 2 was found to be optimal.
 
-A version of mwf_process that allows the user to set a sparse delay spacing is now included 
-in the toolbox. It can be implemented using the following function:
-
-     clean_EEG = mwf_process_sparse(EEG, mask, delay, delay_spacing);
+To use this functionality, the delay_spacing parameter can be set using the mwf_params function (as in the example above). 
 
 ## References
  

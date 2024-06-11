@@ -45,7 +45,7 @@ mask = L.demo_mask;         % Example marking of artifacts in y
 % and zeroes everywhere else.
 
 your_mask = mwf_getmask(y, Fs);
-mask = your_mask; % uncomment to use your own created mask.
+% mask = your_mask; % uncomment to use your own created mask.
 
 %% Select MWF parameters
 % In order to compute a MWF for estimating the artifacts targetted by your

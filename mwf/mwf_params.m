@@ -10,21 +10,23 @@
 %   p        MWF parameter struct
 %
 % KEY - VALUE PAIRS
-%   delay       number of time lags to include in MWF (default = 0)
-%   rank        specifies how the rank for the MWF should be set
-%               'full':     use full rank MWF (don't use GEVD)
-%               'poseig':   use GEVD, only retain positive eigenvalues (default)
-%               'pct':      use GEVD, only retain x% of eigenvalues
-%               'first':    use GEVD, only retain x eigenvalues
-%   rankopt     additional rank options, required if rank is 'pct' or 'first'
-%               'pct': specify the percentage of eigenvalues to keep (0-100)
-%               'first': specify the number of eigenvalues to keep (positive integer)
-%   treatnans   specifies how to treat NaNs in the artifact mask
-%               'ignore':   ignore all NaNs, i.e. exclude them from MWF training (default)
-%               'artifact': set all NaNs to 1, i.e. treat them as artifact for MWF training
-%               'clean':    set all NaNs to 0, i.e. treat them as clean data for MWF training
-%   mu          noiseweighting factor (default = 1)
-%   verbose     true or false: allow logging in the command window (default = true)
+%   delay           number of time lags to include in MWF (default = 0)
+%   delay_spacing   spacing between time lags to include in MWF (default = 1)
+%   singlesided     specifies whether time lags should be positive (causal) or not (default = false)
+%   rank            specifies how the rank for the MWF should be set
+%                   'full':     use full rank MWF (don't use GEVD)
+%                   'poseig':   use GEVD, only retain positive eigenvalues (default)
+%                   'pct':      use GEVD, only retain x% of eigenvalues
+%                   'first':    use GEVD, only retain x eigenvalues
+%   rankopt         additional rank options, required if rank is 'pct' or 'first'
+%                   'pct': specify the percentage of eigenvalues to keep (0-100)
+%                   'first': specify the number of eigenvalues to keep (positive integer)
+%   treatnans       specifies how to treat NaNs in the artifact mask
+%                   'ignore':   ignore all NaNs, i.e. exclude them from MWF training (default)
+%                   'artifact': set all NaNs to 1, i.e. treat them as artifact for MWF training
+%                   'clean':    set all NaNs to 0, i.e. treat them as clean data for MWF training
+%   mu              noiseweighting factor (default = 1)
+%   verbose         true or false: allow logging in the command window (default = true)
 % 
 % EXAMPLES
 %   p = mwf_params('delay', 5, 'rank', 'full')
